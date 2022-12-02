@@ -8,6 +8,8 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerA
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import softclick.server.data.entities.Task;
 import softclick.server.data.entities.User;
 import softclick.server.webtier.services.user.UserService;
@@ -27,12 +29,12 @@ public class WebTierApplication {
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(WebTierApplication.class, args);
 
-//        System.out.println("------------------- Testing auth service ----------------------");
-//        IUserService authService = UserService.init(context);
-//
-//        List<User> users = authService.getAllEntities();
-//
-//        users.forEach(i -> System.out.println(i));
+        System.out.println("------------------- Testing auth service ----------------------");
+        IUserService authService = context.getBean(UserService.class);
+
+        List<User> users = authService.getAllEntities();
+
+        users.forEach(i -> System.out.println(i));
 //
 //        System.out.println("------------------- Testing task service ----------------------");
 //        ITaskService taskService = TaskService.init(context);
@@ -42,9 +44,19 @@ public class WebTierApplication {
 //        tasks.forEach(i -> System.out.println(i));
     }
 
-//    @Bean
-//    CommandLineRunner run(IUserService userService){
-//        return args -> {
+    @Bean
+    PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    CommandLineRunner run(IUserService userService){
+        return args -> {
+//            userService.saveEntity(new User("othmane", "password", true));
+//            userService.saveEntity(new User("wafae", "password", true));
+//            userService.saveEntity(new User("youssef", "password", true));
+//            userService.saveEntity(new User("hajar", "password", true));
+
 //            userService.addRoleToUser("othmane", "ROLE_ADMIN");
 //            userService.addRoleToUser("othmane", "ROLE_DIRECTOR");
 //            userService.addRoleToUser("wafae", "ROLE_EMPLOYEE");
@@ -53,7 +65,7 @@ public class WebTierApplication {
 //            userService.addRoleToUser("youssef", "ROLE_DIRECTOR");
 //            userService.addRoleToUser("youssef", "MANAGER");
 //            userService.addRoleToUser("youssef", "ROLE_PROJECT_MANAGER");
-//        };
-//    }
+        };
+    }
 
 }
