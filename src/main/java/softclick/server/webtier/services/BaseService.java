@@ -30,7 +30,7 @@ public class BaseService<T, Key> implements IBaseService<T, Key>{
 
     @Override
     public List<T> getAllEntities() {
-        log.info("Fetching all entity ");
+        log.info("Fetching all entities ");
         return repository.findAll();
     }
 

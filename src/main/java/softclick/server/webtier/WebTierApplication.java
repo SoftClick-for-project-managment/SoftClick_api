@@ -29,15 +29,15 @@ public class WebTierApplication {
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(WebTierApplication.class, args);
 
-        System.out.println("------------------- Testing auth service ----------------------");
-        IUserService authService = context.getBean(UserService.class);
-
-        List<User> users = authService.getAllEntities();
-
-        users.forEach(i -> System.out.println(i));
+//        System.out.println("------------------- Testing auth service ----------------------");
+//        IUserService authService = context.getBean(UserService.class);
+//
+//        List<User> users = authService.getAllEntities();
+//
+//        users.forEach(i -> System.out.println(i));
 //
 //        System.out.println("------------------- Testing task service ----------------------");
-//        ITaskService taskService = TaskService.init(context);
+//        ITaskService taskService = context.getBean(TaskService.class);
 //
 //        List<Task> tasks = taskService.getAllEntities();
 //
@@ -56,7 +56,7 @@ public class WebTierApplication {
 //            userService.saveEntity(new User("wafae", "password", true));
 //            userService.saveEntity(new User("youssef", "password", true));
 //            userService.saveEntity(new User("hajar", "password", true));
-
+//
 //            userService.addRoleToUser("othmane", "ROLE_ADMIN");
 //            userService.addRoleToUser("othmane", "ROLE_DIRECTOR");
 //            userService.addRoleToUser("wafae", "ROLE_EMPLOYEE");

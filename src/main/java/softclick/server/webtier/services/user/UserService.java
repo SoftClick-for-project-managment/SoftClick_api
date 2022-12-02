@@ -57,8 +57,11 @@ public class UserService extends BaseService<User, Long> implements IUserService
 
     @Override
     public void addRoleToUser(String username, String roleName) {
-        Object role = roleRepository.findByName(roleName);
+        Role role = roleRepository.findByName(roleName);
         User user = userRepository.findByUsername(username);
-        user.getRoles().add((Role) role);
+        Collection<Role> roles = user.getRoles();
+        roles.add(role);
+        user.setRoles(roles);
+        userRepository.save(user);
     }
 }
