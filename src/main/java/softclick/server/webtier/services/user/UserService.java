@@ -10,12 +10,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import softclick.server.data.entities.Employee;
 import softclick.server.data.entities.Role;
 import softclick.server.data.entities.User;
 import softclick.server.data.repositories.RoleRepository;
 import softclick.server.data.repositories.UserRepository;
 import softclick.server.webtier.services.BaseService;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -47,7 +49,7 @@ public class UserService extends BaseService<User, Long> implements IUserService
             log.info("Failed attempt to login");
             throw new UsernameNotFoundException("User not found");
         } else {
-            log.info("User with {} loged in", username);
+            log.info("User with {} logged in", username);
         }
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         user.getRoles().forEach(r -> {
@@ -55,14 +57,38 @@ public class UserService extends BaseService<User, Long> implements IUserService
         });
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
     }
+    @Override
+    public void updateUser(Long id, User newUser){
+        log.info("Updating user with id: {}", id.toString());
+        User user = userRepository.getReferenceById(id);
+        if (user == null)
+            throw new EntityNotFoundException();
+        User existedUserWithUsername = userRepository.findByUsername(newUser.getUsername());
+        if ((existedUserWithUsername != null) && !existedUserWithUsername.getId().equals(user.getId()))
+            throw new RuntimeException("A user with the given username already exists");
+        user.setPassword(passwordEncoder.encode(newUser.getPassword()));
+        user.setUsername(newUser.getUsername());
+        user.setActive(newUser.isActive());
+        userRepository.save(user);
+    }
+
+    @Override
+    public void assignUserToEmployee(User user, Employee employee) {
+
+    }
 
     @Override
     public void addRoleToUser(String username, String roleName) {
+        log.info("Adding role {} to user {}", roleName, username);
         Role role = roleRepository.findByName(roleName);
         User user = userRepository.findByUsername(username);
+        if(user.getRoles().contains(role))
+            throw new RuntimeException("User already assigned the given role");
         Collection<Role> roles = user.getRoles();
         roles.add(role);
         user.setRoles(roles);
         userRepository.save(user);
     }
+
+
 }
