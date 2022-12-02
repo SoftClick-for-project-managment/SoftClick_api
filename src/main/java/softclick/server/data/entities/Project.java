@@ -2,6 +2,7 @@ package softclick.server.data.entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,6 +13,7 @@ import java.util.Set;
 @Entity
 @NoArgsConstructor
 @Data
+@Proxy(lazy = false)
 @Table(name = "project")
 public class Project implements Serializable {
     @Id
