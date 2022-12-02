@@ -1,6 +1,7 @@
 package softclick.server.webtier.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +17,11 @@ public class UserController {
     private final IUserService userService;
 
     @Autowired
-    public UserController(IUserService userService) {
+    public UserController(@Qualifier("rmiUserService") IUserService userService) {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    @GetMapping(value = "/users")
     public ResponseEntity<Object> index(){
         try{
             List<User> users = userService.getAllEntities();
@@ -30,20 +31,19 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/users/{id}")
     public ResponseEntity<Object> single(@PathVariable String id){
         try{
-            Optional<User> user = userService.findEntityByKey(Long.valueOf(id));
-            if (user.isEmpty())
+            User user = userService.findEntityByKey(Long.valueOf(id));
+            if (user == null)
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
             return new ResponseEntity<>(user, HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
-    @RequestMapping(value = "/users", method = RequestMethod.POST)
+    @PostMapping(value = "/users")
     public ResponseEntity<Object> create(@RequestBody User user){
         try{
             userService.saveEntity(user);
@@ -53,29 +53,25 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/users", method = RequestMethod.PUT)
+    @PutMapping(value = "/users")
     public ResponseEntity<Object> update(@RequestBody User user){
         try{
-//            Optional<User> storedUser = userService.findEntityByKey(Long.valueOf(id));
-            Optional<User> storedUser = userService.findEntityByKey(user.getId());
-            if (storedUser.isEmpty())
+            User storedUser = userService.findEntityByKey(user.getId());
+            if (storedUser == null)
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-            userService.saveEntity(user);
+            System.out.println(user);
+//            userService.saveEntity(user);
             return new ResponseEntity<>(HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
-    @RequestMapping(value = "/users", method = RequestMethod.DELETE)
-    public ResponseEntity<Object> delete(@RequestBody User user){
+    @DeleteMapping(value = "/users/{id}")
+    public ResponseEntity<Object> delete(@PathVariable String id){
         try{
-            Optional<User> storedUser = userService.findEntityByKey(user.getId());
-            if (storedUser.isEmpty())
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-            userService.deleteEntity(user.getId());
+            userService.deleteEntity(Long.valueOf(id));
             return new ResponseEntity<>(HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

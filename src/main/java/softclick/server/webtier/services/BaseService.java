@@ -8,7 +8,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-@Transactional @Slf4j
+@Slf4j
 public class BaseService<T, Key> implements IBaseService<T, Key>{
     protected JpaRepository<T, Key> repository;
 
@@ -23,9 +23,9 @@ public class BaseService<T, Key> implements IBaseService<T, Key>{
     }
 
     @Override
-    public Optional<T> findEntityByKey(Key key) {
+    public T findEntityByKey(Key key) {
         log.info("Fetching one entity");
-        return repository.findById(key);
+        return repository.getReferenceById(key);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class BaseService<T, Key> implements IBaseService<T, Key>{
     @Override
     public void deleteEntity(Key key) {
         log.info("Deleting entity");
-        repository.delete((T) repository.findById(key));
+        repository.delete(repository.getReferenceById(key));
     }
 
     @Override
