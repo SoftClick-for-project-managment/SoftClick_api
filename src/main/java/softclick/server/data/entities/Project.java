@@ -15,7 +15,7 @@ import java.util.Set;
 @Table(name = "project")
 public class Project implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idProject;
 
     @Column(name = "nameProject", nullable = false)

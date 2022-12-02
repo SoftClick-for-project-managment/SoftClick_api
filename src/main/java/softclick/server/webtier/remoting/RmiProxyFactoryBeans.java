@@ -30,4 +30,11 @@ public class RmiProxyFactoryBeans {
         bean.setServiceUrl("rmi://localhost:1099/RoleRepository");
         return bean;
     }
+    @Bean
+    RmiProxyFactoryBean rmiProxyFactoryProjectRepoBean(){
+        RmiProxyFactoryBean bean = new RmiProxyFactoryBean();
+        bean.setServiceInterface(ProjectRepository.class);
+        bean.setServiceUrl("rmi://localhost:1099/ProjectRepository");
+        return bean;
+    }
 }
