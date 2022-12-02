@@ -1,5 +1,6 @@
 package softclick.server.webtier.services.user;
 
+import org.springframework.security.core.userdetails.UserDetailsService;
 import softclick.server.data.entities.User;
 
 import java.util.ArrayList;

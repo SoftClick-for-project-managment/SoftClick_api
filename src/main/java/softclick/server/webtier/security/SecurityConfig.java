@@ -17,7 +17,7 @@ import softclick.server.webtier.filters.AuthenticationFilter;
 @Configuration @EnableWebSecurity @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final PasswordEncoder bCryptPasswordEncoder;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -31,11 +31,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.authorizeRequests().anyRequest().permitAll();
         http.addFilter(new AuthenticationFilter(authenticationManagerBean()));
-    }
-
-    @Bean
-    PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
     }
 
     @Bean
