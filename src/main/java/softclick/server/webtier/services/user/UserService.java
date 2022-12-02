@@ -2,6 +2,7 @@ package softclick.server.webtier.services.user;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,7 +20,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 
-@Service @Transactional @Slf4j
+@Service @Slf4j @Qualifier("rmiUserService")
 public class UserService extends BaseService<User, Long> implements IUserService, UserDetailsService {
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;

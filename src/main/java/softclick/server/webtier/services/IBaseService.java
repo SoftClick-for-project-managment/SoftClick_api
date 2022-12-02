@@ -5,7 +5,7 @@ import java.util.Optional;
 
 public interface IBaseService<T, Key> {
     void saveEntity(T entity);
-    Optional<T> findEntityByKey(Key key);
+    T findEntityByKey(Key key);
     List<T> getAllEntities();
     void deleteEntity(Key key);
     void deleteAllEntities(List<Key> keys);

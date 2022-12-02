@@ -2,6 +2,7 @@ package softclick.server.data.entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -11,6 +12,7 @@ import java.util.Collection;
 @NoArgsConstructor
 @Data
 @Table(name = "users")
+@Proxy(lazy=false)
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +20,7 @@ public class User implements Serializable {
     private String username;
     private String password;
     private boolean isActive;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles")
     private Collection<Role> roles;
     @OneToOne(mappedBy = "user")

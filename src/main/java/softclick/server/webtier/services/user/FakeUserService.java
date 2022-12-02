@@ -1,12 +1,15 @@
 package softclick.server.webtier.services.user;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.stereotype.Service;
 import softclick.server.data.entities.User;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Service @Qualifier("fakeUserService")
 public class FakeUserService implements IUserService {
 
     private List<User> users = new ArrayList<>();
@@ -22,8 +25,8 @@ public class FakeUserService implements IUserService {
     }
 
     @Override
-    public Optional<User> findEntityByKey(Long aLong) {
-        return Optional.empty();
+    public User findEntityByKey(Long aLong) {
+        return users.get(aLong.intValue());
     }
 
     @Override
