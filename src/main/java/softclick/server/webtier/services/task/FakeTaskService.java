@@ -31,11 +31,7 @@ public class FakeTaskService {
 
 
     public FakeTaskService(){
-        tasks.add(new Task("design","20/01/2023","23/05/2023","tache tres importante",status,project,employee,priority,collection));
-    }
-
-    public FakeTaskService(List<Task> tasks) {
-        this.tasks = tasks;
+//        tasks.add(new Task("design",new Date(),new Date(),"tache tres importante",status,project,employee,priority,collection));
     }
 
     public void saveEntity(Task entity){
