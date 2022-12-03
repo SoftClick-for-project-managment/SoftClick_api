@@ -18,8 +18,8 @@ public class Task implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private Date startDate;
-    private Date endDate;
+    private String startDate;
+    private String endDate;
     private String Description;
     @ManyToOne
     @JoinColumn(name = "idStatus")
@@ -35,4 +35,16 @@ public class Task implements Serializable {
     private Priority priority;
     @OneToMany(mappedBy = "task", fetch = FetchType.LAZY)
     private Collection<Expense> expenses;
+
+    public Task(String name, String startDate,String endDate,String Description,Status status,Project project,Employee employee,Priority priority,Collection<Expense> expenses){
+        this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.Description = Description;
+        this.status = status;
+        this.project = project;
+        this.employee = employee;
+        this.priority = priority;
+        this.expenses = expenses;
+    }
 }

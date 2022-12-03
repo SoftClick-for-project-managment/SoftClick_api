@@ -11,7 +11,8 @@ import javax.persistence.Id;
 @Entity
 @NoArgsConstructor
 @Data
-public class ExpenseCategory {
+public class
+ExpenseCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
