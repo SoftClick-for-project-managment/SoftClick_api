@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -16,6 +17,12 @@ public class Skill implements Serializable {
     private Long id;
     @Column(nullable = false)
     private String skillName;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable( name = "Employee_Skill",
+            joinColumns = @JoinColumn( name = "idSkill" ),
+            inverseJoinColumns = @JoinColumn( name = "idEmployee" ) )
+    private List<Employee> employees;
 
     public Skill(Long id, String skillName) {
         this.id = id;

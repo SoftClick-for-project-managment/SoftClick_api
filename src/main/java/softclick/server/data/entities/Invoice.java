@@ -29,7 +29,7 @@ public class Invoice implements Serializable {
         this.date = date;
         this.total = total;
     }
-    public Invoice(Date date, Double total, Client client, Project project) {
+    public Invoice(Date date, Double total,Client client,Project project) {
         this.date = date;
         this.total = total;
         this.project=project;

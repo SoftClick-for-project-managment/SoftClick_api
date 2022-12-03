@@ -2,20 +2,24 @@ package softclick.server.data.entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
 @Data
+@Proxy(lazy=false)
 public class Employee implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = true)
-    private int employeeImage;
+    private String employeeImage;
     @Column(nullable = false)
     private String employeeFirstName;
     @Column(nullable = false)
@@ -29,7 +33,13 @@ public class Employee implements Serializable {
     @OneToOne
     private User user;
 
-    public Employee(int employeeImage, String employeeFirstName, String employeeLastName, String employeeFunction, String employeeEmail, String employeePhone) {
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable( name = "Employee_Skill",
+            joinColumns = @JoinColumn( name = "idEmployee" ),
+            inverseJoinColumns = @JoinColumn( name = "idSkill" ) )
+    private Set<Skill> skills;
+
+    public Employee(String employeeImage, String employeeFirstName, String employeeLastName, String employeeFunction, String employeeEmail, String employeePhone) {
         this.employeeImage = employeeImage;
         this.employeeFirstName = employeeFirstName;
         this.employeeLastName = employeeLastName;

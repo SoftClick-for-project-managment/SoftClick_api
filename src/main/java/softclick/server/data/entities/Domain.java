@@ -2,23 +2,26 @@ package softclick.server.data.entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @NoArgsConstructor
 @Data
+@Proxy(lazy = false)
 @Table(name = "domain")
-public class Domain {
+public class Domain implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Long idDomain;
     private String nameDomain;
 
 
-    public Domain(Long idDomain, String nameDomain) {
-        this.idDomain = idDomain;
+    public Domain( String nameDomain) {
+
         this.nameDomain = nameDomain;
     }
 }

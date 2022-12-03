@@ -11,8 +11,8 @@ import java.util.Collection;
 @Entity
 @NoArgsConstructor
 @Data
-@Table(name = "users")
 @Proxy(lazy=false)
+@Table(name = "users")
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
