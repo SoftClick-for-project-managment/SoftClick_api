@@ -1,5 +1,6 @@
 package softclick.server.webtier;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -44,6 +45,10 @@ public class WebTierApplication {
 //        tasks.forEach(i -> System.out.println(i));
     }
 
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
     @Bean
     PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
