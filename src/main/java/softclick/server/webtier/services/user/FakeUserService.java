@@ -3,6 +3,7 @@ package softclick.server.webtier.services.user;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+import softclick.server.data.entities.Employee;
 import softclick.server.data.entities.User;
 
 import java.util.ArrayList;
@@ -46,6 +47,16 @@ public class FakeUserService implements IUserService {
 
     @Override
     public void addRoleToUser(String username, String roleName) {
+
+    }
+
+    @Override
+    public void updateUser(Long id, User user) {
+
+    }
+
+    @Override
+    public void assignUserToEmployee(User user, Employee employee) {
 
     }
 }

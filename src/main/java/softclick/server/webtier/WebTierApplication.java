@@ -1,5 +1,6 @@
 package softclick.server.webtier;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,6 +11,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import softclick.server.data.entities.Status;
 import softclick.server.data.entities.Task;
 import softclick.server.data.entities.User;
 import softclick.server.webtier.services.user.UserService;
@@ -17,6 +19,7 @@ import softclick.server.webtier.services.user.IUserService;
 import softclick.server.webtier.services.task.ITaskService;
 import softclick.server.webtier.services.task.TaskService;
 
+import java.util.Date;
 import java.util.List;
 
 @SpringBootApplication(exclude = {
@@ -45,12 +48,16 @@ public class WebTierApplication {
     }
 
     @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
+    @Bean
     PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    CommandLineRunner run(IUserService userService){
+    CommandLineRunner run(IUserService userService, ITaskService taskService){
         return args -> {
 //            userService.saveEntity(new User("othmane", "password", true));
 //            userService.saveEntity(new User("wafae", "password", true));
@@ -65,6 +72,8 @@ public class WebTierApplication {
 //            userService.addRoleToUser("youssef", "ROLE_DIRECTOR");
 //            userService.addRoleToUser("youssef", "MANAGER");
 //            userService.addRoleToUser("youssef", "ROLE_PROJECT_MANAGER");
+
+//            taskService.saveEntity(new Task("complete web tier", new Date(), new Date(), null, null, null, null, null, null));
         };
     }
 
