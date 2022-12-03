@@ -68,4 +68,11 @@ public class RmiProxyFactoryBeans {
         bean.setServiceUrl("rmi://localhost:1099/SkillRepository");
         return bean;
     }
+    @Bean
+    RmiProxyFactoryBean rmiProxyFactoryInvoiceRepoBean(){
+        RmiProxyFactoryBean bean = new RmiProxyFactoryBean();
+        bean.setServiceInterface(InvoiceRepository.class);
+        bean.setServiceUrl("rmi://localhost:1099/InvoiceRepository");
+        return bean;
+    }
 }
