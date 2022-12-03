@@ -13,17 +13,17 @@ public class FakeTaskService {
     private List<Task> tasks = new ArrayList<>();
 
     Project project = new Project();
-    Employee employee = new Employee(123, "Tiger", "Nixon", "Talent Acquisition Specialist", "tigernixon@gmail.com", "+2120065354675");
+    Employee employee = new Employee("employee 1", "Tiger", "Nixon", "Talent Acquisition Specialist", "tigernixon@gmail.com", "+2120065354675");
 
-    Status status = new Status(Long.valueOf(2),  "TO do");
+    Status status = new Status(  "TO do");
 
-    Priority priority = new Priority(Long.valueOf(2), "Urgent",(float) 12);
+    Priority priority = new Priority("Urgent",(float) 12);
     Date aujourdhui = new Date();
     ExpenseCategory expenseCategory= new ExpenseCategory("categorie");
 
-    Expense expense1 = new Expense(Long.valueOf(100) , "expenses", aujourdhui, expenseCategory);
-    Expense expense2 = new Expense(Long.valueOf(200) , "expenses", aujourdhui, expenseCategory);
-    Expense expense3 = new Expense(Long.valueOf(300) , "expenses", aujourdhui, expenseCategory);
+    Expense expense1 = new Expense(12334L, "expenses", aujourdhui, expenseCategory);
+    Expense expense2 = new Expense(1233L , "expenses", aujourdhui, expenseCategory);
+    Expense expense3 = new Expense(455L , "expenses", aujourdhui, expenseCategory);
 
 
     Collection<Expense> collection =
