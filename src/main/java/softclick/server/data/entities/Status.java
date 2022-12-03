@@ -19,8 +19,8 @@ public class Status implements Serializable {
 
     private String nameStatus;
 
-    public Status(Long idStatus, String nameStatus) {
-        this.idStatus = idStatus;
+    public Status( String nameStatus) {
+
         this.nameStatus = nameStatus;
     }
 }

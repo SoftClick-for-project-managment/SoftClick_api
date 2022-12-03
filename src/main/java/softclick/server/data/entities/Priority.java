@@ -20,8 +20,8 @@ public class Priority implements Serializable {
 
     private Float  dugreePriority;
 
-    public Priority(Long idPriority, String namePriority, Float dugreePriority) {
-        this.idPriority = idPriority;
+    public Priority( String namePriority, Float dugreePriority) {
+
         this.namePriority = namePriority;
         this.dugreePriority = dugreePriority;
     }

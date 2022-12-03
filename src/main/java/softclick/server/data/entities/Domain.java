@@ -18,8 +18,8 @@ public class Domain implements Serializable {
     private String nameDomain;
 
 
-    public Domain(Long idDomain, String nameDomain) {
-        this.idDomain = idDomain;
+    public Domain( String nameDomain) {
+
         this.nameDomain = nameDomain;
     }
 }
