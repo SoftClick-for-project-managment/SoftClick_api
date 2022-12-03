@@ -52,4 +52,20 @@ public class RmiProxyFactoryBeans {
         bean.setServiceUrl("rmi://localhost:1099/ClientRepository");
         return bean;
     }
+
+    @Bean
+    RmiProxyFactoryBean rmiProxyFactoryEmployeeRepoBean(){
+        RmiProxyFactoryBean bean = new RmiProxyFactoryBean();
+        bean.setServiceInterface(EmployeeRepository.class);
+        bean.setServiceUrl("rmi://localhost:1099/EmployeeRepository");
+        return bean;
+    }
+
+    @Bean
+    RmiProxyFactoryBean rmiProxyFactorySkillRepoBean(){
+        RmiProxyFactoryBean bean = new RmiProxyFactoryBean();
+        bean.setServiceInterface(SkillRepository.class);
+        bean.setServiceUrl("rmi://localhost:1099/SkillRepository");
+        return bean;
+    }
 }
