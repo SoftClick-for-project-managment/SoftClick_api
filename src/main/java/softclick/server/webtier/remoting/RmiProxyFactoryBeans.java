@@ -44,4 +44,11 @@ public class RmiProxyFactoryBeans {
         bean.setServiceUrl("rmi://localhost:1099/DomainRepository");
         return bean;
     }
+    @Bean
+    RmiProxyFactoryBean rmiProxyFactoryPriorityRepoBean(){
+        RmiProxyFactoryBean bean = new RmiProxyFactoryBean();
+        bean.setServiceInterface(PriorityRepository.class);
+        bean.setServiceUrl("rmi://localhost:1099/PriorityRepository");
+        return bean;
+    }
 }
