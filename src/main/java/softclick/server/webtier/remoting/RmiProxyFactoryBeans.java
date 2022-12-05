@@ -75,4 +75,36 @@ public class RmiProxyFactoryBeans {
         bean.setServiceUrl("rmi://localhost:1099/InvoiceRepository");
         return bean;
     }
+    @Bean
+    RmiProxyFactoryBean rmiProxyFactoryExpenseRepoBean(){
+        RmiProxyFactoryBean bean = new RmiProxyFactoryBean();
+        bean.setServiceInterface(ExpenseRepository.class);
+        bean.setServiceUrl("rmi://localhost:1099/ExpenseRepository");
+        return bean;
+    }
+
+    @Bean
+    RmiProxyFactoryBean rmiProxyFactoryExpenseCategoryRepoBean(){
+        RmiProxyFactoryBean bean = new RmiProxyFactoryBean();
+        bean.setServiceInterface(ExpenseCategoryRepository.class);
+        bean.setServiceUrl("rmi://localhost:1099/ExpenseCategoryRepository");
+        return bean;
+    }
+    
+    @Bean
+    RmiProxyFactoryBean rmiProxyFactoryPriorityRepoBean(){
+        RmiProxyFactoryBean bean = new RmiProxyFactoryBean();
+        bean.setServiceInterface(PriorityRepository.class);
+        bean.setServiceUrl("rmi://localhost:1099/PriorityRepository");
+        return bean;
+    }
+    
+    @Bean
+    RmiProxyFactoryBean rmiProxyFactoryStatusRepoBean(){
+        RmiProxyFactoryBean bean = new RmiProxyFactoryBean();
+        bean.setServiceInterface(StatusRepository.class);
+        bean.setServiceUrl("rmi://localhost:1099/StatusRepository");
+
+        return bean;
+    }
 }

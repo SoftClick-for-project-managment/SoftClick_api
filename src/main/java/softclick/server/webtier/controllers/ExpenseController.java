@@ -5,75 +5,79 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import softclick.server.data.entities.Project;
-import softclick.server.webtier.services.project.IProjectService;
+
+import softclick.server.data.entities.Expense;
+import softclick.server.webtier.services.expense.IExpenseService;
+
+
 import java.util.List;
 
 
 @RestController
 @RequestMapping("/api/v1")
-public class ProjectController {
-    private final IProjectService projectService;
+public class ExpenseController {
+
+    private final IExpenseService expenseService;
 
     @Autowired
-    public ProjectController(@Qualifier("rmiProjectService") IProjectService projectService) {
-        this.projectService = projectService;
+    public ExpenseController(@Qualifier("rmiExpenseService") IExpenseService expenseService) {
+        this.expenseService = expenseService;
     }
 
-    @GetMapping(value = "/projects")
+    @GetMapping(value = "/expense")
     public ResponseEntity<Object> index(){
         try{
-            List<Project> projects = projectService.getAllEntities();
-            return new ResponseEntity<>(projects, HttpStatus.OK);
+            List<Expense> expenses = expenseService.getAllEntities();
+            return new ResponseEntity<>(expenses, HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
-    @GetMapping(value = "/projects/{id}")
+    @GetMapping(value = "/expenses/{id}")
     public ResponseEntity<Object> single(@PathVariable String id){
         try{
-            Project project = projectService.findEntityByKey(Long.valueOf(id));
-            if (project == null)
+            Expense expense = expenseService.findEntityByKey(Long.valueOf(id));
+            if (expense == null)
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            return new ResponseEntity<>(project, HttpStatus.OK);
+            return new ResponseEntity<>(expense, HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PostMapping(value = "/projects")
-    public ResponseEntity<Object> create(@RequestBody Project project){
+    @PostMapping(value = "/expenses")
+    public ResponseEntity<Object> create(@RequestBody Expense expense){
         try{
-            projectService.saveEntity(project);
+            expenseService.saveEntity(expense);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PutMapping(value = "/projects")
-    public ResponseEntity<Object> update(@RequestBody Project project){
+    @PutMapping(value = "/expenses")
+    public ResponseEntity<Object> update(@RequestBody Expense expense){
         try{
-            Project storedProject = projectService.findEntityByKey(project.getIdProject());
-            if (storedProject == null)
+            Expense storedExpense= expenseService.findEntityByKey(expense.getId());
+            if (storedExpense == null)
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-            System.out.println(project);
-            projectService.saveEntity(project);
+            expenseService.saveEntity(expense);
             return new ResponseEntity<>(HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
-    @DeleteMapping(value = "/projects/{id}")
+    @DeleteMapping(value = "/expenses/{id}")
     public ResponseEntity<Object> delete(@PathVariable String id){
         try{
-            projectService.deleteEntity(Long.valueOf(id));
+            expenseService.deleteEntity(Long.valueOf(id));
             return new ResponseEntity<>(HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
 }
