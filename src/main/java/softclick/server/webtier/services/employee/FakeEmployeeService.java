@@ -1,13 +1,11 @@
 package softclick.server.webtier.services.employee;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import softclick.server.data.entities.Employee;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service @Qualifier("rmiFakeEmployeeService")
 public class FakeEmployeeService implements IEmployeeService{
@@ -44,7 +42,12 @@ public class FakeEmployeeService implements IEmployeeService{
     }
 
     @Override
-    public void addSkillToEmployee(String employeeName, String skillName) {
+    public void updateEmployee(Long id, Employee newEmployee) {
+
+    }
+
+    @Override
+    public void addSkillToEmployee(Long employeeId, String skillName) {
 
     }
 }
