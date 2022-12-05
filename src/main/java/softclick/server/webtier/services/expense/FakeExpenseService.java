@@ -23,12 +23,12 @@ public class FakeExpenseService implements  IExpenseService{
 
     @Override
     public Expense findEntityByKey(Long aLong) {
-        return null;
+        return return expenses.get(aLong.intValue());
     }
 
     @Override
     public List<Expense> getAllEntities() {
-        return null;
+        return expenses;
     }
 
     @Override
