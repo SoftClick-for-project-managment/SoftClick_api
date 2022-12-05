@@ -55,8 +55,8 @@ public class ProjectController {
     @PutMapping(value = "/projects")
     public ResponseEntity<Object> update(@RequestBody Project project){
         try{
-            Project storedUser = projectService.findEntityByKey(project.getIdProject());
-            if (storedUser == null)
+            Project storedProject = projectService.findEntityByKey(project.getIdProject());
+            if (storedProject == null)
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
             System.out.println(project);
