@@ -52,4 +52,9 @@ public class FakeClientService implements IClientService {
     public void deleteAllEntities(List<Long> longs) {
 
     }
+
+    @Override
+    public void updateClient(Long id, Client client) {
+
+    }
 }
