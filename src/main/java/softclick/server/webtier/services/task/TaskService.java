@@ -21,7 +21,8 @@ public class TaskService extends BaseService<Task, Long> implements ITaskService
     private final ProjectRepository projectRepository;
     private final StatusRepository statusRepository;
     private final PriorityRepository priorityRepository;
-    private final EmployeeRepository employeeRepository
+    private final EmployeeRepository employeeRepository;
+
     @Autowired
     protected TaskService(TaskRepository taskRepository,
                           ProjectRepository projectRepository,
@@ -38,7 +39,7 @@ public class TaskService extends BaseService<Task, Long> implements ITaskService
 
     @Override
     public void saveEntity(Task entity) {
-        if (entity.getStartDate().compareTo(entity.getEndDate()) != -1)
+        if (entity.getStartDate().isAfter(entity.getEndDate()))
             throw new RuntimeException("Start date can't be greater than end date");
         super.saveEntity(entity);
     }
@@ -48,8 +49,12 @@ public class TaskService extends BaseService<Task, Long> implements ITaskService
         Task task = taskRepository.getReferenceById(id);
         if (task == null)
             throw new EntityNotFoundException();
-        if (newTask.getStartDate().isBefore(newTask.getEndDate()))
-            throw new RuntimeException("Start date can't be greater than end date");
+        if (newTask.getStartDate() != null && newTask.getEndDate() != null){
+            if (newTask.getStartDate().isAfter(newTask.getEndDate()))
+                throw new RuntimeException("Start date can't be greater than end date");
+            task.setStartDate(newTask.getStartDate() != null ? newTask.getStartDate() : task.getStartDate());
+            task.setEndDate(newTask.getEndDate() != null ? newTask.getEndDate() : task.getEndDate());
+        }
         if (newTask.getProject() != null)
             task.setProject(projectRepository.getReferenceById(newTask.getProject().getIdProject()));
         if (newTask.getStatus() != null)
@@ -58,10 +63,8 @@ public class TaskService extends BaseService<Task, Long> implements ITaskService
             task.setPriority(priorityRepository.getReferenceById(newTask.getPriority().getIdPriority()));
         if (newTask.getEmployee() != null)
             task.setEmployee(employeeRepository.getReferenceById(newTask.getEmployee().getId()));
-        task.setName(newTask.getName());
-        task.setDescription(newTask.getDescription());
-        task.setStartDate(newTask.getStartDate());
-        task.setEndDate(newTask.getEndDate());
+        task.setName(newTask.getName() != null ? newTask.getName() : task.getName());
+        task.setDescription(newTask.getDescription() != null ? newTask.getDescription() : task.getDescription());
         taskRepository.save(task);
     }
 }

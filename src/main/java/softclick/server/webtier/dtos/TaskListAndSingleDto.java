@@ -23,8 +23,7 @@ public class TaskListAndSingleDto implements Serializable {
     private String endDate;
     private String Description;
     private Status status;
-    private Project project;
+    private Long projectId;
     private Employee employee;
     private Priority priority;
-    private Set<Expense> expenses;
 }

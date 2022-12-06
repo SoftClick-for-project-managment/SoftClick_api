@@ -23,7 +23,7 @@ public class User implements Serializable {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles")
     private Collection<Role> roles;
-    @OneToOne(mappedBy = "user")
+    @OneToOne
     private Employee employee;
 
     public User(String username, String password, boolean isActive) {

@@ -30,8 +30,8 @@ public class Employee implements Serializable {
     private String employeeEmail;
     @Column(nullable = false)
     private String employeePhone;
-    @OneToOne
-    private User user;
+//    @OneToOne
+//    private User user;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable( name = "Employee_Skill",

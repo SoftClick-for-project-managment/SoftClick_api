@@ -1,4 +1,6 @@
 package softclick.server.webtier.controllers;
+import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,43 +15,43 @@ import softclick.server.webtier.services.task.ITaskService;
 import softclick.server.webtier.utils.time.DateTimeConverter;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1")
+@Slf4j
 public class TaskController {
 
     private final ITaskService taskService;
-    private final ModelMapper modelMapper;
+    private ModelMapper modelMapper;
 
     @Autowired
     public TaskController(@Qualifier("rmiTaskService") ITaskService taskService, ModelMapper modelMapper) {
         this.taskService = taskService;
         this.modelMapper = modelMapper;
         this.modelMapper.createTypeMap(Task.class, TaskListAndSingleDto.class)
-            .addMappings(
-                    mapper -> {
-                        mapper.map(src -> DateTimeConverter.toString(src.getStartDate()), TaskListAndSingleDto::setStartDate);
-                        mapper.map(src -> DateTimeConverter.toString(src.getEndDate()), TaskListAndSingleDto::setEndDate);
-                    }
-            );
-        this.modelMapper.createTypeMap(TaskListAndSingleDto.class, Task.class)
-            .addMappings(
-                mapper -> {
-                    mapper.map(src -> DateTimeConverter.valueOf(src.getStartDate()), Task::setStartDate);
-                    mapper.map(src -> DateTimeConverter.valueOf(src.getEndDate()), Task::setEndDate);
-                }
-            );
+                .addMappings(mapper -> {
+                    mapper.using(ctx -> DateTimeConverter.toString((LocalDateTime) ctx.getSource())).map(Task::getStartDate, TaskListAndSingleDto::setStartDate);
+                    mapper.using(ctx -> DateTimeConverter.toString((LocalDateTime) ctx.getSource())).map(Task::getEndDate, TaskListAndSingleDto::setEndDate);
+                    mapper.map(src -> src.getProject().getIdProject(), TaskListAndSingleDto::setProjectId);
+                });
+        this.modelMapper.createTypeMap(TaskCreateAndUpdateDto.class, Task.class)
+                .addMappings(mapper -> {
+                    mapper.using(ctx -> DateTimeConverter.valueOf((String) ctx.getSource())).map(src -> src.getStartDate(), Task::setStartDate);
+                    mapper.using(ctx -> DateTimeConverter.valueOf((String) ctx.getSource())).map(src -> src.getEndDate(), Task::setEndDate);
+                });
     }
 
-    @RequestMapping(value = "/tasks", method = RequestMethod.GET)
+    @GetMapping(value = "/tasks")
     public ResponseEntity<Object> index(){
         try{
             List<Task> tasks = taskService.getAllEntities();
             List<TaskListAndSingleDto> taskListDto = tasks.stream().map(t -> modelMapper.map(t, TaskListAndSingleDto.class)).collect(Collectors.toList());
             return new ResponseEntity<>(taskListDto, HttpStatus.OK);
         }catch(Exception e){
+            log.error(e.getLocalizedMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
@@ -59,22 +61,8 @@ public class TaskController {
         try{
             Task task = taskService.findEntityByKey(Long.valueOf(id));
             TaskListAndSingleDto taskDto = modelMapper.map(task, TaskListAndSingleDto.class);
-            if (task == null)
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
             return new ResponseEntity<>(taskDto, HttpStatus.OK);
-        }catch(Exception e){
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-    }
-
-    @RequestMapping(value = "/tasks", method = RequestMethod.POST)
-    public ResponseEntity<Object> create(@RequestBody TaskCreateAndUpdateDto taskDto){
-        try{
-            Task task = modelMapper.map(taskDto, Task.class);
-            System.out.println(task);
-            taskService.saveEntity(task);
-            return new ResponseEntity<>(HttpStatus.CREATED);
         }catch(EntityNotFoundException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }catch(Exception e){
@@ -82,7 +70,23 @@ public class TaskController {
         }
     }
 
-    @RequestMapping(value = "/tasks/{id}", method = RequestMethod.PUT)
+    @PostMapping(value = "/tasks")
+    public ResponseEntity<Object> create(@RequestBody TaskCreateAndUpdateDto taskDto){
+        try{
+            System.out.println(taskDto);
+            Task task = modelMapper.map(taskDto, Task.class);
+            System.out.println(task);
+            taskService.saveEntity(task);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }catch(EntityNotFoundException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }catch(Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping(value = "/tasks/{id}")
     public ResponseEntity<Object> update(@PathVariable String id, @RequestBody TaskCreateAndUpdateDto taskDto){
         try{
             Task task = modelMapper.map(taskDto, Task.class);
