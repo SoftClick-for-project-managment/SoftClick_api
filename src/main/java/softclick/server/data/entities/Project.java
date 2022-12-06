@@ -53,8 +53,8 @@ public class Project implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "project")
     private Set<Invoice> invoices = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "project")
-    private Set<Task> tasks = new HashSet<>();
+//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "project")
+//    private Set<Task> tasks = new HashSet<>();
 
     public Project(String nameProject, String descriptionProject, Double revenueProject, Domain domainProjet, Date dateDebut, Date dateFin, Employee chefProject, Status projectStatus, Priority projectPriority) {
         this.nameProject = nameProject;
@@ -67,6 +67,6 @@ public class Project implements Serializable {
         this.projectStatus = projectStatus;
         this.projectPriority = projectPriority;
         this.invoices = invoices;
-        this.tasks = tasks;
+//        this.tasks = tasks;
     }
 }

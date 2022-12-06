@@ -1,76 +1,101 @@
 package softclick.server.webtier.controllers;
+import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.Converter;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import softclick.server.data.entities.Client;
 import softclick.server.data.entities.Task;
-import softclick.server.data.entities.User;
-import softclick.server.webtier.services.client.ClientService;
-import softclick.server.webtier.services.client.IClientService;
+import softclick.server.webtier.dtos.TaskCreateAndUpdateDto;
+import softclick.server.webtier.dtos.TaskListAndSingleDto;
 import softclick.server.webtier.services.task.ITaskService;
-import softclick.server.webtier.services.user.IUserService;
+import softclick.server.webtier.utils.time.DateTimeConverter;
 
+import javax.persistence.EntityNotFoundException;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1")
+@Slf4j
 public class TaskController {
 
     private final ITaskService taskService;
+    private ModelMapper modelMapper;
 
     @Autowired
-    public TaskController(@Qualifier("rmiTaskService") ITaskService taskService) {
+    public TaskController(@Qualifier("rmiTaskService") ITaskService taskService, ModelMapper modelMapper) {
         this.taskService = taskService;
+        this.modelMapper = modelMapper;
+        this.modelMapper.createTypeMap(Task.class, TaskListAndSingleDto.class)
+                .addMappings(mapper -> {
+                    mapper.using(ctx -> DateTimeConverter.toString((LocalDateTime) ctx.getSource())).map(Task::getStartDate, TaskListAndSingleDto::setStartDate);
+                    mapper.using(ctx -> DateTimeConverter.toString((LocalDateTime) ctx.getSource())).map(Task::getEndDate, TaskListAndSingleDto::setEndDate);
+                    mapper.map(src -> src.getProject().getIdProject(), TaskListAndSingleDto::setProjectId);
+                });
+        this.modelMapper.createTypeMap(TaskCreateAndUpdateDto.class, Task.class)
+                .addMappings(mapper -> {
+                    mapper.using(ctx -> DateTimeConverter.valueOf((String) ctx.getSource())).map(src -> src.getStartDate(), Task::setStartDate);
+                    mapper.using(ctx -> DateTimeConverter.valueOf((String) ctx.getSource())).map(src -> src.getEndDate(), Task::setEndDate);
+                });
     }
 
-    @RequestMapping(value = "/tasks", method = RequestMethod.GET)
+    @GetMapping(value = "/tasks")
     public ResponseEntity<Object> index(){
         try{
             List<Task> tasks = taskService.getAllEntities();
-            return new ResponseEntity<>(tasks, HttpStatus.OK);
+            List<TaskListAndSingleDto> taskListDto = tasks.stream().map(t -> modelMapper.map(t, TaskListAndSingleDto.class)).collect(Collectors.toList());
+            return new ResponseEntity<>(taskListDto, HttpStatus.OK);
         }catch(Exception e){
+            log.error(e.getLocalizedMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
-    @RequestMapping(value = "/tasks/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/tasks/{id}")
     public ResponseEntity<Object> single(@PathVariable String id){
         try{
             Task task = taskService.findEntityByKey(Long.valueOf(id));
-            if (task == null)
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            TaskListAndSingleDto taskDto = modelMapper.map(task, TaskListAndSingleDto.class);
 
-            return new ResponseEntity<>(task, HttpStatus.OK);
+            return new ResponseEntity<>(taskDto, HttpStatus.OK);
+        }catch(EntityNotFoundException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
-    @RequestMapping(value = "/tasks", method = RequestMethod.POST)
-    public ResponseEntity<Object> create(@RequestBody Task task){
+    @PostMapping(value = "/tasks")
+    public ResponseEntity<Object> create(@RequestBody TaskCreateAndUpdateDto taskDto){
         try{
+            System.out.println(taskDto);
+            Task task = modelMapper.map(taskDto, Task.class);
+            System.out.println(task);
             taskService.saveEntity(task);
             return new ResponseEntity<>(HttpStatus.CREATED);
+        }catch(EntityNotFoundException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }catch(Exception e){
+            e.printStackTrace();
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
-    @RequestMapping(value = "/tasks", method = RequestMethod.PUT)
-    public ResponseEntity<Object> update(@RequestBody Task task){
+    @PutMapping(value = "/tasks/{id}")
+    public ResponseEntity<Object> update(@PathVariable String id, @RequestBody TaskCreateAndUpdateDto taskDto){
         try{
-            Task storedTask = taskService.findEntityByKey(task.getId());
-//            Optional<Client> storedClient = clientService.findEntityByKey(Long.valueOf(id));
+            Task task = modelMapper.map(taskDto, Task.class);
 
-            if (storedTask == null)
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            taskService.updateTask(Long.valueOf(id), task);
 
-            taskService.saveEntity(task);
             return new ResponseEntity<>(HttpStatus.OK);
+        }catch(EntityNotFoundException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -81,6 +106,8 @@ public class TaskController {
         try{
             taskService.deleteEntity(Long.valueOf(id));
             return new ResponseEntity<>(HttpStatus.OK);
+        }catch(EntityNotFoundException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

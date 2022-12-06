@@ -20,6 +20,5 @@ public class Team implements Serializable {
         this.team_Name = team_Name;
         this.description = description;
         this.members = members;
-
     }
 }
