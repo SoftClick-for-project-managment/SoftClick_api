@@ -26,7 +26,7 @@ public class FakeExpenseService implements  IExpenseService{
 
     @Override
     public Expense findEntityByKey(Long aLong) {
-        return return expenses.get(aLong.intValue());
+        return expenses.get(aLong.intValue());
     }
 
     @Override

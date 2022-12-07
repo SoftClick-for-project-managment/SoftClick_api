@@ -59,7 +59,7 @@ public class TeamController {
     @PutMapping(value = "/teams")
     public ResponseEntity<Object> update(@RequestBody Team team){
         try{
-            Team storedTeam= teamService.findEntityByKey(team.getId());
+            Team storedTeam= teamService.findEntityByKey(team.getIdTeam());
             if (storedTeam == null)
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
