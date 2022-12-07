@@ -107,4 +107,13 @@ public class RmiProxyFactoryBeans {
 
         return bean;
     }
+
+    @Bean
+    RmiProxyFactoryBean rmiProxyFactoryTeamRepoBean(){
+        RmiProxyFactoryBean bean = new RmiProxyFactoryBean();
+        bean.setServiceInterface(TeamRepository.class);
+        bean.setServiceUrl("rmi://localhost:1099/TeamRepository");
+
+        return bean;
+    }
 }

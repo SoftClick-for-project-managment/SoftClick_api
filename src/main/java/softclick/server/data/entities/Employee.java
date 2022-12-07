@@ -6,13 +6,14 @@ import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Set;
 
 @Entity
 @NoArgsConstructor
 @Data
 @Proxy(lazy=false)
-public class Employee implements Serializable {
+public class Employee implements Serializable, Comparable<Employee> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,4 +48,14 @@ public class Employee implements Serializable {
         this.employeePhone = employeePhone;
     }
 
+    @Override
+    public int compareTo(Employee employee) {
+        return Comparator.comparing(Employee::getEmployeeImage)
+                .thenComparing(Employee::getEmployeeFirstName)
+                .thenComparing(Employee::getEmployeeLastName)
+                .thenComparing(Employee::getEmployeeFunction)
+                .thenComparing(Employee::getEmployeeEmail)
+                .thenComparing(Employee::getEmployeePhone)
+                .compare(this, employee);
+    }
 }

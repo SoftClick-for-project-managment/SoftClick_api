@@ -7,13 +7,14 @@ import org.hibernate.annotations.Proxy;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.Set;
 
 @Entity
 @NoArgsConstructor
 @Data
 @Proxy(lazy = false)
-public class Task implements Serializable {
+public class Task implements Serializable, Comparable<Task> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -46,5 +47,17 @@ public class Task implements Serializable {
         this.employee = employee;
         this.priority = priority;
         this.expenses = expenses;
+    }
+
+    @Override
+    public int compareTo(Task task) {
+        return Comparator.comparing(Task::getName)
+                .thenComparing(Task::getDescription)
+                .thenComparing(Task::getStartDate)
+                .thenComparing(Task::getEndDate)
+                .thenComparing(Task::getStatus)
+                .thenComparing(Task::getPriority)
+                .thenComparing(Task::getEmployee)
+                .compare(this, task);
     }
 }

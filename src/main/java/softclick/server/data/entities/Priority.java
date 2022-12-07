@@ -6,13 +6,14 @@ import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Comparator;
 
 @Entity
 @NoArgsConstructor
 @Data
 @Proxy(lazy=false)
 @Table(name = "priority")
-public class Priority implements Serializable {
+public class Priority implements Serializable, Comparable<Priority> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,5 +27,12 @@ public class Priority implements Serializable {
 
         this.namePriority = namePriority;
         this.dugreePriority = dugreePriority;
+    }
+
+    @Override
+    public int compareTo(Priority priority) {
+        return Comparator.comparing(Priority::getNamePriority)
+                .thenComparing(Priority::getDugreePriority)
+                .compare(this, priority);
     }
 }
