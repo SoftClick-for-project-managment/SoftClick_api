@@ -7,10 +7,8 @@ import softclick.server.data.entities.Team;
 import java.util.List;
 
 public interface TeamRepository extends JpaRepository<Team, Long> {
-    @Query("select t from Team t where t.name = ?1")
+    @Query("select t from Team t where t.team_Name = ?1")
     List<Team> find_by_nom(String nom);
-    @Query("select t from Team t where t.membernumber = ?1")
+    @Query("select t from Team t where t.members.size = ?1")
     List<Team> find_by_membernumber(int number_of_members);
-    @Override
-    void deleteById(Long aLong);
 }
