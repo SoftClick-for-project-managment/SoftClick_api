@@ -74,6 +74,18 @@ public class Project implements Serializable, Comparable<Project> {
         this.tasks = tasks;
     }
 
+    public Project( String nameProject, String descriptionProject, Double revenueProject, Domain domainProjet, Date dateDebut, Date dateFin, Employee chefProject, Status projectStatus, Priority projectPriority) {
+        this.nameProject = nameProject;
+        this.descriptionProject = descriptionProject;
+        this.revenueProject = revenueProject;
+        this.domainProjet = domainProjet;
+        this.dateDebut = dateDebut;
+        this.dateFin = dateFin;
+        this.chefProject = chefProject;
+        this.projectStatus = projectStatus;
+        this.projectPriority = projectPriority;
+    }
+
     @Override
     public int compareTo(Project project) {
         return Comparator.comparing(Project::getNameProject)

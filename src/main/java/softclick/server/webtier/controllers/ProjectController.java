@@ -78,10 +78,9 @@ public class ProjectController {
     public ResponseEntity<Object> patche(@PathVariable Long id , @RequestBody Map<Object,Object> fields){
 
         try{
-            Project storedProject = projectService.patch(id,fields,Project.class);
+            Project storedProject = projectService.patch(id,fields);
             if (storedProject == null)
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            projectService.saveEntity(storedProject);
             return new ResponseEntity<>(HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

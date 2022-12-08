@@ -2,27 +2,25 @@ package softclick.server.webtier.services.projects;
 
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.core.parameters.P;
 import softclick.server.data.entities.*;
 import softclick.server.data.repositories.*;
 import softclick.server.webtier.services.project.IProjectService;
 import softclick.server.webtier.services.project.ProjectService;
 
-import java.time.LocalDateTime;
-import java.util.Date;
 
-import static org.apache.commons.lang3.builder.CompareToBuilder.reflectionCompare;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -99,36 +97,42 @@ class ProjectServiceTest {
     }
 
     @Test
-    void itShouldVerifyTaskStatusUpdated() {
+    void itShouldVerifyTpatch() {
         // given
-        Status newStatus = new Status("OPEN");
-        newStatus.setIdStatus(2L);
-        Task newTask = new Task(null, null, null, null, newStatus, null, null, null, null);
+        Date debut = new Date();
+        Date fin = new Date();
+        fin.setTime(fin.getTime()+10000);
 
-        Project project = new Project();
-        project.setIdProject(1L);
-        Status status = new Status("IN PROGRESS");
+        Employee chef =new Employee();
+        chef.setId(2L);
+        Status status = new Status();
         status.setIdStatus(1L);
         Priority priority = new Priority();
         priority.setIdPriority(1L);
-        Employee employee = new Employee();
-        employee.setId(1L);
-        LocalDateTime currentTime = LocalDateTime.now();
-        Task task = new Task("testTask", currentTime, currentTime.plusHours(8), null, status, project, employee, priority, null);
-        task.setId(1L);
+        Domain domain = new Domain();
+        domain.setIdDomain(2L);
 
-        Task oldTaskCopy = new Task("testTask", currentTime, currentTime.plusHours(8), null, status, project, employee, priority, null);
-        oldTaskCopy.setId(1L);
+        Project project = new Project( "new", "neeeew neeeeew", 5000d,domain, debut, fin, chef, status, priority);
+        Project newProject = new Project("name updated", "description updated", 5000d,domain, debut, fin, chef, status, priority);
+        project.setIdProject(1L);
+        newProject.setIdProject(1L);
+        Map<Object,Object> fields = new HashMap<>();
+        fields.put("nameProject","name updated");
+        fields.put("descriptionProject","description updated");
 
-        given(taskRepository.getReferenceById(1L))
-                .willReturn(task);
-        given(statusRepository.getReferenceById(2L))
-                .willReturn(newStatus);
+        given(projectRepository.getReferenceById(1L))
+                .willReturn(project);
+
         // when
-       /*  serviceUnderTest.updateTask(1L, newTask);
+        serviceUnderTest.patch(project.getIdProject(),fields);
         // then
-       verify(taskRepository).save(any());
-        assertThat(task.getStatus()).isEqualTo(newTask.getStatus());
-        assertThat(reflectionCompare(task, oldTaskCopy, "status")).isEqualTo(0);*/
+        String[] excludeFields ={"nameProject","descriptionProject"};
+        ArgumentCaptor<Project> projectArgumentCaptor = ArgumentCaptor.forClass(Project.class);
+        verify(projectRepository).save(projectArgumentCaptor.capture());
+        Project capturedProject = projectArgumentCaptor.getValue();
+        System.out.println(capturedProject.toString());
+        assertThat(capturedProject.getNameProject()).isEqualTo(newProject.getNameProject());
+        assertThat(capturedProject.getDescriptionProject()).isEqualTo(newProject.getDescriptionProject());
+        assertThat(capturedProject.getIdProject()).isEqualTo(newProject.getIdProject());
     }
 }

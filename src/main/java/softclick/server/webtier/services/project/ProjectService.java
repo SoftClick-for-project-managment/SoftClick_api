@@ -39,18 +39,15 @@ public class ProjectService extends BaseService<Project, Long> implements IProje
         super.saveEntity(entity);
     }
 
-   /* @Override
+
+    @Override
     public Project patch(Long id_project , Map<Object,Object> fields){
-        Project project = this.findEntityByKey(id_project);
+        Project project = super.patch(id_project, fields,Project.class);
         if(project != null){
-            fields.forEach((key,value)->{
-                Field field = ReflectionUtils.findField(Project.class,key.toString());
-                field.setAccessible(true);
-                ReflectionUtils.setField(field,project,value);
-            });
-            return  project;
+            saveEntity( project);
+            return project;
         }
         return  null;
-    }*/
+    }
 
 }
