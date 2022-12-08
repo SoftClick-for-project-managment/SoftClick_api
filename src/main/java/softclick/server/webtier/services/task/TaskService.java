@@ -9,8 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import softclick.server.data.entities.Task;
 import softclick.server.data.repositories.*;
 import softclick.server.webtier.services.BaseService;
-
-import javax.persistence.EntityNotFoundException;
+import softclick.server.webtier.utils.exceptions.BusinessException;
+import softclick.server.webtier.utils.exceptions.DataNotFoundException;
 
 @Service
 @Transactional
@@ -40,7 +40,7 @@ public class TaskService extends BaseService<Task, Long> implements ITaskService
     @Override
     public void saveEntity(Task entity) {
         if (entity.getStartDate().isAfter(entity.getEndDate()))
-            throw new RuntimeException("Start date can't be greater than end date");
+            throw new BusinessException("Start date can't be greater than end date");
         super.saveEntity(entity);
     }
 
@@ -48,10 +48,10 @@ public class TaskService extends BaseService<Task, Long> implements ITaskService
     public void updateTask(Long id, Task newTask) {
         Task task = taskRepository.getReferenceById(id);
         if (task == null)
-            throw new EntityNotFoundException();
+            throw new DataNotFoundException("Task not found");
         if (newTask.getStartDate() != null && newTask.getEndDate() != null){
             if (newTask.getStartDate().isAfter(newTask.getEndDate()))
-                throw new RuntimeException("Start date can't be greater than end date");
+                throw new BusinessException("Start date can't be greater than end date");
             task.setStartDate(newTask.getStartDate() != null ? newTask.getStartDate() : task.getStartDate());
             task.setEndDate(newTask.getEndDate() != null ? newTask.getEndDate() : task.getEndDate());
         }

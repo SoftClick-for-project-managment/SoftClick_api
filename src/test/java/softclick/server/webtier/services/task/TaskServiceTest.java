@@ -9,7 +9,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import softclick.server.data.entities.*;
 import softclick.server.data.repositories.*;
+import softclick.server.webtier.utils.exceptions.BusinessException;
+import softclick.server.webtier.utils.exceptions.DataNotFoundException;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 
 import static org.apache.commons.lang3.builder.CompareToBuilder.reflectionCompare;
@@ -100,5 +103,50 @@ class TaskServiceTest {
         verify(taskRepository).save(any());
         assertThat(task.getStatus()).isEqualTo(newTask.getStatus());
         assertThat(reflectionCompare(task, oldTaskCopy, "status")).isEqualTo(0);
+    }
+
+    @Test
+    void itShouldVerifyTaskWasNotUpdated_taskNotFoundException() {
+        // given
+        Status newStatus = new Status("OPEN"); newStatus.setIdStatus(2L);
+        Task newTask = new Task(null, null, null, null, newStatus, null, null, null, null);
+
+        given(taskRepository.getReferenceById(1L))
+                .willReturn(null);
+        // when and then
+        assertThatThrownBy(() -> serviceUnderTest.updateTask(1L, newTask))
+                .isInstanceOf(DataNotFoundException.class)
+                .hasMessageContaining("not found");
+
+        verify(taskRepository, never()).save(any());
+    }
+
+    @Test
+    void itShouldVerifyTaskWasNotUpdated_taskEndDateLteStartDate() {
+        // given
+        LocalDateTime currentTime = LocalDateTime.now();
+        Task newTask = new Task(null, currentTime, currentTime.minusDays(1).plusHours(7).minusMinutes(30), null, null, null, null, null, null);
+
+        Project project = new Project(); project.setIdProject(1L);
+        Status status = new Status("IN PROGRESS"); status.setIdStatus(1L);
+        Priority priority = new Priority(); priority.setIdPriority(1L);
+        Employee employee = new Employee(); employee.setId(1L);
+        LocalDateTime timeBeforeTwoDaysFromNow = LocalDateTime.now().minusDays(2);
+        Task task = new Task("testTask", timeBeforeTwoDaysFromNow, timeBeforeTwoDaysFromNow.plusHours(8), null, status, project, employee, priority, null);
+        task.setId(1L);
+
+        Task oldTaskCopy = new Task("testTask", timeBeforeTwoDaysFromNow, timeBeforeTwoDaysFromNow.plusHours(8), null, status, project, employee, priority, null);
+        oldTaskCopy.setId(1L);
+
+        given(taskRepository.getReferenceById(1L))
+                .willReturn(task);
+        // when and then
+        assertThatThrownBy(() -> serviceUnderTest.updateTask(1L, newTask))
+                .isInstanceOf(BusinessException.class)
+                .hasMessageContaining("Start date can't be greater than end date");
+
+        verify(taskRepository, never()).save(any());
+//        assertThat(reflectionCompare(task, oldTaskCopy)).isEqualTo(0);
+        assertThat(task).isEqualTo(oldTaskCopy);
     }
 }
