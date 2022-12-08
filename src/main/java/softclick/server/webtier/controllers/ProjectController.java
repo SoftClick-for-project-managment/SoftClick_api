@@ -1,29 +1,37 @@
 package softclick.server.webtier.controllers;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import softclick.server.data.entities.Project;
+import softclick.server.webtier.dtos.TaskListAndSingleDto;
+import softclick.server.webtier.dtos.project.ProjectandSingleDto;
 import softclick.server.webtier.services.project.IProjectService;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @RestController
 @RequestMapping("/api/v1")
 public class ProjectController {
     private final IProjectService projectService;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public ProjectController(@Qualifier("rmiProjectService") IProjectService projectService) {
+    public ProjectController(@Qualifier("rmiProjectService") IProjectService projectService, ModelMapper modelMapper) {
         this.projectService = projectService;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping(value = "/projects")
     public ResponseEntity<Object> index(){
         try{
             List<Project> projects = projectService.getAllEntities();
+        //    List<ProjectandSingleDto> projectDtoList = projects.stream().map(t -> modelMapper.map(t, ProjectandSingleDto.class)).collect(Collectors.toList());
             return new ResponseEntity<>(projects, HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -61,6 +69,19 @@ public class ProjectController {
 
 
             projectService.saveEntity(project);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+    @PatchMapping(value = "/projects/{id}")
+    public ResponseEntity<Object> patche(@PathVariable Long id , @RequestBody Map<Object,Object> fields){
+
+        try{
+            Project storedProject = projectService.patch(id,fields,Project.class);
+            if (storedProject == null)
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            projectService.saveEntity(storedProject);
             return new ResponseEntity<>(HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

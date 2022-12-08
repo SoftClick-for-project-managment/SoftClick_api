@@ -7,9 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import softclick.server.data.entities.Domain;
 import softclick.server.data.entities.Project;
+import softclick.server.data.entities.Status;
 import softclick.server.webtier.services.domain.IDomainService;
 import softclick.server.webtier.services.project.IProjectService;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -63,6 +65,19 @@ public class DomainController {
 
             System.out.println(domain);
             domainService.saveEntity(domain);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+    @PatchMapping(value = "/domains/{id}")
+    public ResponseEntity<Object> patche(@PathVariable Long id , @RequestBody Map<Object,Object> fields){
+
+        try{
+            Domain storedDomain = domainService.patch(id,fields,Domain.class);
+            if (storedDomain == null)
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            domainService.saveEntity(storedDomain);
             return new ResponseEntity<>(HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

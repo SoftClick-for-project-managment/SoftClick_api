@@ -43,4 +43,9 @@ public class FakeTeamService implements  ITeamService{
     public void deleteAllEntities(List<Long> longs) {
 
     }
+
+    @Override
+    public Team patch(Long aLong, Map<Object, Object> fields, Class<Team> teamClass) {
+        return null;
+    }
 }

@@ -8,6 +8,7 @@ import softclick.server.data.entities.Project;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Qualifier("rmiFakeInvoiceService")
@@ -44,5 +45,10 @@ public class FakeInvoiceService implements IInvoiceService {
     @Override
     public void deleteAllEntities(List<Long> longs) {
 
+    }
+
+    @Override
+    public Invoice patch(Long aLong, Map<Object, Object> fields, Class<Invoice> invoiceClass) {
+        return null;
     }
 }

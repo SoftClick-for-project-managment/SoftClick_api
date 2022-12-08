@@ -1,106 +1,134 @@
 package softclick.server.webtier.services.projects;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import lombok.SneakyThrows;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.parameters.P;
 import softclick.server.data.entities.*;
-import softclick.server.webtier.services.domain.DomainService;
-import softclick.server.webtier.services.employee.EmployeeService;
-import softclick.server.webtier.services.priority.PriorityService;
-import softclick.server.webtier.services.status.StatusService;
+import softclick.server.data.repositories.*;
+import softclick.server.webtier.services.project.IProjectService;
+import softclick.server.webtier.services.project.ProjectService;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
-import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.apache.commons.lang3.builder.CompareToBuilder.reflectionCompare;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.same;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-public class ProjectServiceTest {
-    @Autowired
-    private MockMvc mockMvc;
+@ExtendWith(MockitoExtension.class)
+class ProjectServiceTest {
+    @Mock
+    private TaskRepository taskRepository;
+    @Mock
+    private ProjectRepository projectRepository;
+    @Mock
+    private StatusRepository statusRepository;
+    @Mock
+    private PriorityRepository priorityRepository;
+    @Mock
+    private EmployeeRepository employeeRepository;
+    private IProjectService serviceUnderTest;
 
-    @Autowired
-    private EmployeeService employeeService;
-    @Autowired
-    private StatusService statusService;
-    @Autowired
-    private PriorityService priorityService;
-    @Autowired
-    private DomainService domainService;
-
-    ObjectMapper objectWraper = new ObjectMapper();
-    ObjectWriter objectWriter = objectWraper.writer();
-
-
-    @SneakyThrows
-    @Test
-    public void shouldReturnAllProjects(){
-        this.mockMvc.perform(get("/api/v1/projects/")).andDo(print()).andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(2)));
+    @BeforeEach
+    void setUp() {
+        serviceUnderTest = new ProjectService(projectRepository);
     }
-    @SneakyThrows
-    @Test
-    public void shouldReturnProjectById(){
-        Long idProject=4L;
-        this.mockMvc.perform(get("/api/v1/projects/"+idProject)).andDo(print()).andExpect(status().isOk());
-    }
-    @SneakyThrows
-    @Test
-    public void shouldReturnProjectAdded(){
 
+    @Test
+    void itShouldVerifyProjectAdded() {
+        // given
         Date debut = new Date();
         Date fin = new Date();
-        Employee chef =employeeService.getAllEntities().get(0);
-        Status status = statusService.getAllEntities().get(0);
-        Priority priority = priorityService.getAllEntities().get(0);
-        Domain domain = domainService.getAllEntities().get(0);
+        Employee chef =new Employee();
+        chef.setId(2L);
+        Status status = new Status();
+        status.setIdStatus(1L);
+        Priority priority = new Priority();
+        priority.setIdPriority(1L);
+        Domain domain = new Domain();
+        domain.setIdDomain(2L);
 
-        Project neew = new Project( "new", "neeeew neeeeew", 5000d,domain, debut, fin, chef, status, priority);
+        Project project = new Project( "new", "neeeew neeeeew", 5000d,domain, debut, fin, chef, status, priority);
 
-        String body_content = objectWriter.writeValueAsString(neew);
-
-        this.mockMvc.perform(post("/api/v1/projects/",body_content).contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(body_content)).
-                andDo(print()).andExpect(status().is(201));
+        // when
+        serviceUnderTest.saveEntity(project);
+        // then
+        ArgumentCaptor<Project> projectArgumentCaptor = ArgumentCaptor.forClass(Project.class);
+        verify(projectRepository).save(projectArgumentCaptor.capture());
+        Project capturedProject = projectArgumentCaptor.getValue();
+        assertThat(capturedProject).isEqualTo(project);
     }
-    @SneakyThrows
+
     @Test
-    public void shouldReturnProjectUpdated(){
+    void itShouldVerifyTaskNotAdd_endDateLteStartDate() {
+        // given
         Date debut = new Date();
         Date fin = new Date();
-        Employee chef =employeeService.getAllEntities().get(0);
-        Status status = statusService.getAllEntities().get(0);
-        Priority priority = priorityService.getAllEntities().get(0);
-        Domain domain = domainService.getAllEntities().get(0);
+        debut.setTime(fin.getTime()+10000);
 
-        Project neew = new Project( "updated project", "really updated", 5000d,domain, debut, fin, chef, status, priority);
-        neew.setIdProject(7L);
+        Employee chef =new Employee();
+        chef.setId(2L);
+        Status status = new Status();
+        status.setIdStatus(1L);
+        Priority priority = new Priority();
+        priority.setIdPriority(1L);
+        Domain domain = new Domain();
+        domain.setIdDomain(2L);
 
-        String body_content = objectWriter.writeValueAsString(neew);
+        Project project = new Project( "new", "neeeew neeeeew", 5000d,domain, debut, fin, chef, status, priority);
 
-        this.mockMvc.perform(put("/api/v1/projects/",body_content).contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                        .content(body_content)).
-                andDo(print()).andExpect(status().isOk());
+        // when
+        // then
+        assertThatThrownBy(() -> serviceUnderTest.saveEntity(project))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("Start date can't be greater than end date");
+
+        verify(projectRepository, never()).save(any());
     }
 
-    @SneakyThrows
     @Test
-    public void shouldReturnProjectDeleted(){
-        Long idProject=4L;
-        this.mockMvc.perform(delete("/api/v1/projects/"+idProject)).andDo(print()).andExpect(status().isOk());
-        //waiting for test database to regenrate the deleted projects for further delete tests
+    void itShouldVerifyTaskStatusUpdated() {
+        // given
+        Status newStatus = new Status("OPEN");
+        newStatus.setIdStatus(2L);
+        Task newTask = new Task(null, null, null, null, newStatus, null, null, null, null);
+
+        Project project = new Project();
+        project.setIdProject(1L);
+        Status status = new Status("IN PROGRESS");
+        status.setIdStatus(1L);
+        Priority priority = new Priority();
+        priority.setIdPriority(1L);
+        Employee employee = new Employee();
+        employee.setId(1L);
+        LocalDateTime currentTime = LocalDateTime.now();
+        Task task = new Task("testTask", currentTime, currentTime.plusHours(8), null, status, project, employee, priority, null);
+        task.setId(1L);
+
+        Task oldTaskCopy = new Task("testTask", currentTime, currentTime.plusHours(8), null, status, project, employee, priority, null);
+        oldTaskCopy.setId(1L);
+
+        given(taskRepository.getReferenceById(1L))
+                .willReturn(task);
+        given(statusRepository.getReferenceById(2L))
+                .willReturn(newStatus);
+        // when
+       /*  serviceUnderTest.updateTask(1L, newTask);
+        // then
+       verify(taskRepository).save(any());
+        assertThat(task.getStatus()).isEqualTo(newTask.getStatus());
+        assertThat(reflectionCompare(task, oldTaskCopy, "status")).isEqualTo(0);*/
     }
 }

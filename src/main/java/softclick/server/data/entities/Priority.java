@@ -21,9 +21,9 @@ public class Priority implements Serializable, Comparable<Priority> {
 
     String namePriority;
 
-    private Float  dugreePriority;
+    private Double  dugreePriority;
 
-    public Priority( String namePriority, Float dugreePriority) {
+    public Priority( String namePriority, Double dugreePriority) {
 
         this.namePriority = namePriority;
         this.dugreePriority = dugreePriority;
