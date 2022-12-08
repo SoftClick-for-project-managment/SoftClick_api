@@ -45,4 +45,9 @@ public class FakeInvoiceService implements IInvoiceService {
     public void deleteAllEntities(List<Long> longs) {
 
     }
+
+    @Override
+    public void updateInvoice(Long id, Invoice newInvoice) {
+
+    }
 }
