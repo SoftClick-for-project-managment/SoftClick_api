@@ -1,4 +1,4 @@
-name: Java Spring Boot CI for ${{ github.repository }}
+name: Java Spring Boot CI for SoftClick_api
 run-name: ${{ github.actor }} opened/reopened a pull request to ${{ github.base_ref }} from ${{ github.head_ref }}
 on:
   pull_request:
