@@ -121,7 +121,7 @@ public class ProjectandSingleDto {
         }
 
 
-    @JsonIgnoreProperties("idProject")
+
         public Set<Invoice> getInvoices() {
                 return invoices;
         }
