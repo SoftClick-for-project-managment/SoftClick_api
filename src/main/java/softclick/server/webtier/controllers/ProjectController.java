@@ -59,7 +59,7 @@ public class ProjectController {
             if (storedProject == null)
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-            System.out.println(project);
+
             projectService.saveEntity(project);
             return new ResponseEntity<>(HttpStatus.OK);
         }catch(Exception e){
