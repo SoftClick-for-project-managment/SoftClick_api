@@ -3,7 +3,9 @@ package softclick.server.webtier.services;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.repository.JpaRepository;
+import softclick.server.webtier.utils.exceptions.DataNotFoundException;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +27,12 @@ public class BaseService<T, Key> implements IBaseService<T, Key>{
     @Override
     public T findEntityByKey(Key key) {
         log.info("Fetching one entity");
-        return repository.getReferenceById(key);
+        try{
+            T data = repository.getReferenceById(key);
+            return data;
+        }catch(EntityNotFoundException e){
+            throw new DataNotFoundException(e.getMessage());
+        }
     }
 
     @Override
@@ -37,12 +44,20 @@ public class BaseService<T, Key> implements IBaseService<T, Key>{
     @Override
     public void deleteEntity(Key key) {
         log.info("Deleting entity");
-        repository.delete(repository.getReferenceById(key));
+        try{
+            repository.delete(repository.getReferenceById(key));
+        }catch(EntityNotFoundException e){
+            throw new DataNotFoundException(e.getMessage());
+        }
     }
 
     @Override
     public void deleteAllEntities(List<Key> keys) {
         log.info("Deleting all entities");
-        repository.deleteAll(repository.findAllById(keys));
+        try{
+            repository.deleteAll(repository.findAllById(keys));
+        }catch(EntityNotFoundException e){
+            throw new DataNotFoundException(e.getMessage());
+        }
     }
 }
