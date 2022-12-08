@@ -1,5 +1,6 @@
 package softclick.server.webtier.controllers;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import softclick.server.data.entities.Expense;
 import softclick.server.webtier.services.expense.IExpenseService;
 
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 
@@ -18,13 +20,15 @@ import java.util.List;
 public class ExpenseController {
 
     private final IExpenseService expenseService;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public ExpenseController(@Qualifier("rmiExpenseService") IExpenseService expenseService) {
+    public ExpenseController(@Qualifier("rmiExpenseService") IExpenseService expenseService, ModelMapper modelMapper) {
         this.expenseService = expenseService;
+        this.modelMapper = modelMapper;
     }
 
-    @GetMapping(value = "/expense")
+    @GetMapping(value = "/expenses")
     public ResponseEntity<Object> index(){
         try{
             List<Expense> expenses = expenseService.getAllEntities();
@@ -37,7 +41,8 @@ public class ExpenseController {
     @GetMapping(value = "/expenses/{id}")
     public ResponseEntity<Object> single(@PathVariable String id){
         try{
-            Expense expense = expenseService.findEntityByKey(Long.valueOf(id));
+            Expense expense= expenseService.findEntityByKey(Long.valueOf(id));
+            ExpenseListAndSingleDto expenseDto = modelMapper.map(expense, ExpenseListAndSingleDto.class);
             if (expense == null)
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             return new ResponseEntity<>(expense, HttpStatus.OK);
@@ -47,8 +52,9 @@ public class ExpenseController {
     }
 
     @PostMapping(value = "/expenses")
-    public ResponseEntity<Object> create(@RequestBody Expense expense){
+    public ResponseEntity<Object> create(@RequestBody ExpenseCreateAndUpdateDto expenseDto){
         try{
+            Expense expense = modelMapper.map(expenseDto, Expense.class);
             expenseService.saveEntity(expense);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch(Exception e){
@@ -56,15 +62,14 @@ public class ExpenseController {
         }
     }
 
-    @PutMapping(value = "/expenses")
-    public ResponseEntity<Object> update(@RequestBody Expense expense){
+    @PutMapping(value = "/expenses/{id}")
+    public ResponseEntity<Object> update(@PathVariable String id, @RequestBody ExpenseCreateAndUpdateDto expenseDto){
         try{
-            Expense storedExpense= expenseService.findEntityByKey(expense.getId());
-            if (storedExpense == null)
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
-            expenseService.saveEntity(expense);
+            Expense expense = modelMapper.map(expenseDto, Expense.class);
+            expenseService.updateExpense(Long.valueOf(id), expense);
             return new ResponseEntity<>(HttpStatus.OK);
+        }catch(EntityNotFoundException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
