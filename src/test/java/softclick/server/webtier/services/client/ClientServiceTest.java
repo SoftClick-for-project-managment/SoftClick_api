@@ -13,10 +13,14 @@ import softclick.server.webtier.services.task.ITaskService;
 import softclick.server.webtier.services.task.TaskService;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 
+import static org.apache.commons.lang3.builder.CompareToBuilder.reflectionCompare;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
@@ -36,10 +40,7 @@ public class ClientServiceTest {
     @Test
     void itShouldVerifyClientAdded() {
         // given
-
-
         Client client = new Client("abouzbiba","wafae","wafae.abouzbiba@gmail.com","06 37 94","soft","temara","maroc");
-
         // when
         serviceUnderTest.saveEntity(client);
         // then

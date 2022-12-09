@@ -12,8 +12,6 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
 
     Client findBynom(String nom);
 
-    @Query("SELECT c FROM Client c WHERE c.nom LIKE :kw")
-    List<Client> findByKeyword(@Param("kw") String kw);
 
 
 }
