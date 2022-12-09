@@ -1,6 +1,6 @@
 package softclick.server.data.entities;
 
-import lombok.Data;
+
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Proxy;
 
@@ -13,7 +13,6 @@ import java.util.Set;
 
 @Entity
 @NoArgsConstructor
-@Data
 @Proxy(lazy = false)
 @Table(name = "project")
 public class Project implements Serializable, Comparable<Project> {
@@ -54,10 +53,12 @@ public class Project implements Serializable, Comparable<Project> {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "project")
     private Set<Invoice> invoices = new HashSet<>();
 
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "project")
-//    private Set<Task> tasks = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "project")
+    private Set<Task> tasks = new HashSet<>();
 
-    public Project(String nameProject, String descriptionProject, Double revenueProject, Domain domainProjet, Date dateDebut, Date dateFin, Employee chefProject, Status projectStatus, Priority projectPriority) {
+
+    public Project(Long idProject, String nameProject, String descriptionProject, Double revenueProject, Domain domainProjet, Date dateDebut, Date dateFin, Employee chefProject, Status projectStatus, Priority projectPriority, Set<Invoice> invoices, Set<Task> tasks) {
+        this.idProject = idProject;
         this.nameProject = nameProject;
         this.descriptionProject = descriptionProject;
         this.revenueProject = revenueProject;
@@ -68,7 +69,19 @@ public class Project implements Serializable, Comparable<Project> {
         this.projectStatus = projectStatus;
         this.projectPriority = projectPriority;
         this.invoices = invoices;
-//        this.tasks = tasks;
+        this.tasks = tasks;
+    }
+
+    public Project( String nameProject, String descriptionProject, Double revenueProject, Domain domainProjet, Date dateDebut, Date dateFin, Employee chefProject, Status projectStatus, Priority projectPriority) {
+        this.nameProject = nameProject;
+        this.descriptionProject = descriptionProject;
+        this.revenueProject = revenueProject;
+        this.domainProjet = domainProjet;
+        this.dateDebut = dateDebut;
+        this.dateFin = dateFin;
+        this.chefProject = chefProject;
+        this.projectStatus = projectStatus;
+        this.projectPriority = projectPriority;
     }
 
     @Override
@@ -83,5 +96,103 @@ public class Project implements Serializable, Comparable<Project> {
                 .thenComparing(Project::getProjectStatus)
                 .thenComparing(Project::getProjectPriority)
                 .compare(this, project);
+    }
+
+    public Long getIdProject() {
+        return idProject;
+    }
+
+    public void setIdProject(Long idProject) {
+        this.idProject = idProject;
+    }
+
+    public String getNameProject() {
+        return nameProject;
+    }
+
+    public void setNameProject(String nameProject) {
+        this.nameProject = nameProject;
+    }
+
+    public String getDescriptionProject() {
+        return descriptionProject;
+    }
+
+    public void setDescriptionProject(String descriptionProject) {
+        this.descriptionProject = descriptionProject;
+    }
+
+    public Double getRevenueProject() {
+        return revenueProject;
+    }
+
+    public void setRevenueProject(Double revenueProject) {
+        this.revenueProject = revenueProject;
+    }
+
+    public Domain getDomainProjet() {
+        return domainProjet;
+    }
+
+    public void setDomainProjet(Domain domainProjet) {
+        this.domainProjet = domainProjet;
+    }
+
+    public Date getDateDebut() {
+        return dateDebut;
+    }
+
+    public void setDateDebut(Date dateDebut) {
+        this.dateDebut = dateDebut;
+    }
+
+    public Date getDateFin() {
+        return dateFin;
+    }
+
+    public void setDateFin(Date dateFin) {
+        this.dateFin = dateFin;
+    }
+
+    public Employee getChefProject() {
+        return chefProject;
+    }
+
+    public void setChefProject(Employee chefProject) {
+        this.chefProject = chefProject;
+    }
+
+    public Status getProjectStatus() {
+        return projectStatus;
+    }
+
+    public void setProjectStatus(Status projectStatus) {
+        this.projectStatus = projectStatus;
+    }
+
+    public Priority getProjectPriority() {
+        return projectPriority;
+    }
+
+    public void setProjectPriority(Priority projectPriority) {
+        this.projectPriority = projectPriority;
+    }
+
+
+    public Set<Invoice> getInvoices() {
+        return invoices;
+    }
+
+    public void setInvoices(Set<Invoice> invoices) {
+        this.invoices = invoices;
+    }
+
+
+    public Set<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(Set<Task> tasks) {
+        this.tasks = tasks;
     }
 }

@@ -1,5 +1,6 @@
 package softclick.server.data.entities;
 
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,7 +10,6 @@ import java.util.Date;
 
 @Entity
 @NoArgsConstructor
-@Data
 public class Expense implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,13 +30,52 @@ public class Expense implements Serializable {
         this.date=date;
     }
 
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 
+    public Long getAmount() {
+        return amount;
+    }
 
+    public void setAmount(Long amount) {
+        this.amount = amount;
+    }
 
+    public String getTypeExpense() {
+        return typeExpense;
+    }
 
+    public void setTypeExpense(String typeExpense) {
+        this.typeExpense = typeExpense;
+    }
 
+    public Date getDate() {
+        return date;
+    }
 
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
+    public ExpenseCategory getExpenseCategory() {
+        return expenseCategory;
+    }
 
+    public void setExpenseCategory(ExpenseCategory expenseCategory) {
+        this.expenseCategory = expenseCategory;
+    }
+
+    @JsonIncludeProperties("expenses")
+    public Task getTask() {
+        return task;
+    }
+
+    public void setTask(Task task) {
+        this.task = task;
+    }
 }
