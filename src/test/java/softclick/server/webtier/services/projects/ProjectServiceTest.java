@@ -49,7 +49,7 @@ class ProjectServiceTest {
         // given
         Date debut = new Date();
         Date fin = new Date();
-        Employee chef =new Employee();
+        Employee chef = new Employee();
         chef.setId(2L);
         Status status = new Status();
         status.setIdStatus(1L);
@@ -58,7 +58,7 @@ class ProjectServiceTest {
         Domain domain = new Domain();
         domain.setIdDomain(2L);
 
-        Project project = new Project( "new", "neeeew neeeeew", 5000d,domain, debut, fin, chef, status, priority);
+        Project project = new Project("new", "neeeew neeeeew", 5000d, domain, debut, fin, chef, status, priority);
 
         // when
         serviceUnderTest.saveEntity(project);
@@ -74,9 +74,9 @@ class ProjectServiceTest {
         // given
         Date debut = new Date();
         Date fin = new Date();
-        debut.setTime(fin.getTime()+10000);
+        debut.setTime(fin.getTime() + 10000);
 
-        Employee chef =new Employee();
+        Employee chef = new Employee();
         chef.setId(2L);
         Status status = new Status();
         status.setIdStatus(1L);
@@ -85,7 +85,7 @@ class ProjectServiceTest {
         Domain domain = new Domain();
         domain.setIdDomain(2L);
 
-        Project project = new Project( "new", "neeeew neeeeew", 5000d,domain, debut, fin, chef, status, priority);
+        Project project = new Project("new", "neeeew neeeeew", 5000d, domain, debut, fin, chef, status, priority);
 
         // when
         // then
@@ -101,9 +101,9 @@ class ProjectServiceTest {
         // given
         Date debut = new Date();
         Date fin = new Date();
-        fin.setTime(fin.getTime()+10000);
+        fin.setTime(fin.getTime() + 10000);
 
-        Employee chef =new Employee();
+        Employee chef = new Employee();
         chef.setId(2L);
         Status status = new Status();
         status.setIdStatus(1L);
@@ -112,21 +112,21 @@ class ProjectServiceTest {
         Domain domain = new Domain();
         domain.setIdDomain(2L);
 
-        Project project = new Project( "new", "neeeew neeeeew", 5000d,domain, debut, fin, chef, status, priority);
-        Project newProject = new Project("name updated", "description updated", 5000d,domain, debut, fin, chef, status, priority);
+        Project project = new Project("new", "neeeew neeeeew", 5000d, domain, debut, fin, chef, status, priority);
+        Project newProject = new Project("name updated", "description updated", 5000d, domain, debut, fin, chef, status, priority);
         project.setIdProject(1L);
         newProject.setIdProject(1L);
-        Map<Object,Object> fields = new HashMap<>();
-        fields.put("nameProject","name updated");
-        fields.put("descriptionProject","description updated");
+        Map<Object, Object> fields = new HashMap<>();
+        fields.put("nameProject", "name updated");
+        fields.put("descriptionProject", "description updated");
 
         given(projectRepository.getReferenceById(1L))
                 .willReturn(project);
 
         // when
-        serviceUnderTest.patch(project.getIdProject(),fields);
+        serviceUnderTest.patch(project.getIdProject(), fields);
         // then
-        String[] excludeFields ={"nameProject","descriptionProject"};
+        String[] excludeFields = {"nameProject", "descriptionProject"};
         ArgumentCaptor<Project> projectArgumentCaptor = ArgumentCaptor.forClass(Project.class);
         verify(projectRepository).save(projectArgumentCaptor.capture());
         Project capturedProject = projectArgumentCaptor.getValue();
