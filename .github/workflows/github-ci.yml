@@ -28,7 +28,7 @@ jobs:
       - name: Build with Maven
         run: mvn --batch-mode --update-snapshots package
         env:
-          SOFTCLICK_DATA_HOST: ${{ secrets.SOFTCLICK_DATA_TEST_HOST }}
+          SOFTCLICK_DATA_HOST: ${{ secrets.SOFTCLICK_DATA_QA_HOST }}
       - run: mkdir staging && cp target/*.jar staging
       - uses: actions/upload-artifact@v3
         with:
