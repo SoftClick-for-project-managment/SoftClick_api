@@ -6,13 +6,14 @@ import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Date;
 
 @Entity
 @NoArgsConstructor
 @Data
 @Proxy(lazy=false)
-public class Expense implements Serializable {
+public class Expense implements Serializable, Comparable<Expense> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,12 +36,14 @@ public class Expense implements Serializable {
     }
 
 
+    @Override
+    public int compareTo(Expense expense) {
+        return Comparator.comparing(Expense::getAmount)
+                .thenComparing(Expense::getDate)
+                .thenComparing(Expense::getExpenseCategory)
+                .thenComparing(Expense::getTypeExpense)
+                .thenComparing(Expense::getTask)
 
-
-
-
-
-
-
-
+                .compare(this, expense);
+    }
 }
