@@ -73,7 +73,6 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'softclick-api-qa-app'
-          slot-name: 'Production'
+          app-name: ${{ secrets.AZURE_APPSERVICE_QA_NAME }}
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_QA }}
           package: '*.jar'
