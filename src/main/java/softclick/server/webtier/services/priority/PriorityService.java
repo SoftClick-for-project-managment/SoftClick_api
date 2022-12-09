@@ -24,10 +24,7 @@ public class PriorityService extends BaseService<Priority, Long> implements IPri
 
     }
 
-    @Override
-    public void saveEntity(Priority entity) {
-        super.saveEntity(entity);
-    }
+
 
 
     @Override
