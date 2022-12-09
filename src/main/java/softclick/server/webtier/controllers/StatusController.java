@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import softclick.server.data.entities.Priority;
 import softclick.server.data.entities.Project;
 import softclick.server.data.entities.Status;
 import softclick.server.webtier.services.project.IProjectService;
 import softclick.server.webtier.services.status.IStatusService;
 
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -71,6 +73,19 @@ public class StatusController {
         }
     }
 
+    @PatchMapping(value = "/status/{id}")
+    public ResponseEntity<Object> patche(@PathVariable Long id , @RequestBody Map<Object,Object> fields){
+
+        try{
+            Status storedStatus = statusService.patch(id,fields,Status.class);
+            if (storedStatus == null)
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            statusService.saveEntity(storedStatus);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
     @DeleteMapping(value = "/status/{id}")
     public ResponseEntity<Object> delete(@PathVariable String id) {
         try {

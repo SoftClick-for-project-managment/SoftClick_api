@@ -1,5 +1,4 @@
 package softclick.server.webtier.services.task;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,6 @@ import softclick.server.webtier.utils.exceptions.DataNotFoundException;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
-
 import static org.apache.commons.lang3.builder.CompareToBuilder.reflectionCompare;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
