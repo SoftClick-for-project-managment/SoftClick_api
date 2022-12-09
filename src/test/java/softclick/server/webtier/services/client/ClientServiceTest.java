@@ -50,6 +50,57 @@ public class ClientServiceTest {
         assertThat(capturedClient).isEqualTo(client);
     }
 
+    @Test
+    void canGetAllClients() {
+        // When
+        serviceUnderTest.getAllEntities();
+        // Then
+        verify(clientRepository).findAll();
+    }
+
+    @Test
+    void itShouldVerifyClientEmailUpdated() {
+        // given
+        Client newClient = new Client(null,null,"jayda.legros@rau.com",null, null,null,null);
+        Client client = new Client("Michale","Bayer","sydnee.kutch@gutmann.com","(843) 605-7918", "Keebler, Satterfield and Bernier","Carterfurt","BY");
+        client.setId(1L);
+        Client oldClientCopy = new Client("Michale","Bayer","sydnee.kutch@gutmann.com","(843) 605-7918", "Keebler, Satterfield and Bernier","Carterfurt","BY");
+        oldClientCopy.setId(1L);
+        given(clientRepository.getReferenceById(1L))
+                .willReturn(client);
+        // when
+        serviceUnderTest.updateClient(1L, newClient);
+        // then
+        verify(clientRepository).save(any());
+        assertThat(client.getEmail()).isEqualTo(newClient.getEmail());
+        System.out.println(client);
+        assertThat(reflectionCompare(client,oldClientCopy, "email")).isEqualTo(0);
+        System.out.println(oldClientCopy);
+    }
+
+
+
+    @Test
+    void canDeleteClient() {
+        // given
+        Client client = new Client(
+                "Michale",
+                "Bayer",
+                "sydnee.kutch@gutmann.com",
+                "(843) 605-7918",
+                "Keebler, Satterfield and Bernier",
+                "Carterfurt",
+                "BY");
+        client.setId(1L);
+        given(clientRepository.getReferenceById(1L)).willReturn(client);
+        // when
+        serviceUnderTest.deleteEntity(1L);
+
+        // then
+        verify(clientRepository).delete(clientRepository.getReferenceById(1L));
+    }
+
+
 
 
 }

@@ -12,6 +12,13 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
 
     Client findBynom(String nom);
 
+    @Query(""+
+            "SELECT CASE WHEN COUNT(c) > 0 THEN "+
+            "TRUE ELSE FALSE END "+
+            "FROM Client c "+
+            "WHERE c.email = ?1"
+    )
+    Boolean selectExistsEmail(String email);
 
 
 }

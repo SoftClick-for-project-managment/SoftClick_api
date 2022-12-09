@@ -18,6 +18,7 @@ import softclick.server.data.repositories.UserRepository;
 import softclick.server.webtier.services.BaseService;
 import softclick.server.webtier.services.client.IClientService;
 import softclick.server.webtier.services.user.UserService;
+import softclick.server.webtier.utils.exceptions.DataNotFoundException;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
@@ -37,22 +38,36 @@ public class ClientService extends BaseService<Client, Long> implements IClientS
     }
 
 
-    public void updateClient(Long id, Client newClient){
-        log.info("Updating client with id: {}", id.toString());
+    public void updateClient(Long id, Client newClient) {
+
         Client client = clientRepository.getReferenceById(id);
-        if (client == null)
-            throw new EntityNotFoundException();
+        if (client == null) {
+            throw new DataNotFoundException("client not found");
+        }
+        if (newClient.getEmail() != null)
+            client.setEmail(newClient.getEmail());
 
-        client.setNom(newClient.getNom());
-        client.setPrenom(newClient.getPrenom());
-        client.setPays(newClient.getPays());
-        client.setEmail(newClient.getEmail());
-        client.setVille(newClient.getVille());
-        client.setNomEntreprise(newClient.getNomEntreprise());
-        client.setPhone(newClient.getPhone());
-        client.setPays(newClient.getPays());
+        if (newClient.getNom() != null)
+            client.setNom(newClient.getNom());
 
-       clientRepository.save(client);
+        if (newClient.getPrenom() != null)
+            client.setPrenom(newClient.getPrenom());
+
+        if (newClient.getPays() != null)
+            client.setPays(newClient.getPays());
+
+        if (newClient.getPhone() != null)
+            client.setPhone(newClient.getPhone());
+
+        if (newClient.getVille() != null)
+            client.setVille(newClient.getVille());
+
+        if (newClient.getNomEntreprise() != null)
+            client.setNomEntreprise(newClient.getNomEntreprise());
+
+        clientRepository.save(client);
     }
 
-}
+
+    }
+
