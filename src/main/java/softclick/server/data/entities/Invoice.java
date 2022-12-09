@@ -1,5 +1,6 @@
 package softclick.server.data.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Proxy;
@@ -10,8 +11,8 @@ import java.util.Date;
 
 @Entity
 @NoArgsConstructor
-@Proxy(lazy=false)
 @Data
+@Proxy(lazy=false)
 public class Invoice implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,4 +38,13 @@ public class Invoice implements Serializable {
         this.project=project;
         this.client=client;
     }
+
+
+
+    @JsonIgnoreProperties("invoices")
+    public Project getProject() {
+        return project;
+    }
+
+
 }

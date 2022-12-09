@@ -8,9 +8,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import softclick.server.data.entities.Priority;
+import softclick.server.data.entities.Project;
 import softclick.server.webtier.services.priority.IPriorityService;
 
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -70,6 +72,19 @@ public class PriorityController {
         }
     }
 
+    @PatchMapping(value = "/priorities/{id}")
+    public ResponseEntity<Object> patche(@PathVariable Long id , @RequestBody Map<Object,Object> fields){
+
+        try{
+            Priority storedPriority = priorityService.patch(id,fields,Priority.class);
+            if (storedPriority == null)
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            priorityService.saveEntity(storedPriority);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
     @DeleteMapping(value = "/priorities/{id}")
     public ResponseEntity<Object> delete(@PathVariable String id) {
         try {

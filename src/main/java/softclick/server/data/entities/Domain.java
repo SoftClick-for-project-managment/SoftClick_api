@@ -10,7 +10,6 @@ import java.util.Comparator;
 
 @Entity
 @NoArgsConstructor
-@Data
 @Proxy(lazy = false)
 @Table(name = "domain")
 public class Domain implements Serializable, Comparable<Domain> {
@@ -29,5 +28,21 @@ public class Domain implements Serializable, Comparable<Domain> {
     @Override
     public int compareTo(Domain domain) {
         return Comparator.comparing(Domain::getNameDomain).compare(this, domain);
+    }
+
+    public Long getIdDomain() {
+        return idDomain;
+    }
+
+    public void setIdDomain(Long idDomain) {
+        this.idDomain = idDomain;
+    }
+
+    public String getNameDomain() {
+        return nameDomain;
+    }
+
+    public void setNameDomain(String nameDomain) {
+        this.nameDomain = nameDomain;
     }
 }

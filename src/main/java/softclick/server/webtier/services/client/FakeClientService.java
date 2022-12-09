@@ -6,6 +6,7 @@ import softclick.server.data.entities.User;
 import softclick.server.webtier.services.user.IUserService;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 @Qualifier("rmiFakeClientService")
 public class FakeClientService implements IClientService {
@@ -51,6 +52,11 @@ public class FakeClientService implements IClientService {
     @Override
     public void deleteAllEntities(List<Long> longs) {
 
+    }
+
+    @Override
+    public Client patch(Long aLong, Map<Object, Object> fields, Class<Client> clientClass) {
+        return null;
     }
 
     @Override
