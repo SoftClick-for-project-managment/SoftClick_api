@@ -19,8 +19,16 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
           cache: maven
+#      - name: Fetch asset
+#        run: gh release download --repo SoftClick-for-project-managment/SoftClick_data 5
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.SOFTCLICK_DATA_REPO_TOKEN }}
+#      - name: See what we downloaded
+#        run: ls
       - name: Build with Maven
         run: mvn --batch-mode --update-snapshots package
+        env:
+          SOFTCLICK_DATA_HOST: ${{ secrets.SOFTCLICK_DATA_TEST_HOST }}
       - run: mkdir staging && cp target/*.jar staging
       - uses: actions/upload-artifact@v3
         with:
