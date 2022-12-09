@@ -1,6 +1,6 @@
 package softclick.server.data.entities;
 
-import com.fasterxml.jackson.annotation.JsonIncludeProperties;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -70,7 +70,7 @@ public class Expense implements Serializable {
         this.expenseCategory = expenseCategory;
     }
 
-    @JsonIncludeProperties("expenses")
+    @JsonIgnoreProperties("expenses")
     public Task getTask() {
         return task;
     }
