@@ -26,8 +26,6 @@ public class ExpenseCategory implements Serializable, Comparable<ExpenseCategory
 
     @Override
     public int compareTo(ExpenseCategory expenseCategory) {
-        return Comparator.comparing(ExpenseCategory::getCategory)
-
-                .compare(this, expenseCategory);
+        return Comparator.comparing(ExpenseCategory::getCategory).compare(this, expenseCategory);
     }
 }
