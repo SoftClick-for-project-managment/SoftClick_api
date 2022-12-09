@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import softclick.server.data.entities.Expense;
+import softclick.server.webtier.dtos.Expense.ExpenseCreateAndUpdateDto;
+import softclick.server.webtier.dtos.Expense.ExpenseListAndSingleDto;
 import softclick.server.webtier.services.expense.IExpenseService;
-
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -77,8 +77,7 @@ public class ExpenseController {
 
     @DeleteMapping(value = "/expenses/{id}")
     public ResponseEntity<Object> delete(@PathVariable String id){
-        try{
-            expenseService.deleteEntity(Long.valueOf(id));
+        try{            expenseService.deleteEntity(Long.valueOf(id));
             return new ResponseEntity<>(HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

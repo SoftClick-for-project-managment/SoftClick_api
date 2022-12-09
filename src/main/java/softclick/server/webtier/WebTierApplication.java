@@ -11,19 +11,14 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import softclick.server.data.entities.*;
 import softclick.server.webtier.services.domain.IDomainService;
 import softclick.server.webtier.services.employee.IEmployeeService;
+import softclick.server.webtier.services.expense.IExpenseService;
 import softclick.server.webtier.services.priority.IPriorityService;
 import softclick.server.webtier.services.project.IProjectService;
 import softclick.server.webtier.services.status.IStatusService;
-import softclick.server.webtier.services.user.UserService;
-import softclick.server.webtier.services.user.IUserService;
 import softclick.server.webtier.services.task.ITaskService;
-import softclick.server.webtier.services.task.TaskService;
-
-import java.util.Date;
-import java.util.List;
+import softclick.server.webtier.services.user.IUserService;
 
 @SpringBootApplication(exclude = {
     DataSourceAutoConfiguration.class,
@@ -66,7 +61,9 @@ public class WebTierApplication {
                           IStatusService statusService,
                           IEmployeeService employeeService,
                           IProjectService projectService,
-                          IDomainService domainService){
+                          IDomainService domainService,
+                          IExpenseService expenseService){
+
         return args -> {
 //            userService.saveEntity(new User("othmane", "password", true));
 //            userService.saveEntity(new User("wafae", "password", true));

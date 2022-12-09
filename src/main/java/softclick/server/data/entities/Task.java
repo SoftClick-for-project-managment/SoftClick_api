@@ -8,11 +8,11 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Comparator;
-import java.util.Set;
 
 @Entity
 @NoArgsConstructor
 @Data
+
 @Proxy(lazy = false)
 public class Task implements Serializable, Comparable<Task> {
     @Id
@@ -34,10 +34,9 @@ public class Task implements Serializable, Comparable<Task> {
     @ManyToOne
     @JoinColumn(name = "idPriority")
     private Priority priority;
-    @OneToMany(mappedBy = "task", fetch = FetchType.EAGER)
-    private Set<Expense> expenses;
 
-    public Task(String name, LocalDateTime startDate, LocalDateTime endDate,String description,Status status,Project project,Employee employee,Priority priority,Set<Expense> expenses){
+
+    public Task(String name, LocalDateTime startDate, LocalDateTime endDate,String description,Status status,Project project,Employee employee,Priority priority){
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -46,7 +45,7 @@ public class Task implements Serializable, Comparable<Task> {
         this.project = project;
         this.employee = employee;
         this.priority = priority;
-        this.expenses = expenses;
+
     }
 
     @Override
