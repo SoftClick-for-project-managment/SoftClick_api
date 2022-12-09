@@ -1,6 +1,7 @@
 package softclick.server.data.entities;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Proxy;
 
@@ -19,6 +20,95 @@ public class Project implements Serializable, Comparable<Project> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idProject;
+
+    public Long getIdProject() {
+        return idProject;
+    }
+
+    public void setIdProject(Long idProject) {
+        this.idProject = idProject;
+    }
+
+    public String getNameProject() {
+        return nameProject;
+    }
+
+    public void setNameProject(String nameProject) {
+        this.nameProject = nameProject;
+    }
+
+    public String getDescriptionProject() {
+        return descriptionProject;
+    }
+
+    public void setDescriptionProject(String descriptionProject) {
+        this.descriptionProject = descriptionProject;
+    }
+
+    public Double getRevenueProject() {
+        return revenueProject;
+    }
+
+    public void setRevenueProject(Double revenueProject) {
+        this.revenueProject = revenueProject;
+    }
+
+    public Domain getDomainProjet() {
+        return domainProjet;
+    }
+
+    public void setDomainProjet(Domain domainProjet) {
+        this.domainProjet = domainProjet;
+    }
+
+    public Date getDateDebut() {
+        return dateDebut;
+    }
+
+    public void setDateDebut(Date dateDebut) {
+        this.dateDebut = dateDebut;
+    }
+
+    public Date getDateFin() {
+        return dateFin;
+    }
+
+    public void setDateFin(Date dateFin) {
+        this.dateFin = dateFin;
+    }
+
+    public Employee getChefProject() {
+        return chefProject;
+    }
+
+    public void setChefProject(Employee chefProject) {
+        this.chefProject = chefProject;
+    }
+
+    public Status getProjectStatus() {
+        return projectStatus;
+    }
+
+    public void setProjectStatus(Status projectStatus) {
+        this.projectStatus = projectStatus;
+    }
+
+    public Priority getProjectPriority() {
+        return projectPriority;
+    }
+
+    public void setProjectPriority(Priority projectPriority) {
+        this.projectPriority = projectPriority;
+    }
+
+    @JsonIgnoreProperties("idProject")
+    public Set<Invoice> getInvoices() {
+        return invoices;
+    }
+
+    public void setInvoices(Set<Invoice> invoices) {
+        this.invoices = invoices;
+    }
 
     @Column(name = "nameProject", nullable = false)
     private String nameProject;
@@ -55,8 +145,7 @@ public class Project implements Serializable, Comparable<Project> {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "project")
     private Set<Task> tasks = new HashSet<>();
-
-
+    
     public Project(Long idProject, String nameProject, String descriptionProject, Double revenueProject, Domain domainProjet, Date dateDebut, Date dateFin, Employee chefProject, Status projectStatus, Priority projectPriority, Set<Invoice> invoices, Set<Task> tasks) {
         this.idProject = idProject;
         this.nameProject = nameProject;
@@ -178,7 +267,7 @@ public class Project implements Serializable, Comparable<Project> {
         this.projectPriority = projectPriority;
     }
 
-
+    @JsonIgnoreProperties("idProject")
     public Set<Invoice> getInvoices() {
         return invoices;
     }
@@ -187,7 +276,7 @@ public class Project implements Serializable, Comparable<Project> {
         this.invoices = invoices;
     }
 
-
+    @JsonIgnoreProperties("project")
     public Set<Task> getTasks() {
         return tasks;
     }

@@ -45,4 +45,9 @@ public class FakeTaskService implements ITaskService {
     public void deleteAllEntities(List<Long> longs) {
 
     }
+
+    @Override
+    public Task patch(Long aLong, Map<Object, Object> fields, Class<Task> taskClass) {
+        return null;
+    }
 }
