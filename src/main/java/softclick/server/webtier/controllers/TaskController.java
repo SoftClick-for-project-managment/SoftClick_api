@@ -12,9 +12,10 @@ import softclick.server.data.entities.Task;
 import softclick.server.webtier.dtos.TaskCreateAndUpdateDto;
 import softclick.server.webtier.dtos.TaskListAndSingleDto;
 import softclick.server.webtier.services.task.ITaskService;
+import softclick.server.webtier.utils.exceptions.BusinessException;
+import softclick.server.webtier.utils.exceptions.DataNotFoundException;
 import softclick.server.webtier.utils.time.DateTimeConverter;
 
-import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -63,10 +64,15 @@ public class TaskController {
             TaskListAndSingleDto taskDto = modelMapper.map(task, TaskListAndSingleDto.class);
 
             return new ResponseEntity<>(taskDto, HttpStatus.OK);
-        }catch(EntityNotFoundException e){
+        }catch(DataNotFoundException e){
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }catch(Exception e){
+        }catch(BusinessException e){
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }catch(Exception e){
+            log.error(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -78,11 +84,15 @@ public class TaskController {
             System.out.println(task);
             taskService.saveEntity(task);
             return new ResponseEntity<>(HttpStatus.CREATED);
-        }catch(EntityNotFoundException e){
+        }catch(DataNotFoundException e){
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }catch(Exception e){
-            e.printStackTrace();
+        }catch(BusinessException e){
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }catch(Exception e){
+            log.error(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -94,10 +104,15 @@ public class TaskController {
             taskService.updateTask(Long.valueOf(id), task);
 
             return new ResponseEntity<>(HttpStatus.OK);
-        }catch(EntityNotFoundException e){
+        }catch(DataNotFoundException e){
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }catch(Exception e){
+        }catch(BusinessException e){
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }catch(Exception e){
+            log.error(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -106,10 +121,15 @@ public class TaskController {
         try{
             taskService.deleteEntity(Long.valueOf(id));
             return new ResponseEntity<>(HttpStatus.OK);
-        }catch(EntityNotFoundException e){
+        }catch(DataNotFoundException e){
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }catch(Exception e){
+        }catch(BusinessException e){
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }catch(Exception e){
+            log.error(e.getMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
