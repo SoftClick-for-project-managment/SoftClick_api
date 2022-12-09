@@ -19,13 +19,8 @@ import softclick.server.webtier.services.expense.IExpenseService;
 import softclick.server.webtier.services.priority.IPriorityService;
 import softclick.server.webtier.services.project.IProjectService;
 import softclick.server.webtier.services.status.IStatusService;
-import softclick.server.webtier.services.user.UserService;
-import softclick.server.webtier.services.user.IUserService;
 import softclick.server.webtier.services.task.ITaskService;
-import softclick.server.webtier.services.task.TaskService;
-
-import java.util.Date;
-import java.util.List;
+import softclick.server.webtier.services.user.IUserService;
 
 @SpringBootApplication(exclude = {
     DataSourceAutoConfiguration.class,
@@ -36,20 +31,6 @@ public class WebTierApplication {
 
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(WebTierApplication.class, args);
-
-//        System.out.println("------------------- Testing auth service ----------------------");
-//        IUserService authService = context.getBean(UserService.class);
-//
-//        List<User> users = authService.getAllEntities();
-//
-//        users.forEach(i -> System.out.println(i));
-//
-//        System.out.println("------------------- Testing task service ----------------------");
-//        ITaskService taskService = context.getBean(TaskService.class);
-//
-//        List<Task> tasks = taskService.getAllEntities();
-//
-//        tasks.forEach(i -> System.out.println(i));
     }
 
     @Bean
