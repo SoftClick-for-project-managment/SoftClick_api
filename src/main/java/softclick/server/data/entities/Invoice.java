@@ -81,10 +81,6 @@ public class Invoice implements Serializable {
 
 
 
-    @JsonIgnoreProperties("invoices")
-    public Project getProject() {
-        return project;
-    }
 
 
 }
