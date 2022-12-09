@@ -1,4 +1,4 @@
-name: Create a Release for SoftClick_api
+name: Create a QA Release for SoftClick_api
 run-name: ${{ github.actor }} created a test release
 on: workflow_dispatch
 
