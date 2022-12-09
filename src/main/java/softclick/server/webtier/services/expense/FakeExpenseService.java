@@ -18,7 +18,7 @@ public class FakeExpenseService implements  IExpenseService{
     ExpenseCategory category= new ExpenseCategory("Design");
     Date time= new Date();
     public FakeExpenseService(){
-        expenses.add(new Expense(1230000L,"income",time,category,task));
+        expenses.add(new Expense(1230000L,"income",time,category));
     }
     @Override
     public void saveEntity(Expense entity) {
@@ -58,6 +58,9 @@ public class FakeExpenseService implements  IExpenseService{
     @Override
     public void addCategoryToExpense(Long expenseId, String expenseCategoryName) {
 
+    }
+
+    @Override
     public Expense patch(Long aLong, Map<Object, Object> fields, Class<Expense> expenseClass) {
         return null;
     }
