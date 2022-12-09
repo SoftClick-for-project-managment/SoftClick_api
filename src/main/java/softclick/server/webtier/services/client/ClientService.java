@@ -23,7 +23,10 @@ import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-@Service @Transactional @Slf4j @Qualifier("rmiClientService")
+@Service
+@Transactional
+@Slf4j
+@Qualifier("rmiClientService")
 public class ClientService extends BaseService<Client, Long> implements IClientService {
 
     private final ClientRepository clientRepository;

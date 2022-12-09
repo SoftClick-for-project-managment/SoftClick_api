@@ -8,6 +8,7 @@ import softclick.server.data.entities.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service @Qualifier("fakeUserService")
@@ -43,6 +44,11 @@ public class FakeUserService implements IUserService {
     @Override
     public void deleteAllEntities(List<Long> longs) {
 
+    }
+
+    @Override
+    public User patch(Long aLong, Map<Object, Object> fields, Class<User> userClass) {
+        return null;
     }
 
     @Override

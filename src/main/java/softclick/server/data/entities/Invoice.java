@@ -78,4 +78,13 @@ public class Invoice implements Serializable {
         this.project=project;
         this.client=client;
     }
+
+
+
+    @JsonIgnoreProperties("invoices")
+    public Project getProject() {
+        return project;
+    }
+
+
 }
