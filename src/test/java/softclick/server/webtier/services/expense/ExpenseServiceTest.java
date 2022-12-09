@@ -61,7 +61,7 @@ class ExpenseServiceTest {
     void itShouldVerifyExpenseWasNotUpdated_ExpenseNotFoundException() {
         // given
         Status newStatus = new Status("OPEN"); newStatus.setIdStatus(2L);
-        Task newTask = new Task(null, null, null, null, newStatus, null, null, null);
+        Task newTask = new Task(null, null, null, null, newStatus, null, null, null,null);
         ExpenseCategory newExpenseCategory=new ExpenseCategory("transport");
         Expense newExpense=new Expense(11L,"amount",null,newExpenseCategory,newTask);
         given(expenseRepository.getReferenceById(1L))

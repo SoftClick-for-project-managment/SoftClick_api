@@ -30,6 +30,15 @@ public class Expense implements Serializable {
         this.date=date;
     }
 
+    public Expense( Long amount, String typeExpense, Date date, ExpenseCategory expenseCategory, Task task) {
+
+        this.amount = amount;
+        this.typeExpense = typeExpense;
+        this.date = date;
+        this.expenseCategory = expenseCategory;
+        this.task = task;
+    }
+
     public Long getId() {
         return id;
     }
