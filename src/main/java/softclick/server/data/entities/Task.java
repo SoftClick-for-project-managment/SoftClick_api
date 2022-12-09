@@ -13,6 +13,7 @@ import java.util.Set;
 
 @Entity
 @NoArgsConstructor
+@Data
 @Proxy(lazy = false)
 public class Task implements Serializable, Comparable<Task> {
     @Id

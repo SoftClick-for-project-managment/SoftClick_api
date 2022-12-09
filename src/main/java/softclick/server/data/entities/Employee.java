@@ -1,6 +1,6 @@
 package softclick.server.data.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -60,7 +60,6 @@ public class Employee implements Serializable, Comparable<Employee> {
                 .thenComparing(Employee::getEmployeePhone)
                 .compare(this, employee);
     }
-
 
 
     @JsonIgnoreProperties("employees")
