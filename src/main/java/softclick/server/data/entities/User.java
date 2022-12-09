@@ -7,13 +7,14 @@ import org.hibernate.annotations.Proxy;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Comparator;
 
 @Entity
 @NoArgsConstructor
 @Data
-@Table(name = "users")
 @Proxy(lazy=false)
-public class User implements Serializable {
+@Table(name = "users")
+public class User implements Serializable, Comparable<User> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,12 +24,17 @@ public class User implements Serializable {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles")
     private Collection<Role> roles;
-    @OneToOne(mappedBy = "user")
+    @OneToOne
     private Employee employee;
 
     public User(String username, String password, boolean isActive) {
         this.username = username;
         this.password = password;
         this.isActive = isActive;
+    }
+
+    @Override
+    public int compareTo(User user) {
+        return Comparator.comparing(User::getUsername).compare(this, user);
     }
 }
