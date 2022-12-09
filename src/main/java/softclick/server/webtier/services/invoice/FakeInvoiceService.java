@@ -48,7 +48,13 @@ public class FakeInvoiceService implements IInvoiceService {
     }
 
     @Override
+    public void updateInvoice(Long id, Invoice newInvoice) {
+    
+    }
+
+    @Override
     public Invoice patch(Long aLong, Map<Object, Object> fields, Class<Invoice> invoiceClass) {
         return null;
+
     }
 }
