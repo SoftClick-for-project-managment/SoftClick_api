@@ -1,0 +1,78 @@
+name: Create a QA Release for SoftClick_api
+run-name: ${{ github.actor }} created a test release
+on: workflow_dispatch
+
+jobs:
+  build:
+    name: Build Project
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+          cache: maven
+      - name: Build with Maven
+        run: mvn --batch-mode --update-snapshots package
+        env:
+          SOFTCLICK_DATA_HOST: ${{ secrets.SOFTCLICK_DATA_QA_HOST }}
+      - run: mkdir staging && cp target/*.jar staging
+      - run: ls
+      - uses: actions/upload-artifact@v3
+        with:
+          name: softclick_api
+          path: '${{ github.workspace }}/staging/*.jar'
+  release:
+    name: Release Project
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Download Project Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: softclick_api
+      - run: ls
+      - name: Archive Release
+        uses: thedoctor0/zip-release@main
+        with:
+          filename: release.zip
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: 0.${{ github.run_number }}
+          release_name: Release 0.${{ github.run_number }}
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          asset_path: ./release.zip
+          asset_name: softclick_api_release_0.${{ github.run_number }}.zip
+          asset_content_type: application/zip
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v2
+        with:
+          name: softclick_api
+
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ secrets.AZURE_APPSERVICE_QA_NAME }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_QA }}
+          package: '*.jar'

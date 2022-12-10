@@ -6,6 +6,7 @@ import softclick.server.data.entities.Employee;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service @Qualifier("rmiFakeEmployeeService")
 public class FakeEmployeeService implements IEmployeeService{
@@ -39,6 +40,11 @@ public class FakeEmployeeService implements IEmployeeService{
     @Override
     public void deleteAllEntities(List<Long> longs) {
 
+    }
+
+    @Override
+    public Employee patch(Long aLong, Map<Object, Object> fields, Class<Employee> employeeClass) {
+        return null;
     }
 
     @Override

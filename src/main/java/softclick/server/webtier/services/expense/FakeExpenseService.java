@@ -9,6 +9,7 @@ import softclick.server.data.entities.Task;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service @Qualifier("fakeExpenseService")
 public class FakeExpenseService implements  IExpenseService{
@@ -42,5 +43,25 @@ public class FakeExpenseService implements  IExpenseService{
     @Override
     public void deleteAllEntities(List<Long> longs) {
 
+    }
+
+    @Override
+    public void updateExpense(Long id, Expense newExpense) {
+
+    }
+
+    @Override
+    public void addTaskToExpense(Long expenseId, Long taskId) {
+
+    }
+
+    @Override
+    public void addCategoryToExpense(Long expenseId, String expenseCategoryName) {
+
+    }
+
+    @Override
+    public Expense patch(Long aLong, Map<Object, Object> fields, Class<Expense> expenseClass) {
+        return null;
     }
 }

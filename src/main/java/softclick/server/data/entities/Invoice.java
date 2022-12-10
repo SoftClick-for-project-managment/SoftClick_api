@@ -78,4 +78,9 @@ public class Invoice implements Serializable {
         this.project=project;
         this.client=client;
     }
+
+
+
+
+
 }

@@ -10,7 +10,6 @@ import java.util.Comparator;
 
 @Entity
 @NoArgsConstructor
-@Data
 @Proxy(lazy=false)
 @Table(name = "priority")
 public class Priority implements Serializable, Comparable<Priority> {
@@ -21,9 +20,9 @@ public class Priority implements Serializable, Comparable<Priority> {
 
     String namePriority;
 
-    private Float  dugreePriority;
+    private Double  dugreePriority;
 
-    public Priority( String namePriority, Float dugreePriority) {
+    public Priority( String namePriority, Double dugreePriority) {
 
         this.namePriority = namePriority;
         this.dugreePriority = dugreePriority;
@@ -34,5 +33,29 @@ public class Priority implements Serializable, Comparable<Priority> {
         return Comparator.comparing(Priority::getNamePriority)
                 .thenComparing(Priority::getDugreePriority)
                 .compare(this, priority);
+    }
+
+    public Long getIdPriority() {
+        return idPriority;
+    }
+
+    public void setIdPriority(Long idPriority) {
+        this.idPriority = idPriority;
+    }
+
+    public String getNamePriority() {
+        return namePriority;
+    }
+
+    public void setNamePriority(String namePriority) {
+        this.namePriority = namePriority;
+    }
+
+    public Double getDugreePriority() {
+        return dugreePriority;
+    }
+
+    public void setDugreePriority(Double dugreePriority) {
+        this.dugreePriority = dugreePriority;
     }
 }

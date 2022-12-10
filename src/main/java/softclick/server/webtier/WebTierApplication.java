@@ -12,18 +12,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import softclick.server.data.entities.*;
+import softclick.server.data.repositories.ExpenseCategoryRepository;
 import softclick.server.webtier.services.domain.IDomainService;
 import softclick.server.webtier.services.employee.IEmployeeService;
+import softclick.server.webtier.services.expense.IExpenseService;
 import softclick.server.webtier.services.priority.IPriorityService;
 import softclick.server.webtier.services.project.IProjectService;
 import softclick.server.webtier.services.status.IStatusService;
-import softclick.server.webtier.services.user.UserService;
-import softclick.server.webtier.services.user.IUserService;
 import softclick.server.webtier.services.task.ITaskService;
-import softclick.server.webtier.services.task.TaskService;
-
-import java.util.Date;
-import java.util.List;
+import softclick.server.webtier.services.user.IUserService;
 
 @SpringBootApplication(exclude = {
     DataSourceAutoConfiguration.class,
@@ -34,20 +31,6 @@ public class WebTierApplication {
 
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(WebTierApplication.class, args);
-
-//        System.out.println("------------------- Testing auth service ----------------------");
-//        IUserService authService = context.getBean(UserService.class);
-//
-//        List<User> users = authService.getAllEntities();
-//
-//        users.forEach(i -> System.out.println(i));
-//
-//        System.out.println("------------------- Testing task service ----------------------");
-//        ITaskService taskService = context.getBean(TaskService.class);
-//
-//        List<Task> tasks = taskService.getAllEntities();
-//
-//        tasks.forEach(i -> System.out.println(i));
     }
 
     @Bean
@@ -60,13 +43,15 @@ public class WebTierApplication {
     }
 
     @Bean
-    CommandLineRunner run(IUserService userService,
+    CommandLineRunner run(ApplicationContext context,
+                          IUserService userService,
                           ITaskService taskService,
                           IPriorityService priorityService,
                           IStatusService statusService,
                           IEmployeeService employeeService,
                           IProjectService projectService,
-                          IDomainService domainService){
+                          IDomainService domainService,
+                          IExpenseService expenseService){
         return args -> {
 //            userService.saveEntity(new User("othmane", "password", true));
 //            userService.saveEntity(new User("wafae", "password", true));
@@ -103,6 +88,11 @@ public class WebTierApplication {
 
 //            taskService.saveEntity(new Task("complete web tier", new Date(), new Date(), null, null, null, null, null, null));
 
+//            ExpenseCategoryRepository expenseCategoryRepository = context.getBean(ExpenseCategoryRepository.class);
+//            expenseCategoryRepository.save(new ExpenseCategory("category1"));
+//            Expense expense = new Expense(2299L, "type1", new Date(), expenseCategoryRepository.getReferenceById(1L));
+//            expense.setTask(taskService.findEntityByKey(10002L));
+//            expenseService.saveEntity(expense);
         };
     }
 
