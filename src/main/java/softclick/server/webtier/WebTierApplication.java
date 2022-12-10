@@ -1,5 +1,6 @@
 package softclick.server.webtier;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -27,6 +28,7 @@ import softclick.server.webtier.services.user.IUserService;
     DataSourceTransactionManagerAutoConfiguration.class,
     HibernateJpaAutoConfiguration.class
 })
+@OpenAPIDefinition
 public class WebTierApplication {
 
     public static void main(String[] args) {
