@@ -64,7 +64,6 @@ class TaskServiceTest {
         Employee employee = new Employee(); employee.setId(1L);
         Task task = new Task("testTask",
                 LocalDateTime.now(), LocalDateTime.now().minusDays(1), null, status, project, employee, priority, null);
-
         // when
         // then
         assertThatThrownBy(() -> serviceUnderTest.saveEntity(task))
