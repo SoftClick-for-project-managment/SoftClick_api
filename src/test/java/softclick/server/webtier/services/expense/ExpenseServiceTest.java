@@ -54,7 +54,16 @@ class ExpenseServiceTest {
         assertThat(capturedExpense).isEqualTo(expense);
     }
 
-
+    @Test
+    void canDeleteExpense{
+        Status newStatus = new Status("OPEN"); newStatus.setIdStatus(2L);
+        Task newTask = new Task(null, null, null, null, newStatus, null, null, null,null);
+        ExpenseCategory newExpenseCategory=new ExpenseCategory("transport");
+        Expense newExpense=new Expense(11L,"amount",null,newExpenseCategory,newTask);
+        expense.setId(1L);
+        serviceUnderTest.deleteEntity(1L);
+        verify(expenseRepository).deleteById(1L);
+    }
 
 
     @Test
@@ -68,7 +77,7 @@ class ExpenseServiceTest {
                 .willReturn(null);
         // when and then
         assertThatThrownBy(() -> serviceUnderTest.updateExpense(1L, newExpense))
-                .isInstanceOf(DataNotFoundException.class)
+                .isInstanceOf(BaseService.class)
                 .hasMessageContaining("not found");
 
         verify(expenseRepository, never()).save(any());
