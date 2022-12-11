@@ -21,7 +21,7 @@ public class RmiProxyFactoryBeans {
 //        this.dataServerSocket = env.getProperty("SOFTCLICK_DATA_HOST", "localhost");
 //        this.dataServerSocket = dataServerHost+":"+dataServerPort;
 //        this.dataServerSocket = "softclick-data-app-qa.azurewebsites.net:1099";
-        this.dataServerSocket = "localhost:8080";
+        this.dataServerSocket = "localhost:1099";
 
     }
 
