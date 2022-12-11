@@ -2,6 +2,7 @@ package softclick.server.webtier.services.team;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import softclick.server.data.entities.Employee;
@@ -23,8 +24,8 @@ import java.util.Set;
 public class TeamService extends BaseService<Team, Long> implements ITeamService{
     private final EmployeeRepository employeeRepository;
     private final TeamRepository teamRepository;
+    @Autowired
     protected TeamService(TeamRepository teamRepository, EmployeeRepository employeeRepository) {
-
         super(teamRepository);
         this.employeeRepository=employeeRepository;
         this.teamRepository=teamRepository;
@@ -38,6 +39,7 @@ public class TeamService extends BaseService<Team, Long> implements ITeamService
         team.setDescription(newTeam.getDescription());
         teamRepository.save(team);
     }
+
     public void addEmployeeToTeam(Long teamId,String EmployeeLastName) {
         log.info("Adding employee {} to team with id {}", teamId,EmployeeLastName);
         Employee employee = employeeRepository.findByEmployeeLastName(EmployeeLastName);
