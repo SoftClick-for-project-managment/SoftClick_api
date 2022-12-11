@@ -3,6 +3,8 @@ package softclick.server.data.entities;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
@@ -41,6 +43,7 @@ public class Invoice implements Serializable {
         this.total = total;
     }
 
+    @JsonIgnoreProperties("invoices")
     public Client getClient() {
         return client;
     }
@@ -66,6 +69,7 @@ public class Invoice implements Serializable {
     private Client client;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idProject")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Project project;
 
     public Invoice(String date, String total) {
