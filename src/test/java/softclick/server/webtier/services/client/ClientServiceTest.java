@@ -216,12 +216,13 @@ public class ClientServiceTest {
                 "Carterfurt",
                 "BY");
         client.setId(1L);
-        given(clientRepository.getReferenceById(1L)).willReturn(client);
+       // given(clientRepository.getReferenceById(1L)).willReturn(client);
         // when
         serviceUnderTest.deleteEntity(1L);
 
         // then
-        verify(clientRepository).delete(clientRepository.getReferenceById(1L));
+        verify(clientRepository).deleteById(1L);
+
     }
 
 
