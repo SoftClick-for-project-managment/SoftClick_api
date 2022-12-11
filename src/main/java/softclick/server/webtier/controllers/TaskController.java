@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 public class TaskController {
 
     private final ITaskService taskService;
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
     @Autowired
     public TaskController(@Qualifier("rmiTaskService") ITaskService taskService, ModelMapper modelMapper) {

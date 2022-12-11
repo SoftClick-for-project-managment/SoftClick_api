@@ -13,7 +13,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import softclick.server.data.entities.*;
-import softclick.server.data.repositories.ExpenseCategoryRepository;
 import softclick.server.webtier.services.domain.IDomainService;
 import softclick.server.webtier.services.employee.IEmployeeService;
 import softclick.server.webtier.services.expense.IExpenseService;

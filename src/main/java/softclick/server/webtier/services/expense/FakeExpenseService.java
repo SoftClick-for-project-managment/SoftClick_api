@@ -13,8 +13,8 @@ import java.util.Map;
 
 @Service @Qualifier("fakeExpenseService")
 public class FakeExpenseService implements  IExpenseService{
-    private List<Expense> expenses = new ArrayList<>();
-    private Task task =new Task();
+    private final List<Expense> expenses = new ArrayList<>();
+    private final Task task =new Task();
     ExpenseCategory category= new ExpenseCategory("Design");
     Date time= new Date();
     public FakeExpenseService(){

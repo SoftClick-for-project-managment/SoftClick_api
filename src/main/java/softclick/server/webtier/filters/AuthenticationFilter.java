@@ -53,13 +53,13 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         Algorithm algorithm = Algorithm.HMAC512("softclick".getBytes());
         String access_token = JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 30*24*60*60*1000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 30L *24*60*60*1000))
                 .withIssuer(request.getRequestURI())
                 .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(algorithm);
         String refresh_token = JWT.create()
                 .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 365*24*60*60*1000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 365L *24*60*60*1000))
                 .withIssuer(request.getRequestURI())
                 .sign(algorithm);
     }

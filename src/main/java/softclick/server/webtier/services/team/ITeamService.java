@@ -5,6 +5,6 @@ import softclick.server.data.entities.Team;
 import softclick.server.webtier.services.IBaseService;
 
 public interface ITeamService extends IBaseService<Team, Long> {
-    public void addEmployeeToTeam(Long teamId,String EmployeeLastName);
+    void addEmployeeToTeam(Long teamId,String EmployeeLastName);
     void UpdateTeam(Long id, Team newTeam);
 }
