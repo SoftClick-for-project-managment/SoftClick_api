@@ -20,7 +20,7 @@ import java.util.List;
 @RequestMapping("/api/v1")
 public class InvoiceController {
     private final IInvoiceService invoiceService;
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
     @Autowired
     public InvoiceController(@Qualifier("rmiInvoiceService") IInvoiceService invoiceService,ModelMapper modelMapper) {

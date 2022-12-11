@@ -7,5 +7,5 @@ import softclick.server.webtier.services.IBaseService;
 import java.util.Map;
 
 public interface IPriorityService extends IBaseService<Priority, Long> {
-    public Priority patch(Long id_priority , Map<Object,Object> fields);
+    Priority patch(Long id_priority , Map<Object,Object> fields);
 }

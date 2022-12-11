@@ -48,7 +48,7 @@ public class BaseService<T, Key> implements IBaseService<T, Key>{
     public void deleteEntity(Key key) {
         log.info("Deleting entity");
         try{
-            repository.delete(repository.getReferenceById(key));
+            repository.deleteById(key);
         }catch(EntityNotFoundException e){
             throw new DataNotFoundException(e.getMessage());
         }

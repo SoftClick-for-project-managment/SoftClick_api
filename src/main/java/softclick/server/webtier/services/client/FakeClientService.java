@@ -11,7 +11,7 @@ import java.util.Optional;
 @Qualifier("rmiFakeClientService")
 public class FakeClientService implements IClientService {
 
-    private List<Client> clients = new ArrayList<>();
+    private final List<Client> clients = new ArrayList<>();
 
 
     public FakeClientService(){

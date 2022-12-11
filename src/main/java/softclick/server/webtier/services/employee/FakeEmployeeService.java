@@ -11,7 +11,7 @@ import java.util.Map;
 @Service @Qualifier("rmiFakeEmployeeService")
 public class FakeEmployeeService implements IEmployeeService{
 
-    private List<Employee> employees = new ArrayList<>();
+    private final List<Employee> employees = new ArrayList<>();
     public FakeEmployeeService() {
         employees.add(new Employee(null, "Tiger", "Nixon", "Talent Acquisition Specialist", "tigernixon@gmail.com", "+2120065354675"));
         employees.add(new Employee(null, "Garrett", "Winters", "FullStack Developer", "garrettwinters@gmail.com", "+2120065354675"));
