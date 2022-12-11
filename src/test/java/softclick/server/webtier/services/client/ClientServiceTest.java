@@ -78,6 +78,130 @@ public class ClientServiceTest {
         System.out.println(oldClientCopy);
     }
 
+    @Test
+    void itShouldVerifyClientPhoneUpdated() {
+        // given
+        Client newClient = new Client(null,null,null,"0637943308", null,null,null);
+        Client client = new Client("Michale","Bayer","sydnee.kutch@gutmann.com","(843) 605-7918", "Keebler, Satterfield and Bernier","Carterfurt","BY");
+        client.setId(1L);
+        Client oldClientCopy = new Client("Michale","Bayer","sydnee.kutch@gutmann.com","(843) 605-7918", "Keebler, Satterfield and Bernier","Carterfurt","BY");
+        oldClientCopy.setId(1L);
+        given(clientRepository.getReferenceById(1L))
+                .willReturn(client);
+        // when
+        serviceUnderTest.updateClient(1L, newClient);
+        // then
+        verify(clientRepository).save(any());
+        assertThat(client.getPhone()).isEqualTo(newClient.getPhone());
+        System.out.println(client);
+        assertThat(reflectionCompare(client,oldClientCopy, "phone")).isEqualTo(0);
+        System.out.println(oldClientCopy);
+    }
+
+
+    @Test
+    void itShouldVerifyClientNomUpdated() {
+        // given
+        Client newClient = new Client("wafae",null,null,null, null,null,null);
+        Client client = new Client("Michale","Bayer","sydnee.kutch@gutmann.com","(843) 605-7918", "Keebler, Satterfield and Bernier","Carterfurt","BY");
+        client.setId(1L);
+        Client oldClientCopy = new Client("Michale","Bayer","sydnee.kutch@gutmann.com","(843) 605-7918", "Keebler, Satterfield and Bernier","Carterfurt","BY");
+        oldClientCopy.setId(1L);
+        given(clientRepository.getReferenceById(1L))
+                .willReturn(client);
+        // when
+        serviceUnderTest.updateClient(1L, newClient);
+        // then
+        verify(clientRepository).save(any());
+        assertThat(client.getNom()).isEqualTo(newClient.getNom());
+        System.out.println(client);
+        assertThat(reflectionCompare(client,oldClientCopy, "nom")).isEqualTo(0);
+        System.out.println(oldClientCopy);
+    }
+
+
+    @Test
+    void itShouldVerifyClientPrenomUpdated() {
+        // given
+        Client newClient = new Client(null,"abo",null,null, null,null,null);
+        Client client = new Client("Michale","Bayer","sydnee.kutch@gutmann.com","(843) 605-7918", "Keebler, Satterfield and Bernier","Carterfurt","BY");
+        client.setId(1L);
+        Client oldClientCopy = new Client("Michale","Bayer","sydnee.kutch@gutmann.com","(843) 605-7918", "Keebler, Satterfield and Bernier","Carterfurt","BY");
+        oldClientCopy.setId(1L);
+        given(clientRepository.getReferenceById(1L))
+                .willReturn(client);
+        // when
+        serviceUnderTest.updateClient(1L, newClient);
+        // then
+        verify(clientRepository).save(any());
+        assertThat(client.getPrenom()).isEqualTo(newClient.getPrenom());
+        System.out.println(client);
+        assertThat(reflectionCompare(client,oldClientCopy, "prenom")).isEqualTo(0);
+        System.out.println(oldClientCopy);
+    }
+
+
+    @Test
+    void itShouldVerifyClientNomEntrepriseUpdated() {
+        // given
+        Client newClient = new Client(null,null,null,null, "sofclick",null,null);
+        Client client = new Client("Michale","Bayer","sydnee.kutch@gutmann.com","(843) 605-7918", "Keebler, Satterfield and Bernier","Carterfurt","BY");
+        client.setId(1L);
+        Client oldClientCopy = new Client("Michale","Bayer","sydnee.kutch@gutmann.com","(843) 605-7918", "Keebler, Satterfield and Bernier","Carterfurt","BY");
+        oldClientCopy.setId(1L);
+        given(clientRepository.getReferenceById(1L))
+                .willReturn(client);
+        // when
+        serviceUnderTest.updateClient(1L, newClient);
+        // then
+        verify(clientRepository).save(any());
+        assertThat(client.getNomEntreprise()).isEqualTo(newClient.getNomEntreprise());
+        System.out.println(client);
+        assertThat(reflectionCompare(client,oldClientCopy, "nomEntreprise")).isEqualTo(0);
+        System.out.println(oldClientCopy);
+    }
+
+
+    @Test
+    void itShouldVerifyClientVilleUpdated() {
+        // given
+        Client newClient = new Client(null,null,null,null, null,"temara",null);
+        Client client = new Client("Michale","Bayer","sydnee.kutch@gutmann.com","(843) 605-7918", "Keebler, Satterfield and Bernier","Carterfurt","BY");
+        client.setId(1L);
+        Client oldClientCopy = new Client("Michale","Bayer","sydnee.kutch@gutmann.com","(843) 605-7918", "Keebler, Satterfield and Bernier","Carterfurt","BY");
+        oldClientCopy.setId(1L);
+        given(clientRepository.getReferenceById(1L))
+                .willReturn(client);
+        // when
+        serviceUnderTest.updateClient(1L, newClient);
+        // then
+        verify(clientRepository).save(any());
+        assertThat(client.getVille()).isEqualTo(newClient.getVille());
+        System.out.println(client);
+        assertThat(reflectionCompare(client,oldClientCopy, "ville")).isEqualTo(0);
+        System.out.println(oldClientCopy);
+    }
+
+    @Test
+    void itShouldVerifyClientPaysUpdated() {
+        // given
+        Client newClient = new Client(null,null,null,null, null,null,"morocco");
+        Client client = new Client("Michale","Bayer","sydnee.kutch@gutmann.com","(843) 605-7918", "Keebler, Satterfield and Bernier","Carterfurt","BY");
+        client.setId(1L);
+        Client oldClientCopy = new Client("Michale","Bayer","sydnee.kutch@gutmann.com","(843) 605-7918", "Keebler, Satterfield and Bernier","Carterfurt","BY");
+        oldClientCopy.setId(1L);
+        given(clientRepository.getReferenceById(1L))
+                .willReturn(client);
+        // when
+        serviceUnderTest.updateClient(1L, newClient);
+        // then
+        verify(clientRepository).save(any());
+        assertThat(client.getPays()).isEqualTo(newClient.getPays());
+        System.out.println(client);
+        assertThat(reflectionCompare(client,oldClientCopy, "pays")).isEqualTo(0);
+        System.out.println(oldClientCopy);
+    }
+
 
 
     @Test
