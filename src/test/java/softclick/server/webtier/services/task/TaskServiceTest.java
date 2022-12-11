@@ -144,7 +144,6 @@ class TaskServiceTest {
                 .hasMessageContaining("Start date can't be greater than end date");
 
         verify(taskRepository, never()).save(any());
-//        assertThat(reflectionCompare(task, oldTaskCopy)).isEqualTo(0);
-        assertThat(task).isEqualTo(oldTaskCopy);
+        assertThat(reflectionCompare(task, oldTaskCopy)).isEqualTo(0);
     }
 }
