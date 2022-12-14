@@ -12,6 +12,7 @@ import softclick.server.data.entities.Skill;
 import softclick.server.data.repositories.EmployeeRepository;
 import softclick.server.data.repositories.SkillRepository;
 import softclick.server.webtier.utils.exceptions.DataNotFoundException;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 
 import javax.persistence.EntityNotFoundException;
@@ -226,6 +227,25 @@ public class EmployeeServiceTest {
                 .hasMessageContaining("Employee not found");
 
         verify(employeeRepository, never()).save(any());
+    }
+
+    @Test
+    void canDeleteEmployee() {
+        // given
+        Employee employee = new Employee(
+                null,
+                "Tiger",
+                "Nixon" ,
+                "Talent Acquisition Specialist",
+                "tigernixon@gmail.com",
+                "+2120065354675");
+        employee.setId(1L);
+
+        // when
+        serviceUnderTest.deleteEntity(1L);
+
+        // then
+        verify(employeeRepository).deleteById(1L);
     }
 
 }
