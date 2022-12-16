@@ -6,11 +6,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import softclick.server.data.entities.Employee;
 import softclick.server.data.entities.Invoice;
-import softclick.server.webtier.dtos.Empoyee.EmployeeListAndSingleDto;
-import softclick.server.webtier.dtos.InvoiceCreateAndUpdateDto;
-import softclick.server.webtier.dtos.InvoiceListAndSingleDto;
+import softclick.server.webtier.dtos.Invoice.InvoiceCreateAndUpdateDto;
+import softclick.server.webtier.dtos.Invoice.InvoiceListAndSingleDto;
 import softclick.server.webtier.services.invoice.IInvoiceService;
 
 import javax.persistence.EntityNotFoundException;

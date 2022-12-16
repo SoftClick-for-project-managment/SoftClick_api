@@ -1,4 +1,4 @@
-package softclick.server.webtier.dtos;
+package softclick.server.webtier.dtos.Client;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

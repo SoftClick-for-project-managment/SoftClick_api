@@ -1,14 +1,15 @@
-package softclick.server.webtier.dtos;
+package softclick.server.webtier.dtos.Task;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import softclick.server.data.entities.*;
+import softclick.server.data.entities.Employee;
+import softclick.server.data.entities.Priority;
+import softclick.server.data.entities.Project;
+import softclick.server.data.entities.Status;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.Set;
 
 /**
  * A DTO for the {@link softclick.server.data.entities.Task} entity
@@ -16,15 +17,13 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TaskListAndSingleDto implements Serializable {
-    private Long id;
+public class TaskCreateAndUpdateDto implements Serializable {
     private String name;
     private String startDate;
     private String endDate;
-    private String Description;
+    private String description;
     private Status status;
-    private Long projectId;
+    private Project project;
     private Employee employee;
     private Priority priority;
-    private Set<Expense> expenses;
 }
