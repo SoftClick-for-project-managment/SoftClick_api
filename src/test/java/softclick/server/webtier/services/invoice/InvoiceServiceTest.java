@@ -95,12 +95,12 @@ public class InvoiceServiceTest {
         Invoice invoice = new Invoice(
                 "03-03-2022","3000",client,project);
         invoice.setId(1L);
-        given(invoiceRepository.getReferenceById(1L)).willReturn(invoice);
+       // given(invoiceRepository.getReferenceById(1L)).willReturn(invoice);
         // when
         serviceUnderTest.deleteEntity(1L);
 
         // then
-        verify(invoiceRepository).delete(invoiceRepository.getReferenceById(1L));
+        verify(invoiceRepository).deleteById(1L);
 }
     @Test
     void canGetAllInvoices() {
