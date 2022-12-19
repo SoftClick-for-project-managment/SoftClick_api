@@ -11,7 +11,6 @@ import softclick.server.data.repositories.*;
 import softclick.server.webtier.utils.exceptions.BusinessException;
 import softclick.server.webtier.utils.exceptions.DataNotFoundException;
 
-import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import static org.apache.commons.lang3.builder.CompareToBuilder.reflectionCompare;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;

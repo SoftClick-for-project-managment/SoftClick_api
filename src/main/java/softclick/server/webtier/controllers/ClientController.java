@@ -9,8 +9,8 @@ import softclick.server.data.entities.Client;
 import softclick.server.webtier.dtos.Client.ClientCreateAndUpdateDto;
 import softclick.server.webtier.dtos.Client.ClientListAndSingleDto;
 import softclick.server.webtier.services.client.IClientService;
+import softclick.server.webtier.utils.exceptions.DataNotFoundException;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,7 +69,7 @@ public class ClientController {
             Client client = modelMapper.map(clientDto, Client.class);
             clientService.updateClient(Long.valueOf(id),client);
             return new ResponseEntity<>(HttpStatus.OK);
-        }catch(EntityNotFoundException e){
+        }catch(DataNotFoundException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

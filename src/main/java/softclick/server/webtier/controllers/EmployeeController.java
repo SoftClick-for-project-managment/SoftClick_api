@@ -10,8 +10,8 @@ import softclick.server.data.entities.Employee;
 import softclick.server.webtier.dtos.Empoyee.EmployeeCreateAndUpdateDto;
 import softclick.server.webtier.dtos.Empoyee.EmployeeListAndSingleDto;
 import softclick.server.webtier.services.employee.IEmployeeService;
+import softclick.server.webtier.utils.exceptions.DataNotFoundException;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @RestController
@@ -67,7 +67,7 @@ public class EmployeeController {
             Employee employee = modelMapper.map(employeeDto, Employee.class);
             employeeService.updateEmployee(Long.valueOf(id), employee);
             return new ResponseEntity<>(HttpStatus.OK);
-        }catch(EntityNotFoundException e){
+        }catch(DataNotFoundException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

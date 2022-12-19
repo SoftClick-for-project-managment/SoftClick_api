@@ -10,8 +10,8 @@ import softclick.server.data.entities.Invoice;
 import softclick.server.webtier.dtos.Invoice.InvoiceCreateAndUpdateDto;
 import softclick.server.webtier.dtos.Invoice.InvoiceListAndSingleDto;
 import softclick.server.webtier.services.invoice.IInvoiceService;
+import softclick.server.webtier.utils.exceptions.DataNotFoundException;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @RestController
@@ -67,7 +67,7 @@ public class InvoiceController {
             Invoice invoice = modelMapper.map(invoiceDto, Invoice.class);
             invoiceService.updateInvoice(Long.valueOf(id), invoice);
             return new ResponseEntity<>(HttpStatus.OK);
-        }catch(EntityNotFoundException e){
+        }catch(DataNotFoundException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

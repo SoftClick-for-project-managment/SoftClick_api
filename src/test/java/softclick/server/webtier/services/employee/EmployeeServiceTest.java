@@ -15,7 +15,6 @@ import softclick.server.webtier.utils.exceptions.DataNotFoundException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 
-import javax.persistence.EntityNotFoundException;
 import java.util.HashSet;
 import java.util.Set;
 

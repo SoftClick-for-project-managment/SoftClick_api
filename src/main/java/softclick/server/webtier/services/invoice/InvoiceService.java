@@ -13,7 +13,6 @@ import softclick.server.webtier.services.BaseService;
 import softclick.server.webtier.utils.exceptions.BusinessException;
 import softclick.server.webtier.utils.exceptions.DataNotFoundException;
 
-import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 @Service @Transactional @Slf4j @Qualifier("rmiInvoiceService")
@@ -37,7 +36,7 @@ public class InvoiceService extends BaseService<Invoice,Long> implements IInvoic
         log.info("Updating invoice with id: {}", id.toString());
         Invoice invoice = invoiceRepository.getReferenceById(id);
         if (invoice == null)
-            throw new EntityNotFoundException();
+            throw new DataNotFoundException();
         if(newInvoice.getDate()!= null)
         invoice.setDate(newInvoice.getDate());
         if(newInvoice.getTotal()!= null)
