@@ -4,19 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import softclick.server.data.entities.Client;
-import softclick.server.data.entities.User;
-import softclick.server.webtier.dtos.ClientCreateAndUpdateDto;
-import softclick.server.webtier.dtos.ClientListAndSingleDto;
-import softclick.server.webtier.services.client.ClientService;
+import softclick.server.webtier.dtos.Client.ClientCreateAndUpdateDto;
+import softclick.server.webtier.dtos.Client.ClientListAndSingleDto;
 import softclick.server.webtier.services.client.IClientService;
-import softclick.server.webtier.services.user.IUserService;
+import softclick.server.webtier.utils.exceptions.DataNotFoundException;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -74,7 +69,7 @@ public class ClientController {
             Client client = modelMapper.map(clientDto, Client.class);
             clientService.updateClient(Long.valueOf(id),client);
             return new ResponseEntity<>(HttpStatus.OK);
-        }catch(EntityNotFoundException e){
+        }catch(DataNotFoundException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

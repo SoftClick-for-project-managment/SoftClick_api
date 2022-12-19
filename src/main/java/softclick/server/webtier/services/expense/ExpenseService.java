@@ -11,8 +11,8 @@ import softclick.server.data.repositories.ExpenseCategoryRepository;
 import softclick.server.data.repositories.ExpenseRepository;
 import softclick.server.data.repositories.TaskRepository;
 import softclick.server.webtier.services.BaseService;
+import softclick.server.webtier.utils.exceptions.DataNotFoundException;
 
-import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 @Service @Transactional
@@ -34,7 +34,7 @@ public class ExpenseService extends BaseService<Expense, Long> implements IExpen
         log.info("Updating expense with id: {}", id.toString());
         Expense expense = expenseRepository.getReferenceById(id);
         if (expense== null)
-            throw new EntityNotFoundException();
+            throw new DataNotFoundException("Expense not found");
 
         expense.setAmount(newExpense.getAmount());
         expense.setTypeExpense(newExpense.getTypeExpense());

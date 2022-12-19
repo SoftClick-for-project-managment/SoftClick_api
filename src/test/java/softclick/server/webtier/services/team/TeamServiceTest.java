@@ -54,12 +54,11 @@ public class TeamServiceTest {
         Team team = new Team(
                "team management","this is a team management");
         team.setIdTeam(1L);
-        given(teamRepository.getReferenceById(1L)).willReturn(team);
         // when
         serviceUnderTest.deleteEntity(1L);
 
         // then
-        verify(teamRepository).delete(teamRepository.getReferenceById(1L));
+        verify(teamRepository).deleteById(1L);
     }
     @Test
     void itShouldVerifyTeamUpdated() {

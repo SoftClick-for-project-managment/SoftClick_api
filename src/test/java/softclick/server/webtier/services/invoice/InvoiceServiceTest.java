@@ -10,7 +10,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import softclick.server.data.entities.*;
 import softclick.server.data.repositories.*;
 
-import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 
 import static org.apache.commons.lang3.builder.CompareToBuilder.reflectionCompare;

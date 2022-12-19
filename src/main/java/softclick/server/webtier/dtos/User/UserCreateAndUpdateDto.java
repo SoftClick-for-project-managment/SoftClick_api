@@ -1,4 +1,4 @@
-package softclick.server.webtier.dtos;
+package softclick.server.webtier.dtos.User;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
