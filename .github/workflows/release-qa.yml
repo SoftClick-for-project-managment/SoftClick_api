@@ -20,7 +20,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: softclick_api
-          path: '${{ github.workspace }}/staging/*.jar'
+          path: staging
   release:
     name: Release Project
     runs-on: ubuntu-latest
