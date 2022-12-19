@@ -11,7 +11,6 @@ import softclick.server.data.repositories.*;
 import softclick.server.webtier.utils.exceptions.BusinessException;
 import softclick.server.webtier.utils.exceptions.DataNotFoundException;
 
-import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import static org.apache.commons.lang3.builder.CompareToBuilder.reflectionCompare;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -64,7 +63,6 @@ class TaskServiceTest {
         Employee employee = new Employee(); employee.setId(1L);
         Task task = new Task("testTask",
                 LocalDateTime.now(), LocalDateTime.now().minusDays(1), null, status, project, employee, priority, null);
-
         // when
         // then
         assertThatThrownBy(() -> serviceUnderTest.saveEntity(task))
@@ -144,7 +142,6 @@ class TaskServiceTest {
                 .hasMessageContaining("Start date can't be greater than end date");
 
         verify(taskRepository, never()).save(any());
-//        assertThat(reflectionCompare(task, oldTaskCopy)).isEqualTo(0);
-        assertThat(task).isEqualTo(oldTaskCopy);
+        assertThat(reflectionCompare(task, oldTaskCopy)).isEqualTo(0);
     }
 }

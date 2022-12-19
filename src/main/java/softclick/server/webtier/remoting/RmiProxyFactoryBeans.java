@@ -5,127 +5,128 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.springframework.remoting.rmi.RmiProxyFactoryBean;
+import org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean;
 import org.springframework.stereotype.Component;
 import softclick.server.data.repositories.*;
 
 @Configuration
 public class RmiProxyFactoryBeans {
-//    private Environment env;
-    private String dataServerHost;
+//    @Value("${com.softclick.data.server.host}")
+//    private String dataServerHost;
+    private final String dataServerSocket;
 
     @Autowired
     public RmiProxyFactoryBeans(Environment env) {
-//        this.env = env;
-        this.dataServerHost = env.getProperty("SOFTCLICK_DATA_HOST", "localhost");
+        this.dataServerSocket = env.getProperty("SOFTCLICK_DATA_HOST", "http://localhost:1099");
+//        this.dataServerSocket = "https://softclick-qa-data-app.azurewebsites.net";
     }
 
     @Bean
-    RmiProxyFactoryBean rmiProxyFactoryUserRepoBean(){
-        RmiProxyFactoryBean bean = new RmiProxyFactoryBean();
+    HttpInvokerProxyFactoryBean httpProxyFactoryUserRepoBean(){
+        HttpInvokerProxyFactoryBean bean = new HttpInvokerProxyFactoryBean();
+        bean.setServiceUrl(dataServerSocket+"/UserRepository");
         bean.setServiceInterface(UserRepository.class);
-        bean.setServiceUrl("rmi://"+dataServerHost+":1099/UserRepository");
         return bean;
     }
 
     @Bean
-    RmiProxyFactoryBean rmiProxyFactoryTaskRepoBean(){
-        RmiProxyFactoryBean bean = new RmiProxyFactoryBean();
+    HttpInvokerProxyFactoryBean httpProxyFactoryTaskRepoBean(){
+        HttpInvokerProxyFactoryBean bean = new HttpInvokerProxyFactoryBean();
+        bean.setServiceUrl(dataServerSocket+"/TaskRepository");
         bean.setServiceInterface(TaskRepository.class);
-        bean.setServiceUrl("rmi://"+dataServerHost+":1099/TaskRepository");
         return bean;
     }
 
     @Bean
-    RmiProxyFactoryBean rmiProxyFactoryRoleRepoBean(){
-        RmiProxyFactoryBean bean = new RmiProxyFactoryBean();
+    HttpInvokerProxyFactoryBean httpProxyFactoryRoleRepoBean(){
+        HttpInvokerProxyFactoryBean bean = new HttpInvokerProxyFactoryBean();
         bean.setServiceInterface(RoleRepository.class);
-        bean.setServiceUrl("rmi://"+dataServerHost+":1099/RoleRepository");
+        bean.setServiceUrl(dataServerSocket+"/RoleRepository");
         return bean;
     }
     @Bean
-    RmiProxyFactoryBean rmiProxyFactoryProjectRepoBean(){
-        RmiProxyFactoryBean bean = new RmiProxyFactoryBean();
+    HttpInvokerProxyFactoryBean httpProxyFactoryProjectRepoBean(){
+        HttpInvokerProxyFactoryBean bean = new HttpInvokerProxyFactoryBean();
         bean.setServiceInterface(ProjectRepository.class);
-        bean.setServiceUrl("rmi://"+dataServerHost+":1099/ProjectRepository");
+        bean.setServiceUrl(dataServerSocket+"/ProjectRepository");
         return bean;
     }
     @Bean
-    RmiProxyFactoryBean rmiProxyFactoryDomainRepoBean(){
-        RmiProxyFactoryBean bean = new RmiProxyFactoryBean();
+    HttpInvokerProxyFactoryBean httpProxyFactoryDomainRepoBean(){
+        HttpInvokerProxyFactoryBean bean = new HttpInvokerProxyFactoryBean();
         bean.setServiceInterface(DomainRepository.class);
-        bean.setServiceUrl("rmi://"+dataServerHost+":1099/DomainRepository");
+        bean.setServiceUrl(dataServerSocket+"/DomainRepository");
         return bean;
     }
 
     @Bean
-    RmiProxyFactoryBean rmiProxyFactoryClientRepoBean(){
-        RmiProxyFactoryBean bean = new RmiProxyFactoryBean();
+    HttpInvokerProxyFactoryBean httpProxyFactoryClientRepoBean(){
+        HttpInvokerProxyFactoryBean bean = new HttpInvokerProxyFactoryBean();
         bean.setServiceInterface(ClientRepository.class);
-        bean.setServiceUrl("rmi://"+dataServerHost+":1099/ClientRepository");
+        bean.setServiceUrl(dataServerSocket+"/ClientRepository");
         return bean;
     }
 
     @Bean
-    RmiProxyFactoryBean rmiProxyFactoryEmployeeRepoBean(){
-        RmiProxyFactoryBean bean = new RmiProxyFactoryBean();
+    HttpInvokerProxyFactoryBean httpProxyFactoryEmployeeRepoBean(){
+        HttpInvokerProxyFactoryBean bean = new HttpInvokerProxyFactoryBean();
         bean.setServiceInterface(EmployeeRepository.class);
-        bean.setServiceUrl("rmi://"+dataServerHost+":1099/EmployeeRepository");
+        bean.setServiceUrl(dataServerSocket+"/EmployeeRepository");
         return bean;
     }
 
     @Bean
-    RmiProxyFactoryBean rmiProxyFactorySkillRepoBean(){
-        RmiProxyFactoryBean bean = new RmiProxyFactoryBean();
+    HttpInvokerProxyFactoryBean httpProxyFactorySkillRepoBean(){
+        HttpInvokerProxyFactoryBean bean = new HttpInvokerProxyFactoryBean();
         bean.setServiceInterface(SkillRepository.class);
-        bean.setServiceUrl("rmi://"+dataServerHost+":1099/SkillRepository");
+        bean.setServiceUrl(dataServerSocket+"/SkillRepository");
         return bean;
     }
     @Bean
-    RmiProxyFactoryBean rmiProxyFactoryInvoiceRepoBean(){
-        RmiProxyFactoryBean bean = new RmiProxyFactoryBean();
+    HttpInvokerProxyFactoryBean httpProxyFactoryInvoiceRepoBean(){
+        HttpInvokerProxyFactoryBean bean = new HttpInvokerProxyFactoryBean();
         bean.setServiceInterface(InvoiceRepository.class);
-        bean.setServiceUrl("rmi://"+dataServerHost+":1099/InvoiceRepository");
+        bean.setServiceUrl(dataServerSocket+"/InvoiceRepository");
         return bean;
     }
     @Bean
-    RmiProxyFactoryBean rmiProxyFactoryExpenseRepoBean(){
-        RmiProxyFactoryBean bean = new RmiProxyFactoryBean();
+    HttpInvokerProxyFactoryBean httpProxyFactoryExpenseRepoBean(){
+        HttpInvokerProxyFactoryBean bean = new HttpInvokerProxyFactoryBean();
         bean.setServiceInterface(ExpenseRepository.class);
-        bean.setServiceUrl("rmi://"+dataServerHost+":1099/ExpenseRepository");
+        bean.setServiceUrl(dataServerSocket+"/ExpenseRepository");
         return bean;
     }
 
     @Bean
-    RmiProxyFactoryBean rmiProxyFactoryExpenseCategoryRepoBean(){
-        RmiProxyFactoryBean bean = new RmiProxyFactoryBean();
+    HttpInvokerProxyFactoryBean httpProxyFactoryExpenseCategoryRepoBean(){
+        HttpInvokerProxyFactoryBean bean = new HttpInvokerProxyFactoryBean();
         bean.setServiceInterface(ExpenseCategoryRepository.class);
-        bean.setServiceUrl("rmi://"+dataServerHost+":1099/ExpenseCategoryRepository");
+        bean.setServiceUrl(dataServerSocket+"/ExpenseCategoryRepository");
         return bean;
     }
 
     @Bean
-    RmiProxyFactoryBean rmiProxyFactoryPriorityRepoBean(){
-        RmiProxyFactoryBean bean = new RmiProxyFactoryBean();
+    HttpInvokerProxyFactoryBean httpProxyFactoryPriorityRepoBean(){
+        HttpInvokerProxyFactoryBean bean = new HttpInvokerProxyFactoryBean();
         bean.setServiceInterface(PriorityRepository.class);
-        bean.setServiceUrl("rmi://"+dataServerHost+":1099/PriorityRepository");
+        bean.setServiceUrl(dataServerSocket+"/PriorityRepository");
         return bean;
     }
 
     @Bean
-    RmiProxyFactoryBean rmiProxyFactoryStatusRepoBean(){
-        RmiProxyFactoryBean bean = new RmiProxyFactoryBean();
+    HttpInvokerProxyFactoryBean httpProxyFactoryStatusRepoBean(){
+        HttpInvokerProxyFactoryBean bean = new HttpInvokerProxyFactoryBean();
         bean.setServiceInterface(StatusRepository.class);
-        bean.setServiceUrl("rmi://"+dataServerHost+":1099/StatusRepository");
+        bean.setServiceUrl(dataServerSocket+"/StatusRepository");
 
         return bean;
     }
 
     @Bean
-    RmiProxyFactoryBean rmiProxyFactoryTeamRepoBean(){
-        RmiProxyFactoryBean bean = new RmiProxyFactoryBean();
+    HttpInvokerProxyFactoryBean httpProxyFactoryTeamRepoBean(){
+        HttpInvokerProxyFactoryBean bean = new HttpInvokerProxyFactoryBean();
         bean.setServiceInterface(TeamRepository.class);
-        bean.setServiceUrl("rmi://"+dataServerHost+":1099/TeamRepository");
+        bean.setServiceUrl(dataServerSocket+"/TeamRepository");
 
         return bean;
     }

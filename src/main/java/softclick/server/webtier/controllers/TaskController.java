@@ -1,16 +1,14 @@
 package softclick.server.webtier.controllers;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import softclick.server.data.entities.Task;
-import softclick.server.webtier.dtos.TaskCreateAndUpdateDto;
-import softclick.server.webtier.dtos.TaskListAndSingleDto;
+import softclick.server.webtier.dtos.Task.TaskCreateAndUpdateDto;
+import softclick.server.webtier.dtos.Task.TaskListAndSingleDto;
 import softclick.server.webtier.services.task.ITaskService;
 import softclick.server.webtier.utils.exceptions.BusinessException;
 import softclick.server.webtier.utils.exceptions.DataNotFoundException;
@@ -26,7 +24,7 @@ import java.util.stream.Collectors;
 public class TaskController {
 
     private final ITaskService taskService;
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
     @Autowired
     public TaskController(@Qualifier("rmiTaskService") ITaskService taskService, ModelMapper modelMapper) {

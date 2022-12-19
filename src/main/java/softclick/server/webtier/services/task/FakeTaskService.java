@@ -1,19 +1,27 @@
 package softclick.server.webtier.services.task;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import softclick.server.data.entities.*;
 import softclick.server.webtier.services.user.IUserService;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
-@Qualifier("rmiFakeTaskService")
-
+@Service
+@Transactional
+@Slf4j
+@Qualifier("fakeTaskService")
 public class FakeTaskService implements ITaskService {
 
-    private List<Task> tasks = new ArrayList<>();
+    private final List<Task> tasks = new ArrayList<>();
 
     public FakeTaskService(){
-//        tasks.add(new Task("design",new Date(),new Date(),"tache tres importante",status,project,employee,priority,collection));
+        tasks.add(new Task("design",LocalDateTime.now(),LocalDateTime.now().plusHours(8),"tache tres importante",null,null,null,null,null));
+        tasks.add(new Task("development",LocalDateTime.now(),LocalDateTime.now().plusHours(8),"tache tres importante",null,null,null,null,null));
+        tasks.add(new Task("deployment",LocalDateTime.now(),LocalDateTime.now().plusHours(8),"tache tres importante",null,null,null,null,null));
     }
 
     @Override
@@ -33,7 +41,7 @@ public class FakeTaskService implements ITaskService {
 
     @Override
     public List<Task> getAllEntities() {
-        return null;
+        return tasks;
     }
 
     @Override

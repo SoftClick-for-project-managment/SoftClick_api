@@ -16,10 +16,7 @@ jobs:
           cache: maven
       - name: Build with Maven
         run: mvn --batch-mode --update-snapshots package
-        env:
-          SOFTCLICK_DATA_HOST: ${{ secrets.SOFTCLICK_DATA_HOST }}
       - run: mkdir staging && cp target/*.jar staging
-      - run: ls
       - uses: actions/upload-artifact@v3
         with:
           name: softclick_api
@@ -33,7 +30,6 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: softclick_api
-      - run: ls
       - name: Archive Release
         uses: thedoctor0/zip-release@main
         with:
@@ -73,7 +69,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'softclick-api-app'
+          app-name: ${{ secrets.AZURE_APPSERVICE_NAME }}
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
           package: '*.jar'

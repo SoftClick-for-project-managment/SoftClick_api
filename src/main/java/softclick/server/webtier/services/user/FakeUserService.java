@@ -14,7 +14,7 @@ import java.util.Optional;
 @Service @Qualifier("fakeUserService")
 public class FakeUserService implements IUserService {
 
-    private List<User> users = new ArrayList<>();
+    private final List<User> users = new ArrayList<>();
 
     public FakeUserService() {
         users.add(new User("othmane", "password", true));

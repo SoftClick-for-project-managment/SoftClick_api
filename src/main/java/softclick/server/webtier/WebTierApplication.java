@@ -1,5 +1,6 @@
 package softclick.server.webtier;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -12,7 +13,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import softclick.server.data.entities.*;
-import softclick.server.data.repositories.ExpenseCategoryRepository;
 import softclick.server.webtier.services.domain.IDomainService;
 import softclick.server.webtier.services.employee.IEmployeeService;
 import softclick.server.webtier.services.expense.IExpenseService;
@@ -27,6 +27,7 @@ import softclick.server.webtier.services.user.IUserService;
     DataSourceTransactionManagerAutoConfiguration.class,
     HibernateJpaAutoConfiguration.class
 })
+@OpenAPIDefinition
 public class WebTierApplication {
 
     public static void main(String[] args) {

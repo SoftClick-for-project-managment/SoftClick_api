@@ -7,13 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import softclick.server.data.entities.User;
-import softclick.server.webtier.dtos.UserCreateAndUpdateDto;
-import softclick.server.webtier.dtos.UserListAndSingleDto;
+import softclick.server.webtier.dtos.User.UserCreateAndUpdateDto;
+import softclick.server.webtier.dtos.User.UserListAndSingleDto;
 import softclick.server.webtier.services.user.IUserService;
+import softclick.server.webtier.utils.exceptions.DataNotFoundException;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -68,7 +67,7 @@ public class UserController {
             User user = modelMapper.map(userDto, User.class);
             userService.updateUser(Long.valueOf(id), user);
             return new ResponseEntity<>(HttpStatus.OK);
-        }catch(EntityNotFoundException e){
+        }catch(DataNotFoundException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

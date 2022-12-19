@@ -6,21 +6,19 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import softclick.server.data.entities.Employee;
 import softclick.server.data.entities.Invoice;
-import softclick.server.webtier.dtos.Empoyee.EmployeeListAndSingleDto;
-import softclick.server.webtier.dtos.InvoiceCreateAndUpdateDto;
-import softclick.server.webtier.dtos.InvoiceListAndSingleDto;
+import softclick.server.webtier.dtos.Invoice.InvoiceCreateAndUpdateDto;
+import softclick.server.webtier.dtos.Invoice.InvoiceListAndSingleDto;
 import softclick.server.webtier.services.invoice.IInvoiceService;
+import softclick.server.webtier.utils.exceptions.DataNotFoundException;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
 public class InvoiceController {
     private final IInvoiceService invoiceService;
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
     @Autowired
     public InvoiceController(@Qualifier("rmiInvoiceService") IInvoiceService invoiceService,ModelMapper modelMapper) {
@@ -69,7 +67,7 @@ public class InvoiceController {
             Invoice invoice = modelMapper.map(invoiceDto, Invoice.class);
             invoiceService.updateInvoice(Long.valueOf(id), invoice);
             return new ResponseEntity<>(HttpStatus.OK);
-        }catch(EntityNotFoundException e){
+        }catch(DataNotFoundException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
