@@ -1,10 +1,10 @@
 name: Create a QA Release for SoftClick_api
-run-name: ${{ github.actor }} created a test release
+run-name: ${{ github.actor }} created a QA release
 on: workflow_dispatch
 
 jobs:
   build:
-    name: Build Project
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -22,7 +22,7 @@ jobs:
           name: softclick_api
           path: staging
   release:
-    name: Release Project
+    name: Release
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -53,6 +53,7 @@ jobs:
           asset_name: softclick_api_release_0.${{ github.run_number }}.zip
           asset_content_type: application/zip
   deploy:
+    name: Deploy
     runs-on: ubuntu-latest
     needs: build
     environment:
