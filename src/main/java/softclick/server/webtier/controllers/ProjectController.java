@@ -31,8 +31,8 @@ public class ProjectController {
     public ResponseEntity<Object> index(){
         try{
             List<Project> projects = projectService.getAllEntities();
-        //    List<ProjectandSingleDto> projectDtoList = projects.stream().map(t -> modelMapper.map(t, ProjectandSingleDto.class)).collect(Collectors.toList());
-            return new ResponseEntity<>(projects, HttpStatus.OK);
+           List<ProjectandSingleDto> projectDtoList = projects.stream().map(t -> modelMapper.map(t, ProjectandSingleDto.class)).collect(Collectors.toList());
+            return new ResponseEntity<>(projectDtoList, HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -53,7 +53,9 @@ public class ProjectController {
     @PostMapping(value = "/projects")
     public ResponseEntity<Object> create(@RequestBody Project project){
         try{
+            System.out.println("my date format is : "+project.getDateDebut().toString());
             projectService.saveEntity(project);
+
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

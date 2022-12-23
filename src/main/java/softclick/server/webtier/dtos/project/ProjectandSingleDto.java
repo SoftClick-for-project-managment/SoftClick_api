@@ -21,12 +21,12 @@ public class ProjectandSingleDto {
     private Employee chefProject;
     private Status projectStatus;
     private Priority projectPriority;
-    private Set<Invoice> invoices = new HashSet<>();
+    //private Set<Invoice> invoices = new HashSet<>();
 
         public ProjectandSingleDto() {
         }
 
-        public ProjectandSingleDto(Long idProject, String nameProject, String descriptionProject, Double revenueProject, Domain domainProjet, Date dateDebut, Date dateFin, Employee chefProject, Status projectStatus, Priority projectPriority, Set<Invoice> invoices) {
+        public ProjectandSingleDto(Long idProject, String nameProject, String descriptionProject, Double revenueProject, Domain domainProjet, Date dateDebut, Date dateFin, Employee chefProject, Status projectStatus, Priority projectPriority/*, Set<Invoice> invoices*/) {
                 this.idProject = idProject;
                 this.nameProject = nameProject;
                 this.descriptionProject = descriptionProject;
@@ -37,7 +37,7 @@ public class ProjectandSingleDto {
                 this.chefProject = chefProject;
                 this.projectStatus = projectStatus;
                 this.projectPriority = projectPriority;
-                this.invoices = invoices;
+               // this.invoices = invoices;
         }
 
         public Long getIdProject() {
@@ -121,14 +121,14 @@ public class ProjectandSingleDto {
         }
 
 
-
+/*
         public Set<Invoice> getInvoices() {
                 return invoices;
         }
 
         public void setInvoices(Set<Invoice> invoices) {
                 this.invoices = invoices;
-        }
+        }*/
 
 
 }

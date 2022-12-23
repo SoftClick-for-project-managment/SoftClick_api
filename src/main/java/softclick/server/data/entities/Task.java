@@ -30,7 +30,8 @@ public class Task implements Serializable, Comparable<Task> {
     @ManyToOne
     @JoinColumn(name = "idProject")
     private Project project;
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idEmployee")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Employee employee;

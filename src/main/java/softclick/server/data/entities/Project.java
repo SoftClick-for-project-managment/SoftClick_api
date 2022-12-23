@@ -35,7 +35,7 @@ public class Project implements Serializable, Comparable<Project> {
     @JoinColumn(name = "idDomain")
     private Domain domainProjet;
 
-    @Column(name = "dateDebut", nullable = false)
+    @Column(name = "dateDebut", nullable = true)
     private Date dateDebut;
 
     @Column(name = "dateFin", nullable = true)

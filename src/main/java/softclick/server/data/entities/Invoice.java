@@ -69,7 +69,6 @@ public class Invoice implements Serializable {
     private Client client;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idProject")
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Project project;
 
     public Invoice(String date, String total) {

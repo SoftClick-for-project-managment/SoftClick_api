@@ -34,8 +34,8 @@ public class ProjectService extends BaseService<Project, Long> implements IProje
 
     @Override
     public void saveEntity(Project entity) {
-        if (entity.getDateDebut().compareTo(entity.getDateFin())>0)
-            throw new RuntimeException("Start date can't be greater than end date");
+        /*if (entity.getDateDebut().compareTo(entity.getDateFin())>0)
+            throw new RuntimeException("Start date can't be greater than end date");*/
         super.saveEntity(entity);
     }
 
