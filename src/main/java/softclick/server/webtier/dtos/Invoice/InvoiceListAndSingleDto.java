@@ -1,4 +1,4 @@
-package softclick.server.webtier.dtos;
+package softclick.server.webtier.dtos.Invoice;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

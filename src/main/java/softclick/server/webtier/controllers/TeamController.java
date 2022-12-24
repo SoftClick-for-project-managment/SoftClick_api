@@ -15,9 +15,9 @@ import softclick.server.webtier.dtos.Team.TeamCreateAndUpdateDto;
 import softclick.server.webtier.dtos.Team.TeamListAndSingleDto;
 import softclick.server.webtier.services.employee.IEmployeeService;
 import softclick.server.webtier.services.team.ITeamService;
+import softclick.server.webtier.utils.exceptions.DataNotFoundException;
 
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 
@@ -74,7 +74,7 @@ public class TeamController {
             Team team = modelMapper.map(teamDto, Team.class);
             teamService.UpdateTeam(Long.valueOf(id), team);
             return new ResponseEntity<>(HttpStatus.OK);
-        }catch(EntityNotFoundException e){
+        }catch(DataNotFoundException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

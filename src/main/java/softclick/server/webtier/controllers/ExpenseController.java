@@ -10,8 +10,8 @@ import softclick.server.data.entities.Expense;
 import softclick.server.webtier.dtos.Expense.ExpenseCreateAndUpdateDto;
 import softclick.server.webtier.dtos.Expense.ExpenseListAndSingleDto;
 import softclick.server.webtier.services.expense.IExpenseService;
+import softclick.server.webtier.utils.exceptions.DataNotFoundException;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 
@@ -68,7 +68,7 @@ public class ExpenseController {
             Expense expense = modelMapper.map(expenseDto, Expense.class);
             expenseService.updateExpense(Long.valueOf(id), expense);
             return new ResponseEntity<>(HttpStatus.OK);
-        }catch(EntityNotFoundException e){
+        }catch(DataNotFoundException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

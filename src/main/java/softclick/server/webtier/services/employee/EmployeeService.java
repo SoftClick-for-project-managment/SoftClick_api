@@ -9,6 +9,7 @@ import softclick.server.data.entities.Skill;
 import softclick.server.data.repositories.EmployeeRepository;
 import softclick.server.data.repositories.SkillRepository;
 import softclick.server.webtier.services.BaseService;
+import softclick.server.webtier.utils.exceptions.DataNotFoundException;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
@@ -35,14 +36,22 @@ public class EmployeeService extends BaseService<Employee, Long> implements IEmp
         log.info("Updating employee with id: {}", id.toString());
         Employee employee = employeeRepository.getReferenceById(id);
         if (employee == null)
-            throw new EntityNotFoundException();
+            throw new DataNotFoundException("Employee not found");
 
-        employee.setEmployeeFirstName(newEmployee.getEmployeeFirstName());
-        employee.setEmployeeLastName(newEmployee.getEmployeeLastName());
-        employee.setEmployeeEmail(newEmployee.getEmployeeEmail());
-        employee.setEmployeePhone(newEmployee.getEmployeePhone());
-        employee.setEmployeeImage(newEmployee.getEmployeeImage());
-        employee.setEmployeeFunction(newEmployee.getEmployeeFunction());
+        if(newEmployee.getEmployeeFirstName() != null)
+            employee.setEmployeeFirstName(newEmployee.getEmployeeFirstName());
+        if(newEmployee.getEmployeeLastName() != null)
+            employee.setEmployeeLastName(newEmployee.getEmployeeLastName());
+        if(newEmployee.getEmployeeEmail() != null)
+            employee.setEmployeeEmail(newEmployee.getEmployeeEmail());
+        if(newEmployee.getEmployeePhone() != null)
+            employee.setEmployeePhone(newEmployee.getEmployeePhone());
+        if(newEmployee.getEmployeeImage() != null)
+            employee.setEmployeeImage(newEmployee.getEmployeeImage());
+        if(newEmployee.getEmployeeFunction() != null)
+            employee.setEmployeeFunction(newEmployee.getEmployeeFunction());
+        if(newEmployee.getSkills() != null)
+            employee.setSkills(newEmployee.getSkills());
 
         employeeRepository.save(employee);
     }
