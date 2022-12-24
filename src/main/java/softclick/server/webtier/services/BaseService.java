@@ -9,6 +9,8 @@ import softclick.server.webtier.utils.exceptions.DataNotFoundException;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.lang.reflect.Field;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -70,7 +72,11 @@ public class BaseService<T, Key> implements IBaseService<T, Key>{
             fields.forEach((cles,value)->{
                 Field field = ReflectionUtils.findField(tClass,cles.toString());
                 field.setAccessible(true);
-                ReflectionUtils.setField(field,entity,value);
+                if(field.getType() == Date.class ){
+                    ReflectionUtils.setField(field, entity, new Date(Timestamp.valueOf(value.toString()).getTime()));
+                }else {
+                    ReflectionUtils.setField(field, entity, value);
+                }
             });
             return  entity;
         }

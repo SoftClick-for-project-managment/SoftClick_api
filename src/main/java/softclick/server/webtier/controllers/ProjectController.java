@@ -7,9 +7,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import softclick.server.data.entities.Project;
+import softclick.server.webtier.dtos.project.ProjectandSingleDto;
 import softclick.server.webtier.services.project.IProjectService;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -77,6 +79,7 @@ public class ProjectController {
     public ResponseEntity<Object> patche(@PathVariable Long id , @RequestBody Map<Object,Object> fields){
 
         try{
+            System.out.println(fields.toString());
             Project storedProject = projectService.patch(id,fields);
             if (storedProject == null)
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
