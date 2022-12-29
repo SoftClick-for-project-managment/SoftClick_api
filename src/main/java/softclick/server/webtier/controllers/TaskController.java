@@ -77,9 +77,7 @@ public class TaskController {
     @PostMapping(value = "/tasks")
     public ResponseEntity<Object> create(@RequestBody TaskCreateAndUpdateDto taskDto){
         try{
-            System.out.println(taskDto);
             Task task = modelMapper.map(taskDto, Task.class);
-            System.out.println(task);
             taskService.saveEntity(task);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch(DataNotFoundException e){
@@ -98,9 +96,7 @@ public class TaskController {
     public ResponseEntity<Object> update(@PathVariable String id, @RequestBody TaskCreateAndUpdateDto taskDto){
         try{
             Task task = modelMapper.map(taskDto, Task.class);
-
             taskService.updateTask(Long.valueOf(id), task);
-
             return new ResponseEntity<>(HttpStatus.OK);
         }catch(DataNotFoundException e){
             log.error(e.getMessage());
