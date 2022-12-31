@@ -9,5 +9,5 @@ public interface IUserService extends IBaseService<User, Long> {
     void addRoleToUser(String username, String roleName);
     void updateUser(Long id, User user);
     void assignUserToEmployee(User user, Employee employee);
-//    User getUserByUsername(String username);
+    User getUserByUsername(String username);
 }
