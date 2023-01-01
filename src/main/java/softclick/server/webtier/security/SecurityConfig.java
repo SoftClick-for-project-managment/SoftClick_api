@@ -36,8 +36,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // User and Auth Resources Protection
         http.authorizeRequests().antMatchers(POST, "/login").permitAll();
         http.authorizeRequests().antMatchers(POST, "/api/v1/users/**").permitAll();
-        http.authorizeRequests().antMatchers(GET, "/api/v1/users/**").hasAnyAuthority("ROLE_ADMIN");
         http.authorizeRequests().antMatchers(GET, "/api/v1/users/details").authenticated();
+        http.authorizeRequests().antMatchers(GET, "/api/v1/users/**").hasAnyAuthority("ROLE_ADMIN");
         http.authorizeRequests().antMatchers(PUT, "/api/v1/users/**").authenticated();
         http.authorizeRequests().antMatchers(DELETE, "/api/v1/users/**").hasAnyAuthority("ROLE_ADMIN");
         http.authorizeRequests().anyRequest().authenticated();
