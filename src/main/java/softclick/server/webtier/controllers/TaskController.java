@@ -55,6 +55,19 @@ public class TaskController {
         }
     }
 
+    @GetMapping(value = "/tasks/project/{id}")
+    public ResponseEntity<Object> projectTasks(@PathVariable("id") String id){
+        try{
+            Long projectId = Long.valueOf(id);
+            List<Task> tasks = taskService.getAllByProject(projectId);
+            List<TaskListAndSingleDto> taskListDto = tasks.stream().map(t -> modelMapper.map(t, TaskListAndSingleDto.class)).collect(Collectors.toList());
+            return new ResponseEntity<>(taskListDto, HttpStatus.OK);
+        }catch(Exception e){
+            log.error(e.getLocalizedMessage());
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @GetMapping(value = "/tasks/{id}")
     public ResponseEntity<Object> single(@PathVariable String id){
         try{
@@ -77,9 +90,7 @@ public class TaskController {
     @PostMapping(value = "/tasks")
     public ResponseEntity<Object> create(@RequestBody TaskCreateAndUpdateDto taskDto){
         try{
-            System.out.println(taskDto);
             Task task = modelMapper.map(taskDto, Task.class);
-            System.out.println(task);
             taskService.saveEntity(task);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch(DataNotFoundException e){
@@ -98,9 +109,7 @@ public class TaskController {
     public ResponseEntity<Object> update(@PathVariable String id, @RequestBody TaskCreateAndUpdateDto taskDto){
         try{
             Task task = modelMapper.map(taskDto, Task.class);
-
             taskService.updateTask(Long.valueOf(id), task);
-
             return new ResponseEntity<>(HttpStatus.OK);
         }catch(DataNotFoundException e){
             log.error(e.getMessage());

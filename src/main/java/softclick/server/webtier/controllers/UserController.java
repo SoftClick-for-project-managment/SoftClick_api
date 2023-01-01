@@ -5,8 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import softclick.server.data.entities.User;
+import softclick.server.webtier.dtos.Task.TaskListAndSingleDto;
 import softclick.server.webtier.dtos.User.UserCreateAndUpdateDto;
 import softclick.server.webtier.dtos.User.UserListAndSingleDto;
 import softclick.server.webtier.services.user.IUserService;
@@ -32,6 +36,17 @@ public class UserController {
         try{
             List<UserListAndSingleDto> users = userService.getAllEntities().stream().map(user -> modelMapper.map(user, UserListAndSingleDto.class)).collect(Collectors.toList());
             return new ResponseEntity<>(users, HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/users/details")
+    public ResponseEntity<Object> getUserDetails(){
+        try{
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            User user = userService.getUserByUsername(authentication.getPrincipal().toString());
+            return new ResponseEntity<>(user, HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

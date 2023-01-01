@@ -30,6 +30,11 @@ public class FakeTaskService implements ITaskService {
     }
 
     @Override
+    public List<Task> getAllByProject(Long projectId) {
+        return null;
+    }
+
+    @Override
     public void saveEntity(Task entity) {
 
     }

@@ -12,6 +12,8 @@ import softclick.server.webtier.services.BaseService;
 import softclick.server.webtier.utils.exceptions.BusinessException;
 import softclick.server.webtier.utils.exceptions.DataNotFoundException;
 
+import java.util.List;
+
 @Service
 @Transactional
 @Slf4j
@@ -66,5 +68,10 @@ public class TaskService extends BaseService<Task, Long> implements ITaskService
         task.setName(newTask.getName() != null ? newTask.getName() : task.getName());
         task.setDescription(newTask.getDescription() != null ? newTask.getDescription() : task.getDescription());
         taskRepository.save(task);
+    }
+
+    @Override
+    public List<Task> getAllByProject(Long projectId) {
+        return taskRepository.getByProjectPage(projectRepository.getReferenceById(projectId), null).getContent();
     }
 }
