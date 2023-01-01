@@ -3,7 +3,6 @@ package softclick.server.webtier.services.expense;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import softclick.server.data.entities.Expense;
-import softclick.server.data.entities.ExpenseCategory;
 import softclick.server.data.entities.Task;
 
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ import java.util.Map;
 public class FakeExpenseService implements  IExpenseService{
     private final List<Expense> expenses = new ArrayList<>();
     private final Task task =new Task();
-    ExpenseCategory category= new ExpenseCategory("Design");
+    String category= "Design";
     Date time= new Date();
     public FakeExpenseService(){
         expenses.add(new Expense(1230000L,"income",time,category));
@@ -55,10 +54,7 @@ public class FakeExpenseService implements  IExpenseService{
 
     }
 
-    @Override
-    public void addCategoryToExpense(Long expenseId, String expenseCategoryName) {
 
-    }
 
     @Override
     public Expense patch(Long aLong, Map<Object, Object> fields, Class<Expense> expenseClass) {

@@ -8,5 +8,4 @@ public interface IExpenseService extends IBaseService<Expense, Long> {
     void addTaskToExpense(Long expenseId, Long taskId);
 
 
-    void addCategoryToExpense(Long expenseId, String expenseCategoryName);
 }

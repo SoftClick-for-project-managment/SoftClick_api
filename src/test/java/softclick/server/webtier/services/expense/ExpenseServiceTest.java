@@ -7,10 +7,8 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import softclick.server.data.entities.Expense;
-import softclick.server.data.entities.ExpenseCategory;
 import softclick.server.data.entities.Status;
 import softclick.server.data.entities.Task;
-import softclick.server.data.repositories.ExpenseCategoryRepository;
 import softclick.server.data.repositories.ExpenseRepository;
 import softclick.server.data.repositories.TaskRepository;
 import softclick.server.webtier.utils.exceptions.DataNotFoundException;
@@ -29,21 +27,20 @@ class ExpenseServiceTest {
     @Mock private TaskRepository taskRepository;
 
     @Mock private ExpenseRepository expenseRepository;
-    @Mock private ExpenseCategoryRepository expenseCategoryRepository;
     private IExpenseService serviceUnderTest;
 
     @BeforeEach
     void setUp() {
-        serviceUnderTest = new ExpenseService(expenseRepository,expenseCategoryRepository,taskRepository);
+        serviceUnderTest = new ExpenseService(expenseRepository,taskRepository);
     }
 
     @Test
     void itShouldVerifyExpenseAdded() {
         // given
         Task task= new Task(); task.setId(1L);
-        ExpenseCategory expenseCategory= new ExpenseCategory(); expenseCategory.setId(1L);
 
-        Expense expense= new Expense(10L,"income", new Date(1000),expenseCategory,task);
+
+        Expense expense= new Expense(10L,"income", new Date(1000),"front",task);
 
         // when
         serviceUnderTest.saveEntity(expense);
@@ -62,8 +59,7 @@ class ExpenseServiceTest {
         // given
         Status newStatus = new Status("OPEN"); newStatus.setIdStatus(2L);
         Task newTask = new Task(null, null, null, null, newStatus, null, null, null,null);
-        ExpenseCategory newExpenseCategory=new ExpenseCategory("transport");
-        Expense newExpense=new Expense(11L,"amount",null,newExpenseCategory,newTask);
+        Expense newExpense=new Expense(11L,"amount",null,"transport",newTask);
         given(expenseRepository.getReferenceById(1L))
                 .willReturn(null);
         // when and then

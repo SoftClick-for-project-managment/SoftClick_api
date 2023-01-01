@@ -97,13 +97,6 @@ public class RmiProxyFactoryBeans {
         return bean;
     }
 
-    @Bean
-    HttpInvokerProxyFactoryBean httpProxyFactoryExpenseCategoryRepoBean(){
-        HttpInvokerProxyFactoryBean bean = new HttpInvokerProxyFactoryBean();
-        bean.setServiceInterface(ExpenseCategoryRepository.class);
-        bean.setServiceUrl(dataServerSocket+"/ExpenseCategoryRepository");
-        return bean;
-    }
 
     @Bean
     HttpInvokerProxyFactoryBean httpProxyFactoryPriorityRepoBean(){

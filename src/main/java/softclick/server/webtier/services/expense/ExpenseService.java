@@ -5,9 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import softclick.server.data.entities.Expense;
-import softclick.server.data.entities.ExpenseCategory;
 import softclick.server.data.entities.Task;
-import softclick.server.data.repositories.ExpenseCategoryRepository;
 import softclick.server.data.repositories.ExpenseRepository;
 import softclick.server.data.repositories.TaskRepository;
 import softclick.server.webtier.services.BaseService;
@@ -20,13 +18,11 @@ import javax.transaction.Transactional;
 @Qualifier("rmiExpenseService")
 public class ExpenseService extends BaseService<Expense, Long> implements IExpenseService{
     private final ExpenseRepository expenseRepository;
-    private final ExpenseCategoryRepository expenseCategoryRepository;
     private final TaskRepository taskRepository;
     @Autowired
-    protected ExpenseService(ExpenseRepository expenseRepository, ExpenseCategoryRepository expenseCategoryRepository, TaskRepository taskRepository) {
+    protected ExpenseService(ExpenseRepository expenseRepository, TaskRepository taskRepository) {
         super(expenseRepository);
         this.expenseRepository = expenseRepository;
-        this.expenseCategoryRepository = expenseCategoryRepository;
         this.taskRepository = taskRepository;
     }
 
@@ -55,14 +51,6 @@ public class ExpenseService extends BaseService<Expense, Long> implements IExpen
         expense.setTask(task);
         expenseRepository.save(expense);
     }
-    @Override
-    public void addCategoryToExpense(Long expenseId, String expenseCategoryName) {
-        log.info("Adding category {} to expense with id {}", expenseCategoryName, expenseId);
-        ExpenseCategory expenseCategory= expenseCategoryRepository.findByCategoryName(expenseCategoryName);
-        Expense expense = expenseRepository.findById(expenseId).get();
 
-        expense.setExpenseCategory(expenseCategory);
-        expenseRepository.save(expense);
-    }
 
 }
