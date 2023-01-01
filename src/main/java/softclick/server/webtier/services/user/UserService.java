@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import softclick.server.data.entities.Employee;
 import softclick.server.data.entities.Role;
 import softclick.server.data.entities.User;
+import softclick.server.data.repositories.EmployeeRepository;
 import softclick.server.data.repositories.RoleRepository;
 import softclick.server.data.repositories.UserRepository;
 import softclick.server.webtier.services.BaseService;
@@ -26,18 +27,31 @@ import java.util.Collection;
 public class UserService extends BaseService<User, Long> implements IUserService, UserDetailsService {
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
+    private final EmployeeRepository employeeRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    protected UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    protected UserService(UserRepository userRepository, RoleRepository roleRepository, EmployeeRepository employeeRepository, PasswordEncoder passwordEncoder) {
         super(userRepository);
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.employeeRepository = employeeRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public void saveEntity(User entity) {
+        if (entity.getEmployee() != null){
+            Employee employee = employeeRepository.save(entity.getEmployee());
+            entity.setEmployee(employee);
+        }
+        if (entity.getRoles() instanceof Collection) {
+            Collection<Role> roles = new ArrayList<>();
+            entity.getRoles().forEach(r -> {
+                roles.add(roleRepository.findByName(r.getName()));
+            });
+            entity.setRoles(roles);
+        }
         entity.setPassword(passwordEncoder.encode(entity.getPassword()));
         super.saveEntity(entity);
     }
@@ -75,6 +89,11 @@ public class UserService extends BaseService<User, Long> implements IUserService
     @Override
     public void assignUserToEmployee(User user, Employee employee) {
 
+    }
+
+    @Override
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
     @Override
