@@ -17,7 +17,7 @@ public class UserCreateAndUpdateDto implements Serializable {
     private String username;
     private String password;
     @JsonProperty(value = "active")
-    private boolean isActive;
+    private Boolean isActive;
     private Employee employee;
     private Collection<Role> roles;
 }
