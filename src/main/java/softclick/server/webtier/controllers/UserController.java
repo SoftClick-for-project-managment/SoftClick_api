@@ -93,7 +93,6 @@ public class UserController {
     @PatchMapping(value = "/users/{id}")
     public ResponseEntity<Object> patch(@PathVariable String id, @RequestBody UserCreateAndUpdateDto userDto){
         try{
-//            User user = modelMapper.map(userDto, User.class);
             Map fields = ObjectMap.toMap(userDto);
             System.out.println(fields);
             userService.patch(Long.valueOf(id), fields, User.class);

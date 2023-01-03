@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import softclick.server.data.entities.Employee;
+import softclick.server.data.entities.Project;
 import softclick.server.data.entities.Task;
 import softclick.server.data.repositories.*;
 import softclick.server.webtier.services.BaseService;
@@ -73,5 +75,33 @@ public class TaskService extends BaseService<Task, Long> implements ITaskService
     @Override
     public List<Task> getAllByProject(Long projectId) {
         return taskRepository.getByProjectPage(projectRepository.getReferenceById(projectId), null).getContent();
+    }
+
+    @Override
+    public List<Task> getAllByEmployee(Long employeeId) {
+        Employee employee;
+        try {
+             employee = employeeRepository.getReferenceById(employeeId);
+        } catch (Exception e) {
+            throw new DataNotFoundException("employee not found");
+        }
+        return taskRepository.getByEmployeePage(employee, null).getContent();
+    }
+
+    @Override
+    public List<Task> getAllByProjectAndEmployee(Long employeeId, Long projectId) {
+        Employee employee;
+        Project project;
+        try {
+            employee = employeeRepository.getReferenceById(employeeId);
+        } catch (Exception e) {
+            throw new DataNotFoundException("employee not found");
+        }
+        try {
+            project = projectRepository.getReferenceById(projectId);
+        } catch (Exception e) {
+            throw new DataNotFoundException("project not found");
+        }
+        return taskRepository.getByProjectAndEmployeePage(project, employee, null).getContent();
     }
 }

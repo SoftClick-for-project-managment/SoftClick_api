@@ -5,18 +5,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import softclick.server.data.entities.Role;
 import softclick.server.data.entities.Task;
+import softclick.server.data.entities.User;
 import softclick.server.webtier.dtos.Task.TaskCreateAndUpdateDto;
 import softclick.server.webtier.dtos.Task.TaskListAndSingleDto;
 import softclick.server.webtier.services.task.ITaskService;
+import softclick.server.webtier.services.user.IUserService;
 import softclick.server.webtier.utils.exceptions.BusinessException;
 import softclick.server.webtier.utils.exceptions.DataNotFoundException;
 import softclick.server.webtier.utils.time.DateTimeConverter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static softclick.server.webtier.security.SecurityConfig.ROLE_ADMIN;
+import static softclick.server.webtier.security.SecurityConfig.ROLE_EMPLOYEE;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -24,11 +34,15 @@ import java.util.stream.Collectors;
 public class TaskController {
 
     private final ITaskService taskService;
+    private final IUserService userService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public TaskController(@Qualifier("rmiTaskService") ITaskService taskService, ModelMapper modelMapper) {
+    public TaskController(@Qualifier("rmiTaskService") ITaskService taskService,
+                          @Qualifier("rmiUserService") IUserService userService,
+                          ModelMapper modelMapper) {
         this.taskService = taskService;
+        this.userService = userService;
         this.modelMapper = modelMapper;
         this.modelMapper.createTypeMap(Task.class, TaskListAndSingleDto.class)
                 .addMappings(mapper -> {
@@ -44,9 +58,25 @@ public class TaskController {
     }
 
     @GetMapping(value = "/tasks")
-    public ResponseEntity<Object> index(){
+    public ResponseEntity<Object> index(@RequestParam(value = "pid", required = false) String projectId) {
         try{
-            List<Task> tasks = taskService.getAllEntities();
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            User user = userService.getUserByUsername(authentication.getPrincipal().toString());
+            ArrayList<String> userRoleList = (ArrayList<String>) user.getRoles().stream().map(s -> s.getName()).collect(Collectors.toList());
+            List<Task> tasks = new ArrayList<>();
+
+            if (projectId == null) {
+                if ( userRoleList.contains(ROLE_EMPLOYEE) ) {
+                    tasks = taskService.getAllByEmployee(user.getEmployee().getId());
+                } else if (userRoleList.contains(ROLE_ADMIN) ) {
+                    tasks = taskService.getAllEntities();
+                }
+            } else {
+                if ( userRoleList.contains(ROLE_EMPLOYEE) ) {
+                    tasks = taskService.getAllByProjectAndEmployee(user.getEmployee().getId(), Long.valueOf(projectId));
+                }
+            }
+
             List<TaskListAndSingleDto> taskListDto = tasks.stream().map(t -> modelMapper.map(t, TaskListAndSingleDto.class)).collect(Collectors.toList());
             return new ResponseEntity<>(taskListDto, HttpStatus.OK);
         }catch(Exception e){
