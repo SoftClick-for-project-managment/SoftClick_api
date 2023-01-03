@@ -15,8 +15,10 @@ import softclick.server.webtier.dtos.User.UserCreateAndUpdateDto;
 import softclick.server.webtier.dtos.User.UserListAndSingleDto;
 import softclick.server.webtier.services.user.IUserService;
 import softclick.server.webtier.utils.exceptions.DataNotFoundException;
+import softclick.server.webtier.utils.mappers.ObjectMap;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -85,6 +87,20 @@ public class UserController {
         }catch(DataNotFoundException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }catch(Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+    @PatchMapping(value = "/users/{id}")
+    public ResponseEntity<Object> patch(@PathVariable String id, @RequestBody UserCreateAndUpdateDto userDto){
+        try{
+            Map fields = ObjectMap.toMap(userDto);
+            System.out.println(fields);
+            userService.patch(Long.valueOf(id), fields, User.class);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch(DataNotFoundException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }catch(Exception e){
+            e.printStackTrace();
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }

@@ -22,6 +22,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 @Service @Slf4j @Qualifier("rmiUserService")
 public class UserService extends BaseService<User, Long> implements IUserService, UserDetailsService {
@@ -109,5 +110,10 @@ public class UserService extends BaseService<User, Long> implements IUserService
         userRepository.save(user);
     }
 
-
+    @Override
+    public User patch(Long aLong, Map<Object, Object> fields, Class<User> userClass) {
+        User user = super.patch(aLong, fields, userClass);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
+    }
 }

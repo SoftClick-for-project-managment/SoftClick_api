@@ -64,16 +64,18 @@ public class BaseService<T, Key> implements IBaseService<T, Key>{
         }
     }
 
+    @Override
     public T patch(Key key , Map<Object,Object> fields , Class<T> tClass){
-        T entity = this.findEntityByKey(key);
-        if(entity != null){
-            fields.forEach((cles,value)->{
-                Field field = ReflectionUtils.findField(tClass,cles.toString());
-                field.setAccessible(true);
-                ReflectionUtils.setField(field,entity,value);
-            });
-            return  entity;
+        log.info("Updating entity of type: "+tClass.toString());
+        T entity = repository.getReferenceById(key);
+        if(entity == null) {
+            throw new DataNotFoundException("not found");
         }
-        return  null;
+        fields.forEach((k, v)->{
+            Field field = ReflectionUtils.findField(tClass, k.toString());
+            field.setAccessible(true);
+            ReflectionUtils.setField(field, entity, v);
+        });
+        return entity;
     }
 }

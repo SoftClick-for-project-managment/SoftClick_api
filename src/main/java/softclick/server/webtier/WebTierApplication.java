@@ -26,6 +26,8 @@ import softclick.server.webtier.services.user.IUserService;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @SpringBootApplication(exclude = {
     DataSourceAutoConfiguration.class,
@@ -60,6 +62,8 @@ public class WebTierApplication {
                           IDomainService domainService,
                           IExpenseService expenseService){
         return args -> {
+//            userService.patch(10L, Map.of("password", "secret"), User.class);
+
 //            userService.saveEntity(new User("othmane", "password", true));
 //            userService.saveEntity(new User("wafae", "password", true));
 //            userService.saveEntity(new User("youssef", "password", true));
