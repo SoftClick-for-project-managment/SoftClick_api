@@ -30,8 +30,8 @@ public class ProjectController {
     public ResponseEntity<Object> index(){
         try{
             List<Project> projects = projectService.getAllEntities();
-           List<ProjectandSingleDto> projectDtoList = projects.stream().map(t -> modelMapper.map(t, ProjectandSingleDto.class)).collect(Collectors.toList());
-            return new ResponseEntity<>(projectDtoList, HttpStatus.OK);
+            //    List<ProjectandSingleDto> projectDtoList = projects.stream().map(t -> modelMapper.map(t, ProjectandSingleDto.class)).collect(Collectors.toList());
+            return new ResponseEntity<>(projects, HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -52,24 +52,23 @@ public class ProjectController {
     @PostMapping(value = "/projects")
     public ResponseEntity<Object> create(@RequestBody Project project){
         try{
-            System.out.println("my date format is : "+project.getDateDebut().toString());
             projectService.saveEntity(project);
-
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
-    @PutMapping(value = "/projects")
-    public ResponseEntity<Object> update(@RequestBody Project project){
+    @PutMapping(value = "/projects/{id}")
+    public ResponseEntity<Object> update(@PathVariable String id, @RequestBody Project project){
         try{
-            Project storedProject = projectService.findEntityByKey(project.getIdProject());
+            Long project_id = Long.valueOf(id);
+            Project storedProject = projectService.findEntityByKey(project_id);
             if (storedProject == null)
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
 
-            projectService.saveEntity(project);
+            projectService.updateProject(project_id,project);
             return new ResponseEntity<>(HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -79,7 +78,6 @@ public class ProjectController {
     public ResponseEntity<Object> patche(@PathVariable Long id , @RequestBody Map<Object,Object> fields){
 
         try{
-            System.out.println(fields.toString());
             Project storedProject = projectService.patch(id,fields);
             if (storedProject == null)
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -94,6 +92,22 @@ public class ProjectController {
         try{
             projectService.deleteEntity(Long.valueOf(id));
             return new ResponseEntity<>(HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+    @PostMapping(value = "/projects/search")
+    public ResponseEntity<Object> search(@RequestBody Project project_searched){
+        try{
+            Long id_domain,id_chef,id_status,id_priority;
+            id_domain = (project_searched.getDomainProjet() == null) ? null: project_searched.getDomainProjet().getIdDomain();
+            id_chef = (project_searched.getChefProject() == null) ? null:project_searched.getChefProject().getId();
+            id_status = (project_searched.getProjectStatus() == null) ? null:project_searched.getProjectStatus().getIdStatus();
+            id_priority = (project_searched.getProjectPriority() == null) ? null:project_searched.getProjectPriority().getIdPriority();
+            String name_project = project_searched.getNameProject();
+            List<Project> projects = projectService.serachProject(id_domain,id_chef,id_status,id_priority,name_project);
+            List<ProjectandSingleDto> projectDtoList = projects.stream().map(t -> modelMapper.map(t, ProjectandSingleDto.class)).collect(Collectors.toList());
+            return new ResponseEntity<>(projects, HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
