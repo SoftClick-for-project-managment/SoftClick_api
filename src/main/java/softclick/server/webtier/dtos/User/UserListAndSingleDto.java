@@ -16,7 +16,7 @@ public class UserListAndSingleDto implements Serializable {
     private Long id;
     private String username;
     private String password;
-    private boolean isActive;
+    private Boolean isActive;
     private Collection<Role> roles;
     private Employee employee;
 }
