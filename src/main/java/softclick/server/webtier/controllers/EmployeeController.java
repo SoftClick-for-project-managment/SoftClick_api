@@ -7,12 +7,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import softclick.server.data.entities.Employee;
+import softclick.server.data.entities.Project;
+import softclick.server.data.entities.Skill;
 import softclick.server.webtier.dtos.Empoyee.EmployeeCreateAndUpdateDto;
 import softclick.server.webtier.dtos.Empoyee.EmployeeListAndSingleDto;
+import softclick.server.webtier.dtos.project.ProjectandSingleDto;
 import softclick.server.webtier.services.employee.IEmployeeService;
 import softclick.server.webtier.utils.exceptions.DataNotFoundException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -84,4 +88,19 @@ public class EmployeeController {
         }
     }
 
+    @PostMapping(value = "/employees/search")
+    public ResponseEntity<Object> search(@RequestBody Employee employee_searched){
+        try{
+            String firstName , lastName,function;
+            Skill skill =(employee_searched.getSkills().size()>0) ? employee_searched.getSkills().iterator().next():null;
+            firstName = "%"+employee_searched.getEmployeeFirstName()+"%";
+            lastName = "%"+employee_searched.getEmployeeLastName()+"%";
+            function = "%"+employee_searched.getEmployeeFunction()+"%";
+            List<Employee> employees = employeeService.serachEmploye(firstName,lastName,function,skill);
+            List<EmployeeListAndSingleDto> employeDtoList = employees.stream().map(t -> modelMapper.map(t, EmployeeListAndSingleDto.class)).collect(Collectors.toList());
+            return new ResponseEntity<>(employeDtoList, HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 }

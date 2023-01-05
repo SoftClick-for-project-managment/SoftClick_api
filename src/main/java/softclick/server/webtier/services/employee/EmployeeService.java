@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import softclick.server.data.entities.Employee;
+import softclick.server.data.entities.Project;
 import softclick.server.data.entities.Skill;
 import softclick.server.data.repositories.EmployeeRepository;
 import softclick.server.data.repositories.SkillRepository;
@@ -13,6 +14,7 @@ import softclick.server.webtier.utils.exceptions.DataNotFoundException;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Set;
 
 @Service @Transactional @Slf4j @Qualifier("rmiEmployeeService")
@@ -67,6 +69,10 @@ public class EmployeeService extends BaseService<Employee, Long> implements IEmp
         skills.add(skill);
         employee.setSkills(skills);
         employeeRepository.save(employee);
+    }
+    public List<Employee> serachEmploye(String firstName , String lastName , String function , Skill skill){
+        List<Employee> filteredEmployees = employeeRepository.searchEmploye(firstName , lastName , function ,  skill);
+        return  filteredEmployees;
     }
 
 }
