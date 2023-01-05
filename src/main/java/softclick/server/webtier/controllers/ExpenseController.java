@@ -52,9 +52,9 @@ public class ExpenseController {
     }
 
     @PostMapping(value = "/expenses")
-    public ResponseEntity<Object> create(@RequestBody ExpenseCreateAndUpdateDto expenseDto){
+    public ResponseEntity<Object> create(@RequestBody Expense expense){
         try{
-            Expense expense = modelMapper.map(expenseDto, Expense.class);
+            System.out.print(expense.toString());
             expenseService.saveEntity(expense);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch(Exception e){

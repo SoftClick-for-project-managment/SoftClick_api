@@ -18,7 +18,7 @@ public class FakeExpenseService implements  IExpenseService{
     ExpenseCategory category= new ExpenseCategory("Design");
     Date time= new Date();
     public FakeExpenseService(){
-        expenses.add(new Expense(1230000L,"income",time,category));
+        expenses.add(new Expense(1230000L,"income",time,category,null));
     }
     @Override
     public void saveEntity(Expense entity) {

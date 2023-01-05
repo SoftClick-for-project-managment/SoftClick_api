@@ -15,11 +15,28 @@ import java.io.Serializable;
 @Data
 @Proxy(lazy=false)
 public class ExpenseCategory implements Serializable {
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String category;
     public ExpenseCategory(String category){
         this.category=category;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
