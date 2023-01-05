@@ -65,4 +65,9 @@ public class FakeUserService implements IUserService {
     public void assignUserToEmployee(User user, Employee employee) {
 
     }
+
+    @Override
+    public User getUserByUsername(String username) {
+        return null;
+    }
 }

@@ -6,8 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import softclick.server.data.entities.Client;
+import softclick.server.data.entities.Project;
 import softclick.server.webtier.dtos.Client.ClientCreateAndUpdateDto;
 import softclick.server.webtier.dtos.Client.ClientListAndSingleDto;
+import softclick.server.webtier.dtos.project.ProjectandSingleDto;
 import softclick.server.webtier.services.client.IClientService;
 import softclick.server.webtier.utils.exceptions.DataNotFoundException;
 
@@ -87,5 +89,21 @@ public class ClientController {
         }
     }
 
+    @PostMapping(value = "/clients/search")
+    public ResponseEntity<Object> search(@RequestBody Client client_searched){
+        try{
+            String nom,prenom,nomEntreprise,ville,pay;
+            nom = (client_searched.getNom() == null) ? null: client_searched.getNom();
+            prenom = (client_searched.getPrenom() == null) ? null:client_searched.getPrenom();
+            nomEntreprise = (client_searched.getNomEntreprise() == null) ? null:client_searched.getNomEntreprise();
+            ville = (client_searched.getVille() == null) ? null:client_searched.getVille() ;
+            pay = (client_searched.getPays() == null) ? null:client_searched.getPays() ;
+            List<Client> clients = clientService.serachClient(nom,prenom,nomEntreprise,ville,pay);
+            List<ClientListAndSingleDto> clienttDtoList = clients.stream().map(t -> modelMapper.map(t, ClientListAndSingleDto.class)).collect(Collectors.toList());
+            return new ResponseEntity<>(clienttDtoList, HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 
 }

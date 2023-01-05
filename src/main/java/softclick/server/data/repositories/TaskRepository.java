@@ -16,6 +16,9 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     @Query("SELECT t FROM Task t WHERE t.project=:project")
     Page<Task> getByProjectPage(@Param("project") Project project, Pageable pageable);
 
+    @Query("SELECT t FROM Task t WHERE t.employee=:employee")
+    Page<Task> getByEmployeePage(@Param("employee") Employee employee, Pageable pageable);
+
     @Query("SELECT t FROM Task t WHERE t.project=:project AND t.employee=:employee")
     Page<Task> getByProjectAndEmployeePage(@Param("project") Project project, @Param("employee") Employee employee, Pageable pageable);
 
