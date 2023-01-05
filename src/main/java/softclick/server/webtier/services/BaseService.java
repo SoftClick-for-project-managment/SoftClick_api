@@ -9,6 +9,8 @@ import softclick.server.webtier.utils.exceptions.DataNotFoundException;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.lang.reflect.Field;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -64,18 +66,20 @@ public class BaseService<T, Key> implements IBaseService<T, Key>{
         }
     }
 
-    @Override
     public T patch(Key key , Map<Object,Object> fields , Class<T> tClass){
-        log.info("Updating entity of type: "+tClass.toString());
-        T entity = repository.getReferenceById(key);
-        if(entity == null) {
-            throw new DataNotFoundException("not found");
+        T entity = this.findEntityByKey(key);
+        if(entity != null){
+            fields.forEach((cles,value)->{
+                Field field = ReflectionUtils.findField(tClass,cles.toString());
+                field.setAccessible(true);
+                if(field.getType() == Date.class ){
+                    ReflectionUtils.setField(field, entity, new Date(Timestamp.valueOf(value.toString()).getTime()));
+                }else {
+                    ReflectionUtils.setField(field, entity, value);
+                }
+            });
+            return  entity;
         }
-        fields.forEach((k, v)->{
-            Field field = ReflectionUtils.findField(tClass, k.toString());
-            field.setAccessible(true);
-            ReflectionUtils.setField(field, entity, v);
-        });
-        return entity;
+        return  null;
     }
 }

@@ -63,4 +63,11 @@ public class FakeClientService implements IClientService {
     public void updateClient(Long id, Client client) {
 
     }
+
+    @Override
+    public List<Client> serachClient(String name, String prenom, String nomEntreprise, String ville, String pay) {
+        return null;
+    }
+
+
 }

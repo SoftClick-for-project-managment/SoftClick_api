@@ -70,7 +70,7 @@ class ProjectServiceTest {
     }
 
     @Test
-    void itShouldVerifyTaskNotAdd_endDateLteStartDate() {
+    void itShouldVerifyProjectNotAdd_endDateLteStartDate() {
         // given
         Date debut = new Date();
         Date fin = new Date();
