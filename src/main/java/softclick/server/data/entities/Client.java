@@ -1,15 +1,17 @@
 package softclick.server.data.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
-@Data
 @Proxy(lazy=false)
 public class Client implements Serializable {
     @Id
@@ -28,6 +30,7 @@ public class Client implements Serializable {
     @Column(nullable = false)
     private String pays;
 
+
     public Client(String nom, String prenom, String email, String phone, String nomEntreprise, String ville, String pays) {
         this.nom = nom;
         this.prenom = prenom;
@@ -37,4 +40,70 @@ public class Client implements Serializable {
         this.ville = ville;
         this.pays = pays;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getNomEntreprise() {
+        return nomEntreprise;
+    }
+
+    public void setNomEntreprise(String nomEntreprise) {
+        this.nomEntreprise = nomEntreprise;
+    }
+
+    public String getVille() {
+        return ville;
+    }
+
+    public void setVille(String ville) {
+        this.ville = ville;
+    }
+
+    public String getPays() {
+        return pays;
+    }
+
+    public void setPays(String pays) {
+        this.pays = pays;
+    }
+
+
 }

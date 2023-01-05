@@ -3,6 +3,8 @@ package softclick.server.data.entities;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -22,6 +24,7 @@ public class Expense implements Serializable {
     private ExpenseCategory expenseCategory;
     @ManyToOne
     @JoinColumn(name = "idTask")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Task task;
     public Expense(Long amount , String typeExpense, Date date, ExpenseCategory expenseCategory){
         this.amount=amount;

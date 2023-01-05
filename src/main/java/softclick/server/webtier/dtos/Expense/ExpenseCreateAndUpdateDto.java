@@ -17,5 +17,5 @@ public class ExpenseCreateAndUpdateDto implements Serializable {
 
     private Date date;
     private ExpenseCategory expenseCategory;
-    private Task task;
+    private long idTask;
 }

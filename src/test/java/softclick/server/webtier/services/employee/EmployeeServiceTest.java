@@ -247,4 +247,23 @@ public class EmployeeServiceTest {
         verify(employeeRepository).deleteById(1L);
     }
 
+    @Test
+    void getEmployeeById(){
+        // given
+        Employee employee = new Employee(
+                null,
+                "Tiger",
+                "Nixon" ,
+                "Talent Acquisition Specialist",
+                "tigernixon@gmail.com",
+                "+2120065354675");
+        employee.setId(1L);
+
+        // when
+        serviceUnderTest.findEntityByKey(1L);
+
+        // then
+        verify(employeeRepository).getReferenceById(1L);
+    }
+
 }
