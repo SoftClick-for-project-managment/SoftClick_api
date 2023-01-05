@@ -25,8 +25,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static softclick.server.webtier.security.SecurityConfig.ROLE_ADMIN;
-import static softclick.server.webtier.security.SecurityConfig.ROLE_EMPLOYEE;
+import static softclick.server.webtier.security.SecurityConfig.*;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -68,35 +67,36 @@ public class TaskController {
             if (projectId == null) {
                 if ( userRoleList.contains(ROLE_EMPLOYEE) ) {
                     tasks = taskService.getAllByEmployee(user.getEmployee().getId());
-                } else if (userRoleList.contains(ROLE_ADMIN) ) {
+                } else if ( userRoleList.contains(ROLE_ADMIN) || userRoleList.contains(ROLE_DIRECTOR) ) {
                     tasks = taskService.getAllEntities();
                 }
             } else {
                 if ( userRoleList.contains(ROLE_EMPLOYEE) ) {
                     tasks = taskService.getAllByProjectAndEmployee(user.getEmployee().getId(), Long.valueOf(projectId));
+                } else if (userRoleList.contains(ROLE_DIRECTOR) || userRoleList.contains(ROLE_PROJECT_MANAGER) ) {
+                    tasks = taskService.getAllByProject(Long.valueOf(projectId));
                 }
             }
-
             List<TaskListAndSingleDto> taskListDto = tasks.stream().map(t -> modelMapper.map(t, TaskListAndSingleDto.class)).collect(Collectors.toList());
             return new ResponseEntity<>(taskListDto, HttpStatus.OK);
         }catch(Exception e){
-            log.error(e.getLocalizedMessage());
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
-    @GetMapping(value = "/tasks/project/{id}")
-    public ResponseEntity<Object> projectTasks(@PathVariable("id") String id){
-        try{
-            Long projectId = Long.valueOf(id);
-            List<Task> tasks = taskService.getAllByProject(projectId);
-            List<TaskListAndSingleDto> taskListDto = tasks.stream().map(t -> modelMapper.map(t, TaskListAndSingleDto.class)).collect(Collectors.toList());
-            return new ResponseEntity<>(taskListDto, HttpStatus.OK);
-        }catch(Exception e){
-            log.error(e.getLocalizedMessage());
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-    }
+//    @GetMapping(value = "/tasks/project/{id}")
+//    public ResponseEntity<Object> projectTasks(@PathVariable("id") String id){
+//        try{
+//            Long projectId = Long.valueOf(id);
+//            List<Task> tasks = taskService.getAllByProject(projectId);
+//            List<TaskListAndSingleDto> taskListDto = tasks.stream().map(t -> modelMapper.map(t, TaskListAndSingleDto.class)).collect(Collectors.toList());
+//            return new ResponseEntity<>(taskListDto, HttpStatus.OK);
+//        }catch(Exception e){
+//            log.error(e.getLocalizedMessage());
+//            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+//        }
+//    }
 
     @GetMapping(value = "/tasks/{id}")
     public ResponseEntity<Object> single(@PathVariable String id){
