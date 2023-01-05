@@ -71,6 +71,12 @@ public class ClientService extends BaseService<Client, Long> implements IClientS
         clientRepository.save(client);
     }
 
-
+    @Override
+    public List<Client> serachClient(String name, String prenom, String nomEntreprise,String ville,String pay) {
+        List<Client> filteredClients = clientRepository.serachClient(name, prenom, nomEntreprise,ville,pay);
+        return  filteredClients;
     }
+
+
+}
 
