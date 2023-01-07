@@ -1,3 +1,4 @@
+
 package softclick.server.webtier.controllers;
 
 import org.modelmapper.ModelMapper;
@@ -52,9 +53,9 @@ public class ExpenseController {
     }
 
     @PostMapping(value = "/expenses")
-    public ResponseEntity<Object> create(@RequestBody ExpenseCreateAndUpdateDto expenseDto){
+    public ResponseEntity<Object> create(@RequestBody Expense expense){
         try{
-            Expense expense = modelMapper.map(expenseDto, Expense.class);
+            System.out.print(expense.toString());
             expenseService.saveEntity(expense);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch(Exception e){
@@ -77,7 +78,8 @@ public class ExpenseController {
 
     @DeleteMapping(value = "/expenses/{id}")
     public ResponseEntity<Object> delete(@PathVariable String id){
-        try{            expenseService.deleteEntity(Long.valueOf(id));
+        try{
+            expenseService.deleteEntity(Long.valueOf(id));
             return new ResponseEntity<>(HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
