@@ -1,6 +1,7 @@
 package softclick.server.webtier.controllers;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -53,6 +54,12 @@ public class TaskController {
                 .addMappings(mapper -> {
                     mapper.using(ctx -> DateTimeConverter.valueOf((String) ctx.getSource())).map(src -> src.getStartDate(), Task::setStartDate);
                     mapper.using(ctx -> DateTimeConverter.valueOf((String) ctx.getSource())).map(src -> src.getEndDate(), Task::setEndDate);
+                })
+                .addMappings(new PropertyMap<TaskCreateAndUpdateDto, Task>() {
+                    @Override
+                    protected void configure() {
+                        map().setId(source.getProjectId());
+                    }
                 });
     }
 
@@ -65,10 +72,10 @@ public class TaskController {
             List<Task> tasks = new ArrayList<>();
 
             if (projectId == null) {
-                if ( userRoleList.contains(ROLE_EMPLOYEE) ) {
-                    tasks = taskService.getAllByEmployee(user.getEmployee().getId());
-                } else if ( userRoleList.contains(ROLE_ADMIN) || userRoleList.contains(ROLE_DIRECTOR) ) {
+                if ( userRoleList.contains(ROLE_ADMIN) || userRoleList.contains(ROLE_DIRECTOR) ) {
                     tasks = taskService.getAllEntities();
+                } else if ( userRoleList.contains(ROLE_EMPLOYEE) ) {
+                    tasks = taskService.getAllByEmployee(user.getEmployee().getId());
                 }
             } else {
                 if ( userRoleList.contains(ROLE_EMPLOYEE) ) {
@@ -84,19 +91,6 @@ public class TaskController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
-
-//    @GetMapping(value = "/tasks/project/{id}")
-//    public ResponseEntity<Object> projectTasks(@PathVariable("id") String id){
-//        try{
-//            Long projectId = Long.valueOf(id);
-//            List<Task> tasks = taskService.getAllByProject(projectId);
-//            List<TaskListAndSingleDto> taskListDto = tasks.stream().map(t -> modelMapper.map(t, TaskListAndSingleDto.class)).collect(Collectors.toList());
-//            return new ResponseEntity<>(taskListDto, HttpStatus.OK);
-//        }catch(Exception e){
-//            log.error(e.getLocalizedMessage());
-//            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-//        }
-//    }
 
     @GetMapping(value = "/tasks/{id}")
     public ResponseEntity<Object> single(@PathVariable String id){

@@ -75,6 +75,19 @@ public class WebTierApplication {
 //            roleService.saveEntity(new Role("ROLE_TEAM_MANAGER"));
 //            roleService.saveEntity(new Role("ROLE_PROJECT_MANAGER"));
 //
+//            statusService.saveEntity(new Status("OPEN"));
+//            statusService.saveEntity(new Status("IN PROGRESS"));
+//            statusService.saveEntity(new Status("DONE"));
+//
+//            domainService.saveEntity(new Domain("Finance"));
+//            domainService.saveEntity(new Domain("Commerce"));
+//            domainService.saveEntity(new Domain("Industry"));
+//            domainService.saveEntity(new Domain("Other"));
+//
+//            priorityService.saveEntity(new Priority("Prio1", 1D));
+//            priorityService.saveEntity(new Priority("Prio2", 2D));
+//            priorityService.saveEntity(new Priority("Prio3", 3D));
+//
 //            userService.addRoleToUser("othmane", "ROLE_ADMIN");
 //            userService.addRoleToUser("othmane", "ROLE_DIRECTOR");
 //            userService.addRoleToUser("wafae", "ROLE_EMPLOYEE");
@@ -84,22 +97,9 @@ public class WebTierApplication {
 //            userService.addRoleToUser("youssef", "ROLE_EMPLOYEE");
 //            userService.addRoleToUser("youssef", "ROLE_PROJECT_MANAGER");
 //
-//            statusService.saveEntity(new Status("OPEN"));
-//            statusService.saveEntity(new Status("IN PROGRESS"));
-//            statusService.saveEntity(new Status("DONE"));
-//
-//            priorityService.saveEntity(new Priority("Prio1", 1D));
-//            priorityService.saveEntity(new Priority("Prio2", 2D));
-//            priorityService.saveEntity(new Priority("Prio3", 3D));
-//
 //            employeeService.saveEntity(new Employee("employee1.png", "Wafae", "Abouzbiba", "Data engineer", "wafae.abouzbiba@gmail.com", "+212639837323"));
 //            employeeService.saveEntity(new Employee("employee2.png", "Youssef", "Zahi", "Backend engineer", "youssef.zahi@gmail.com", "+212639837323"));
 //            employeeService.saveEntity(new Employee("employee3.png", "Hajar", "Faiz", "Frontend engineer", "hajar.faiz@gmail.com", "+212639837323"));
-//
-//            domainService.saveEntity(new Domain("Finance"));
-//            domainService.saveEntity(new Domain("Commerce"));
-//            domainService.saveEntity(new Domain("Industry"));
-//            domainService.saveEntity(new Domain("Other"));
 //
 //            Date currentDate = new Date();
 //            Date currentDatePlusDay = (Date) currentDate.clone();
