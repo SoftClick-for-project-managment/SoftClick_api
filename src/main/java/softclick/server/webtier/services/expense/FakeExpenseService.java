@@ -61,6 +61,11 @@ public class FakeExpenseService implements  IExpenseService{
     }
 
     @Override
+    public List<Expense> serachExpense(String type, ExpenseCategory expenseCategory, Task task) {
+        return null;
+    }
+
+    @Override
     public Expense patch(Long aLong, Map<Object, Object> fields, Class<Expense> expenseClass) {
         return null;
     }

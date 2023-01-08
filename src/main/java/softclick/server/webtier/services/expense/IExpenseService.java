@@ -1,7 +1,9 @@
 package softclick.server.webtier.services.expense;
 
-import softclick.server.data.entities.Expense;
+import softclick.server.data.entities.*;
 import softclick.server.webtier.services.IBaseService;
+
+import java.util.List;
 
 public interface IExpenseService extends IBaseService<Expense, Long> {
     void updateExpense(Long id, Expense newExpense);
@@ -9,4 +11,5 @@ public interface IExpenseService extends IBaseService<Expense, Long> {
 
 
     void addCategoryToExpense(Long expenseId, String expenseCategoryName);
+    public List<Expense> serachExpense(String type , ExpenseCategory expenseCategory, Task task);
 }

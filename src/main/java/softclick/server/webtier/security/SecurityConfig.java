@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers(DELETE, "/api/v1/users/**").hasAnyAuthority(ROLE_ADMIN);
 
         // Client Resources Protection
-        http.authorizeRequests().antMatchers(GET, "/api/v1/clients/**").hasAnyAuthority(ROLE_DIRECTOR, ROLE_ADMIN);
+        /*http.authorizeRequests().antMatchers(GET, "/api/v1/clients/**").hasAnyAuthority(ROLE_DIRECTOR, ROLE_ADMIN);
         http.authorizeRequests().antMatchers(POST, "/api/v1/clients").hasAnyAuthority(ROLE_DIRECTOR,ROLE_ADMIN);
         http.authorizeRequests().antMatchers(DELETE, "/api/v1/clients/**").hasAnyAuthority(ROLE_ADMIN, ROLE_DIRECTOR);
         http.authorizeRequests().antMatchers(PUT, "/api/v1/clients/**").hasAnyAuthority(ROLE_ADMIN, ROLE_DIRECTOR);
@@ -60,12 +60,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers(GET, "/api/v1/tasks/**").hasAnyAuthority(ROLE_EMPLOYEE, ROLE_ADMIN, ROLE_DIRECTOR, ROLE_PROJECT_MANAGER);
         http.authorizeRequests().antMatchers(POST, "/api/v1/tasks").hasAnyAuthority(ROLE_PROJECT_MANAGER, ROLE_DIRECTOR);
         http.authorizeRequests().antMatchers(DELETE, "/api/v1/tasks/**").hasAnyAuthority(ROLE_PROJECT_MANAGER, ROLE_DIRECTOR);
-        http.authorizeRequests().antMatchers(PUT, "/api/v1/tasks/**").hasAnyAuthority(ROLE_PROJECT_MANAGER, ROLE_DIRECTOR);
+        http.authorizeRequests().antMatchers(PUT, "/api/v1/tasks/**").hasAnyAuthority(ROLE_PROJECT_MANAGER, ROLE_DIRECTOR);*/
 
         //http.authorizeRequests().anyRequest().authenticated();
                     
-        http.addFilter(new AuthenticationFilter(authenticationManagerBean()));
-        http.addFilterBefore(new AuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+       // http.addFilter(new AuthenticationFilter(authenticationManagerBean()));
+        //http.addFilterBefore(new AuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean

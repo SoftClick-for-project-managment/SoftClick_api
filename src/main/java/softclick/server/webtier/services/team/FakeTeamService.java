@@ -57,4 +57,9 @@ public class FakeTeamService implements  ITeamService{
     public void UpdateTeam(Long id, Team newTeam) {
 
     }
+
+    @Override
+    public List<Team> serachTeam(String teamName, Employee member) {
+        return null;
+    }
 }

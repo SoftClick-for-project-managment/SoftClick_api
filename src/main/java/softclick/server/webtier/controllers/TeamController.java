@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import softclick.server.data.entities.Employee;
+import softclick.server.data.entities.Skill;
 import softclick.server.data.entities.Team;
 import softclick.server.webtier.dtos.Empoyee.EmployeeCreateAndUpdateDto;
 import softclick.server.webtier.dtos.Empoyee.EmployeeListAndSingleDto;
@@ -19,6 +20,7 @@ import softclick.server.webtier.utils.exceptions.DataNotFoundException;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -86,6 +88,18 @@ public class TeamController {
         try{
             teamService.deleteEntity(Long.valueOf(id));
             return new ResponseEntity<>(HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping(value = "/teams/search")
+    public ResponseEntity<Object> search(@RequestBody Team team_searched){
+        try{
+            String teamName =  "%"+team_searched.getTeam_Name()+"%";
+            Employee member =(team_searched.getMembers() != null && team_searched.getMembers().size()>0) ? team_searched.getMembers().iterator().next():null;
+            List<Team> teams = teamService.serachTeam(teamName,member);
+            return new ResponseEntity<>(teams, HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
