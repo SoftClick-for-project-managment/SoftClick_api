@@ -16,5 +16,5 @@ public class ExpenseListAndSingleDto implements Serializable {
     private String typeExpense;
     private Date date;
     private ExpenseCategory expenseCategory;
-    private long idTask;
+    private Task task;
 }

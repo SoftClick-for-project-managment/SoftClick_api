@@ -44,7 +44,7 @@ class ExpenseServiceTest {
     @Test
     void itShouldVerifyExpenseAdded() {
         // Given
-        Expense expense = new Expense(10L , "amount", new Date(2020,12,01) , null);
+        Expense expense = new Expense(10L , "amount", new Date(2020,12,01) , null,null);
 
         // When
         serviceUnderTest.saveEntity(expense);
@@ -60,11 +60,11 @@ class ExpenseServiceTest {
     @Test
     void itShouldVerifyExpenseAmountUpdated() {
         // Given
-        Expense newExpense = new Expense(10L , "amount", new Date(2020,12,01) , null);
-        Expense expense = new Expense(20L , "amount", new Date(2020,12,01) , null);
+        Expense newExpense = new Expense(10L , "amount", new Date(2020,12,01) , null,null);
+        Expense expense = new Expense(20L , "amount", new Date(2020,12,01) , null,null);
 
         expense.setId(1L);
-        Expense oldExpenseCopy= new Expense(20L , "amount", new Date(2020,12,01) , null);
+        Expense oldExpenseCopy= new Expense(20L , "amount", new Date(2020,12,01) , null,null);
 
         oldExpenseCopy.setId(1L);
         given(expenseRepository.getReferenceById(1L)).willReturn(expense);
@@ -81,11 +81,11 @@ class ExpenseServiceTest {
     @Test
     void itShouldVerifyExpenseTypeExpenseUpdated() {
         // Given
-        Expense newExpense = new Expense(10L , "amount", new Date(2020,12,01) , null);
-        Expense expense = new Expense(10L , "expense", new Date(2020,12,01) , null);
+        Expense newExpense = new Expense(10L , "amount", new Date(2020,12,01) , null,null);
+        Expense expense = new Expense(10L , "expense", new Date(2020,12,01) , null,null);
 
         expense.setId(1L);
-        Expense oldExpenseCopy= new Expense(10L , "expense", new Date(2020,12,01) , null);
+        Expense oldExpenseCopy= new Expense(10L , "expense", new Date(2020,12,01) , null,null);
 
         oldExpenseCopy.setId(1L);
         given(expenseRepository.getReferenceById(1L)).willReturn(expense);
@@ -103,11 +103,11 @@ class ExpenseServiceTest {
     void itShouldVerifyExpenseDateUpdated() {
         // Given
         Date date =new Date(2020,12,02);
-        Expense newExpense = new Expense(20L , "amount", new Date(2020,12,01) , null);
-        Expense expense = new Expense(20L , "amount", date , null);
+        Expense newExpense = new Expense(20L , "amount", new Date(2020,12,01) , null,null);
+        Expense expense = new Expense(20L , "amount", date , null,null);
 
         expense.setId(1L);
-        Expense oldExpenseCopy= new Expense(20L , "amount", date, null);
+        Expense oldExpenseCopy= new Expense(20L , "amount", date, null,null);
 
         oldExpenseCopy.setId(1L);
         given(expenseRepository.getReferenceById(1L)).willReturn(expense);
@@ -128,11 +128,11 @@ class ExpenseServiceTest {
     void itShouldVerifyExpenseCategoryUpdated() {
         // Given
         ExpenseCategory category=new ExpenseCategory("design");
-        Expense newExpense = new Expense(10L , "amount", new Date(2020,12,01) , null);
-        Expense expense = new Expense(10L , "amount", new Date(2020,12,01) ,category);
+        Expense newExpense = new Expense(10L , "amount", new Date(2020,12,01) , null,null);
+        Expense expense = new Expense(10L , "amount", new Date(2020,12,01) ,category,null);
 
         expense.setId(1L);
-        Expense oldExpenseCopy= new Expense(10L , "amount", new Date(2020,12,01) , category);
+        Expense oldExpenseCopy= new Expense(10L , "amount", new Date(2020,12,01) , category,null);
 
         oldExpenseCopy.setId(1L);
         given(expenseRepository.getReferenceById(1L)).willReturn(expense);
@@ -149,7 +149,7 @@ class ExpenseServiceTest {
     @Test
     void itShouldVerifyExpenseWasNotUpdated_expenseNotFoundException() {
         // given
-        Expense newExpense = new Expense(20L , "amount", new Date(2020,12,02) , null);
+        Expense newExpense = new Expense(20L , "amount", new Date(2020,12,02) , null,null);
 
 
         given(expenseRepository.getReferenceById(1L))
@@ -166,7 +166,7 @@ class ExpenseServiceTest {
     @Test
     void canDeleteExpense() {
         // given
-        Expense expense = new Expense(20L , "amount", new Date(2020,12,02) , null);
+        Expense expense = new Expense(20L , "amount", new Date(2020,12,02) , null,null);
 
         expense.setId(1L);
 

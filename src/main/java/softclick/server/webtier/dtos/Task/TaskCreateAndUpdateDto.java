@@ -23,7 +23,7 @@ public class TaskCreateAndUpdateDto implements Serializable {
     private String endDate;
     private String description;
     private Status status;
-    private Project project;
+    private Long projectId;
     private Employee employee;
     private Priority priority;
 }
