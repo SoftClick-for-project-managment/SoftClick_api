@@ -15,6 +15,7 @@ import softclick.server.webtier.services.BaseService;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -38,6 +39,12 @@ public class TeamService extends BaseService<Team, Long> implements ITeamService
         team.setTeam_Name(newTeam.getTeam_Name());
         team.setDescription(newTeam.getDescription());
         teamRepository.save(team);
+    }
+
+    @Override
+    public List<Team> serachTeam(String teamName, Employee member) {
+        List<Team> filteredTeams = teamRepository.searchTeam(teamName ,  member);
+        return  filteredTeams;
     }
 
     public void addEmployeeToTeam(Long teamId,String EmployeeLastName) {

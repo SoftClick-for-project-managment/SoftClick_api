@@ -7,13 +7,15 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import softclick.server.data.entities.Expense;
+import softclick.server.data.entities.*;
+import softclick.server.webtier.dtos.Empoyee.EmployeeListAndSingleDto;
 import softclick.server.webtier.dtos.Expense.ExpenseCreateAndUpdateDto;
 import softclick.server.webtier.dtos.Expense.ExpenseListAndSingleDto;
 import softclick.server.webtier.services.expense.IExpenseService;
 import softclick.server.webtier.utils.exceptions.DataNotFoundException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -81,6 +83,19 @@ public class ExpenseController {
         try{
             expenseService.deleteEntity(Long.valueOf(id));
             return new ResponseEntity<>(HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping(value = "/expenses/search")
+    public ResponseEntity<Object> search(@RequestBody Expense expense_searched){
+        try{
+            String type = expense_searched.getTypeExpense();
+            ExpenseCategory expenseCategory =expense_searched.getExpenseCategory();
+            Task task =expense_searched.getTask();
+            List<Expense> expenses = expenseService.serachExpense(type,expenseCategory,task);
+            return new ResponseEntity<>(expenses, HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import softclick.server.data.entities.Employee;
 import softclick.server.data.entities.Expense;
 import softclick.server.data.entities.ExpenseCategory;
 import softclick.server.data.entities.Task;
@@ -14,6 +15,7 @@ import softclick.server.webtier.services.BaseService;
 import softclick.server.webtier.utils.exceptions.DataNotFoundException;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service @Transactional
 @Slf4j
@@ -63,6 +65,12 @@ public class ExpenseService extends BaseService<Expense, Long> implements IExpen
 
         expense.setExpenseCategory(expenseCategory);
         expenseRepository.save(expense);
+    }
+
+    @Override
+    public List<Expense> serachExpense(String type, ExpenseCategory expenseCategory, Task task) {
+        List<Expense> filteredExpenses = expenseRepository.searchExpense(type,expenseCategory,task);
+        return  filteredExpenses;
     }
 
 }

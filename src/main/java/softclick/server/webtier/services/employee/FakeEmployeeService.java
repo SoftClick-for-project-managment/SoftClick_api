@@ -3,6 +3,7 @@ package softclick.server.webtier.services.employee;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import softclick.server.data.entities.Employee;
+import softclick.server.data.entities.Skill;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,5 +56,10 @@ public class FakeEmployeeService implements IEmployeeService{
     @Override
     public void addSkillToEmployee(Long employeeId, String skillName) {
 
+    }
+
+    @Override
+    public List<Employee> serachEmploye(String firstName, String lastName, String function, Skill skill) {
+        return null;
     }
 }
