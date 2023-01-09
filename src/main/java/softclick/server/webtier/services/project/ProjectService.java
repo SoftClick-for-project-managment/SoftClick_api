@@ -66,8 +66,8 @@ public class ProjectService extends BaseService<Project, Long> implements IProje
             project.setDateDebut(newProject.getDateDebut() != null ? newProject.getDateDebut() : project.getDateDebut());
             project.setDateFin(newProject.getDateFin() != null ? newProject.getDateFin() : project.getDateFin());
         }
-        if (newProject.getInvoices() != null)
-            project.setInvoices(newProject.getInvoices() );
+        /*if (newProject.getInvoices() != null)
+            project.setInvoices(newProject.getInvoices() );*/
         if (newProject.getTasks() != null)
             project.setTasks(newProject.getTasks() );
         if (newProject.getProjectStatus() != null)

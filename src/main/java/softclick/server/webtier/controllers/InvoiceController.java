@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import softclick.server.data.entities.Invoice;
+import softclick.server.data.entities.*;
 import softclick.server.webtier.dtos.Invoice.InvoiceCreateAndUpdateDto;
 import softclick.server.webtier.dtos.Invoice.InvoiceListAndSingleDto;
 import softclick.server.webtier.services.invoice.IInvoiceService;
@@ -79,6 +79,19 @@ public class InvoiceController {
         try{
             invoiceService.deleteEntity(Long.valueOf(id));
             return new ResponseEntity<>(HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping(value = "/invoices/search")
+    public ResponseEntity<Object> search(@RequestBody Invoice invoice_searched){
+        try{
+
+            Project project =invoice_searched.getProject();
+            Client client =invoice_searched.getClient();
+            List<Invoice> invoices = invoiceService.serachInvoice(project,client);
+            return new ResponseEntity<>(invoices, HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

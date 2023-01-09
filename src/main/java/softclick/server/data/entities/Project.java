@@ -55,8 +55,8 @@ public class Project implements Serializable, Comparable<Project> {
     private Priority projectPriority;
 
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "project")
-    private Set<Invoice> invoices = new HashSet<>();
+    /*@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "project")
+    private Set<Invoice> invoices = new HashSet<>();*/
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "project")
     private Set<Task> tasks = new HashSet<>();
@@ -78,7 +78,7 @@ public class Project implements Serializable, Comparable<Project> {
         this.chefProject = chefProject;
         this.projectStatus = projectStatus;
         this.projectPriority = projectPriority;
-        this.invoices = invoices;
+       // this.invoices = invoices;
         this.tasks = tasks;
     }
 
@@ -189,14 +189,14 @@ public class Project implements Serializable, Comparable<Project> {
     }
 
 
-    @JsonIgnoreProperties("project")
+   /* @JsonIgnoreProperties("project")
     public Set<Invoice> getInvoices() {
         return invoices;
     }
 
     public void setInvoices(Set<Invoice> invoices) {
         this.invoices = invoices;
-    }
+    }*/
 
 
     @JsonIgnoreProperties("project")
