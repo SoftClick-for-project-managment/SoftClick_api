@@ -44,6 +44,11 @@ public class Team implements Serializable {
         this.members = members;
     }
 
+    public Team(String team_Name, String description) {
+        this.team_Name = team_Name;
+        this.description = description;
+    }
+
     @JsonIgnore
     public Set<Project> getProjects() {
         return projects;
