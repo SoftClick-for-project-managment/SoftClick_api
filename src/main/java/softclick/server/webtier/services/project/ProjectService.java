@@ -80,6 +80,10 @@ public class ProjectService extends BaseService<Project, Long> implements IProje
         project.setRevenueProject(newProject.getRevenueProject() != null ? newProject.getRevenueProject(): project.getRevenueProject());
         project.setChefProject(newProject.getChefProject() != null ? newProject.getChefProject(): project.getChefProject());
 
+        if(newProject.getTeams() != null){
+            project.setTeams(newProject.getTeams());
+        }
+
         projectRepository.save(project);
     }
     public List<Project> serachProject(Long id_domain,Long id_chef,Long id_status,Long id_priority, String name_project){

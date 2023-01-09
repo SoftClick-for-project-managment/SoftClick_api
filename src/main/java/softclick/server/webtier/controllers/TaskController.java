@@ -66,15 +66,15 @@ public class TaskController {
     @GetMapping(value = "/tasks")
     public ResponseEntity<Object> index(@RequestParam(value = "pid", required = false) String projectId) {
         try{
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+           /* Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             User user = userService.getUserByUsername(authentication.getPrincipal().toString());
-            ArrayList<String> userRoleList = (ArrayList<String>) user.getRoles().stream().map(s -> s.getName()).collect(Collectors.toList());
+            ArrayList<String> userRoleList = (ArrayList<String>) user.getRoles().stream().map(s -> s.getName()).collect(Collectors.toList());*/
             List<Task> tasks = new ArrayList<>();
 
-            if (projectId == null) {
-                if ( userRoleList.contains(ROLE_ADMIN) || userRoleList.contains(ROLE_DIRECTOR) ) {
+            /*if (projectId == null) {
+                if ( userRoleList.contains(ROLE_ADMIN) || userRoleList.contains(ROLE_DIRECTOR) ) {*/
                     tasks = taskService.getAllEntities();
-                } else if ( userRoleList.contains(ROLE_EMPLOYEE) ) {
+               /* } else if ( userRoleList.contains(ROLE_EMPLOYEE) ) {
                     tasks = taskService.getAllByEmployee(user.getEmployee().getId());
                 }
             } else {
@@ -83,7 +83,7 @@ public class TaskController {
                 } else if (userRoleList.contains(ROLE_DIRECTOR) || userRoleList.contains(ROLE_PROJECT_MANAGER) ) {
                     tasks = taskService.getAllByProject(Long.valueOf(projectId));
                 }
-            }
+            }*/
             List<TaskListAndSingleDto> taskListDto = tasks.stream().map(t -> modelMapper.map(t, TaskListAndSingleDto.class)).collect(Collectors.toList());
             return new ResponseEntity<>(taskListDto, HttpStatus.OK);
         }catch(Exception e){

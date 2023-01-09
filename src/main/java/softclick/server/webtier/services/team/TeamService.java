@@ -4,8 +4,10 @@ package softclick.server.webtier.services.team;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import softclick.server.data.entities.Employee;
+import softclick.server.data.entities.Project;
 import softclick.server.data.entities.Skill;
 import softclick.server.data.entities.Team;
 import softclick.server.data.repositories.EmployeeRepository;
@@ -38,6 +40,10 @@ public class TeamService extends BaseService<Team, Long> implements ITeamService
             throw new EntityNotFoundException();
         team.setTeam_Name(newTeam.getTeam_Name());
         team.setDescription(newTeam.getDescription());
+        if(newTeam.getMembers() != null){
+            team.setMembers(newTeam.getMembers());
+        }
+
         teamRepository.save(team);
     }
 
@@ -57,5 +63,15 @@ public class TeamService extends BaseService<Team, Long> implements ITeamService
         employees.add(employee);
         team.setMembers(employees);
         teamRepository.save(team);
+    }
+
+    public void UpdateProjectInTeams(Long id ,List<Team> teams ){
+        Project project = new Project();
+        project.setIdProject(id);
+        teams.forEach(team ->{
+
+          //  team.setProject(project);
+
+        });
     }
 }
