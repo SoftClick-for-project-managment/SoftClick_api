@@ -3,9 +3,7 @@ package softclick.server.webtier.services.invoice;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import softclick.server.data.entities.Employee;
-import softclick.server.data.entities.Invoice;
-import softclick.server.data.entities.Task;
+import softclick.server.data.entities.*;
 import softclick.server.data.repositories.ClientRepository;
 import softclick.server.data.repositories.InvoiceRepository;
 import softclick.server.data.repositories.ProjectRepository;
@@ -14,6 +12,7 @@ import softclick.server.webtier.utils.exceptions.BusinessException;
 import softclick.server.webtier.utils.exceptions.DataNotFoundException;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service @Transactional @Slf4j @Qualifier("rmiInvoiceService")
 public class InvoiceService extends BaseService<Invoice,Long> implements IInvoiceService {
@@ -46,6 +45,12 @@ public class InvoiceService extends BaseService<Invoice,Long> implements IInvoic
         if(newInvoice.getClient()!= null)
         invoice.setClient(newInvoice.getClient());
         invoiceRepository.save(invoice);
+    }
+
+    @Override
+    public List<Invoice> serachInvoice(Project project, Client client) {
+        List<Invoice> filteredInvoices = invoiceRepository.searchInvoice(project,client);
+        return  filteredInvoices;
     }
 
 

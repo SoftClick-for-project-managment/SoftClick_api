@@ -1,5 +1,6 @@
 package softclick.server.data.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,6 +30,9 @@ public class Client implements Serializable {
     private String ville;
     @Column(nullable = false)
     private String pays;
+
+   /* @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "client")
+    private Set<Invoice> invoices = new HashSet<>();*/
 
 
     public Client(String nom, String prenom, String email, String phone, String nomEntreprise, String ville, String pays) {
@@ -105,5 +109,12 @@ public class Client implements Serializable {
         this.pays = pays;
     }
 
+    /*@JsonIgnore
+    public Set<Invoice> getInvoices() {
+        return invoices;
+    }
 
+    public void setInvoices(Set<Invoice> invoices) {
+        this.invoices = invoices;
+    }*/
 }

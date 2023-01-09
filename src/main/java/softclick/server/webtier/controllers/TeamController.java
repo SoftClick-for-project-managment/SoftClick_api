@@ -104,5 +104,18 @@ public class TeamController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+    @PutMapping(value = "/teams/project/{id}")
+    public ResponseEntity<Object> updateProjectInTeams(@PathVariable String id, @RequestBody List<TeamCreateAndUpdateDto> teamDto){
+        try{
+            Team team = modelMapper.map(teamDto, Team.class);
+            teamService.UpdateTeam(Long.valueOf(id), team);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }catch(DataNotFoundException e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }catch(Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
 
 }

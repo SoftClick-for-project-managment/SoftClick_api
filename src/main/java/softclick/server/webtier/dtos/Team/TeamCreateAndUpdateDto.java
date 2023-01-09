@@ -3,6 +3,7 @@ package softclick.server.webtier.dtos.Team;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import softclick.server.data.entities.Employee;
+import softclick.server.data.entities.Project;
 
 import java.io.Serializable;
 import java.util.Set;
@@ -13,4 +14,5 @@ public class TeamCreateAndUpdateDto implements Serializable {
     private String team_Name;
     private String description;
     private Set<Employee> members;
+
 }

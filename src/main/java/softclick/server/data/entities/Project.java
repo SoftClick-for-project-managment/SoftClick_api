@@ -1,8 +1,9 @@
 package softclick.server.data.entities;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
@@ -53,12 +54,19 @@ public class Project implements Serializable, Comparable<Project> {
     @JoinColumn(name = "idPriority", nullable = false)
     private Priority projectPriority;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "project")
-    private Set<Invoice> invoices = new HashSet<>();
+
+    /*@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "project")
+    private Set<Invoice> invoices = new HashSet<>();*/
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "project")
     private Set<Task> tasks = new HashSet<>();
-    
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "team_project",
+            joinColumns = @JoinColumn( name = "idProject" ),
+            inverseJoinColumns = @JoinColumn( name = "idTeam" ))
+    private Set<Team> teams;
+
     public Project(Long idProject, String nameProject, String descriptionProject, Double revenueProject, Domain domainProjet, Date dateDebut, Date dateFin, Employee chefProject, Status projectStatus, Priority projectPriority, Set<Invoice> invoices, Set<Task> tasks) {
         this.idProject = idProject;
         this.nameProject = nameProject;
@@ -70,7 +78,7 @@ public class Project implements Serializable, Comparable<Project> {
         this.chefProject = chefProject;
         this.projectStatus = projectStatus;
         this.projectPriority = projectPriority;
-        this.invoices = invoices;
+       // this.invoices = invoices;
         this.tasks = tasks;
     }
 
@@ -180,14 +188,16 @@ public class Project implements Serializable, Comparable<Project> {
         this.projectPriority = projectPriority;
     }
 
-    @JsonIgnoreProperties("idProject")
+
+   /* @JsonIgnoreProperties("project")
     public Set<Invoice> getInvoices() {
         return invoices;
     }
 
     public void setInvoices(Set<Invoice> invoices) {
         this.invoices = invoices;
-    }
+    }*/
+
 
     @JsonIgnoreProperties("project")
     public Set<Task> getTasks() {
@@ -196,5 +206,14 @@ public class Project implements Serializable, Comparable<Project> {
 
     public void setTasks(Set<Task> tasks) {
         this.tasks = tasks;
+    }
+
+    @JsonIgnoreProperties({"project","members"})
+    public Set<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(Set<Team> teams) {
+        this.teams = teams;
     }
 }

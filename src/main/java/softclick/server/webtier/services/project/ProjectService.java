@@ -66,8 +66,8 @@ public class ProjectService extends BaseService<Project, Long> implements IProje
             project.setDateDebut(newProject.getDateDebut() != null ? newProject.getDateDebut() : project.getDateDebut());
             project.setDateFin(newProject.getDateFin() != null ? newProject.getDateFin() : project.getDateFin());
         }
-        if (newProject.getInvoices() != null)
-            project.setInvoices(newProject.getInvoices() );
+        /*if (newProject.getInvoices() != null)
+            project.setInvoices(newProject.getInvoices() );*/
         if (newProject.getTasks() != null)
             project.setTasks(newProject.getTasks() );
         if (newProject.getProjectStatus() != null)
@@ -79,6 +79,10 @@ public class ProjectService extends BaseService<Project, Long> implements IProje
         project.setProjectPriority(newProject.getProjectPriority() != null ? newProject.getProjectPriority(): project.getProjectPriority());
         project.setRevenueProject(newProject.getRevenueProject() != null ? newProject.getRevenueProject(): project.getRevenueProject());
         project.setChefProject(newProject.getChefProject() != null ? newProject.getChefProject(): project.getChefProject());
+
+        if(newProject.getTeams() != null){
+            project.setTeams(newProject.getTeams());
+        }
 
         projectRepository.save(project);
     }

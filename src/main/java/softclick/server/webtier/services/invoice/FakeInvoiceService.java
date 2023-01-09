@@ -53,6 +53,11 @@ public class FakeInvoiceService implements IInvoiceService {
     }
 
     @Override
+    public List<Invoice> serachInvoice(Project project, Client client) {
+        return null;
+    }
+
+    @Override
     public Invoice patch(Long aLong, Map<Object, Object> fields, Class<Invoice> invoiceClass) {
         return null;
 

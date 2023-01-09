@@ -17,7 +17,7 @@ public class FakeTeamService implements  ITeamService{
     Employee employee3=new Employee(null, "Brielle", "Williamson", "Front-End Developer", "briellewilliamson@gmail.com", "+2120065354675");
     Set<Employee> members = new HashSet<>(Arrays.asList(employee1, employee2,employee3));
     public FakeTeamService(){
-        teams.add(new Team("developpement team",description));
+        teams.add(new Team("developpement team",description,null));
     }
     @Override
     public void saveEntity(Team entity) {
