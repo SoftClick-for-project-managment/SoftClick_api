@@ -59,7 +59,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers(POST, "/api/v1/invoices").hasAnyAuthority(ROLE_DIRECTOR,ROLE_ADMIN);
         http.authorizeRequests().antMatchers(DELETE, "/api/v1/invoices/**").hasAnyAuthority(ROLE_ADMIN, ROLE_DIRECTOR);
         http.authorizeRequests().antMatchers(PUT, "/api/v1/invoices/**").hasAnyAuthority(ROLE_ADMIN, ROLE_DIRECTOR);
-
+        // expenses Resources Protection
+        http.authorizeRequests().antMatchers(GET, "/api/v1/expenses/**").hasAnyAuthority(ROLE_DIRECTOR, ROLE_ADMIN);
+        http.authorizeRequests().antMatchers(POST, "/api/v1/expenses").hasAnyAuthority(ROLE_DIRECTOR,ROLE_ADMIN);
+        http.authorizeRequests().antMatchers(DELETE, "/api/v1/expenses/**").hasAnyAuthority(ROLE_ADMIN, ROLE_DIRECTOR);
+        http.authorizeRequests().antMatchers(PUT, "/api/v1/expenses/**").hasAnyAuthority(ROLE_ADMIN, ROLE_DIRECTOR);
+        // Teams Resources Protection
+        http.authorizeRequests().antMatchers(GET, "/api/v1/teams/**").hasAnyAuthority(ROLE_PROJECT_MANAGER,ROLE_TEAM_MANAGER,ROLE_DIRECTOR, ROLE_ADMIN);
+        http.authorizeRequests().antMatchers(POST, "/api/v1/teams").hasAnyAuthority(ROLE_PROJECT_MANAGER,ROLE_TEAM_MANAGER,ROLE_DIRECTOR,ROLE_ADMIN);
+        http.authorizeRequests().antMatchers(DELETE, "/api/v1/teams/**").hasAnyAuthority(ROLE_PROJECT_MANAGER,ROLE_ADMIN,ROLE_DIRECTOR, ROLE_TEAM_MANAGER);
+        http.authorizeRequests().antMatchers(PUT, "/api/v1/teams/**").hasAnyAuthority(ROLE_PROJECT_MANAGER,ROLE_ADMIN,ROLE_DIRECTOR, ROLE_TEAM_MANAGER);
         // Task Resources Protection
         http.authorizeRequests().antMatchers(GET, "/api/v1/tasks").hasAnyAuthority(ROLE_EMPLOYEE, ROLE_ADMIN);
         http.authorizeRequests().antMatchers(GET, "/api/v1/tasks/project/**").hasAnyAuthority(ROLE_PROJECT_MANAGER, ROLE_DIRECTOR);
