@@ -58,6 +58,21 @@ public class EmployeeService extends BaseService<Employee, Long> implements IEmp
         employeeRepository.save(employee);
     }
 
+    public Employee saveEmployee(Employee newEmployee) {
+        log.info("Saving new entity of type " + newEmployee.getClass().toString());
+        return repository.save(newEmployee);
+    }
+
+    @Override
+    public Employee findByEmployeeFirstName(String employeeFirstName) {
+        return employeeRepository.findByEmployeeFirstName(employeeFirstName);
+    }
+
+    @Override
+    public Employee findByEmployeeLastName(String employeeLastName) {
+        return employeeRepository.findByEmployeeLastName(employeeLastName);
+    }
+
     @Override
     public void addSkillToEmployee(Long employeeId, String skillName) {
         log.info("Adding skill {} to employee with id {}", employeeId, skillName);

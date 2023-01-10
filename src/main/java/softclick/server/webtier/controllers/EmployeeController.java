@@ -58,8 +58,10 @@ public class EmployeeController {
     public ResponseEntity<Object> create(@RequestBody EmployeeCreateAndUpdateDto employeeDto){
         try{
             Employee employee = modelMapper.map(employeeDto, Employee.class);
-            employeeService.saveEntity(employee);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+
+            employee = employeeService.saveEmployee(employee);
+            return new ResponseEntity<>(employee, HttpStatus.CREATED);
+
         }catch(Exception e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
