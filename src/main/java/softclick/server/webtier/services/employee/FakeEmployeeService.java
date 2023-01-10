@@ -54,6 +54,21 @@ public class FakeEmployeeService implements IEmployeeService{
     }
 
     @Override
+    public Employee saveEmployee(Employee newEmployee) {
+        return null;
+    }
+
+    @Override
+    public Employee findByEmployeeFirstName(String employeeFirstName) {
+        return null;
+    }
+
+    @Override
+    public Employee findByEmployeeLastName(String employeeLastName) {
+        return null;
+    }
+
+    @Override
     public void addSkillToEmployee(Long employeeId, String skillName) {
 
     }
