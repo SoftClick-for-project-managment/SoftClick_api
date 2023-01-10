@@ -3,7 +3,9 @@ package softclick.server.data.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.Proxy;
 
 import javax.persistence.*;
@@ -11,12 +13,12 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Set;
 
-@Data
+
 @Entity
 @NoArgsConstructor
 @Proxy(lazy = false)
 public class Team implements Serializable {
-    private static final long serialVersionUID = -1837929862304475755L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idTeam;
@@ -56,5 +58,37 @@ public class Team implements Serializable {
 
     public void setProjects(Set<Project> projects) {
         this.projects = projects;
+    }
+
+    public Long getIdTeam() {
+        return idTeam;
+    }
+
+    public void setIdTeam(Long idTeam) {
+        this.idTeam = idTeam;
+    }
+
+    public String getTeam_Name() {
+        return team_Name;
+    }
+
+    public void setTeam_Name(String team_Name) {
+        this.team_Name = team_Name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Set<Employee> getMembers() {
+        return members;
+    }
+
+    public void setMembers(Set<Employee> members) {
+        this.members = members;
     }
 }
